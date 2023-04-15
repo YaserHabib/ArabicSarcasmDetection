@@ -7,23 +7,17 @@ Original file is located at
     https://colab.research.google.com/drive/1fA0Z9TXYuseG3lCsrfOx9_6yrY8luSDj
 """
 
-!pip install pyarabic
-!pip install transformers
-!pip install sentencepiece
-
 import re
-import pandas as pd
 import nltk
+import pandas as pd
+import seaborn as sns
+import pyarabic.araby as araby
+import pyarabic.normalize as Normalize
+
+from nltk import ngrams
 from nltk.corpus import stopwords
 from nltk.stem import ISRIStemmer
 from nltk.tokenize import word_tokenize
-from nltk import ngrams
-
-import seaborn as sns
-
-import pyarabic.araby as araby
-import pyarabic.normalize as Normalize
-from google.colab import files
 from transformers import MarianMTModel, MarianTokenizer
 
 
@@ -250,12 +244,7 @@ arabicModel = MarianMTModel.from_pretrained(arabicModelName)
 cleaned_dataset = preProcessData(dataset)
 cleaned_dataset.head()
 cleaned_dataset.to_csv('cleanedset.csv', encoding='utf-8')
-
-files.download('cleanedset.csv')
-
 cleaned_dataset.head()
-
-dataset
 
 """--------------------------Below here are various tests--------------------------
 
