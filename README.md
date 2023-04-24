@@ -1,2 +1,2 @@
 # ArabicSarcasmDetection
-Arabic Sarcasm Detection Ai model 
+Arabic Sarcasm Detection Ai model
