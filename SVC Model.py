@@ -5,7 +5,7 @@ import shutil
 import warnings
 import numpy as np
 import pandas as pd
-import tensorflow as tf
+import seaborn as sns
 import matplotlib.pyplot as plt
 import pyarabic.normalize as Normalize
 
@@ -123,9 +123,6 @@ def tokenizeArabic(text):
 
 
 def cleanData(dataset):
-    dataset = dataset.drop_duplicates(subset=["tweet"])
-    dataset = dataset.dropna()
-    dataset = dataset.reset_index(drop=True)
 
     for index, tweet in enumerate(dataset["tweet"].tolist()):
         #standard tweet cleaning
@@ -178,7 +175,7 @@ def preProcessData(dataset):
 
 
 
-dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\Dataset.csv")
+dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\Total Dataset.csv")
 dataset.info()
 # display the dataset before the pre-processing
 print(f"\n{dataset.head()}")
@@ -186,10 +183,7 @@ print(f"\n{dataset.head()}")
 
 
 cleaned_dataset = preProcessData(dataset.copy(deep=True))
-# cleaned_dataset.head()
-cleaned_dataset.info()
 # cleaned_dataset.to_excel('cleanedset.xlsx', index=False)
-print(f"{cleaned_dataset.head()}\n")
 
 
 
@@ -209,12 +203,13 @@ encoded_docs = T.texts_to_sequences(cleaned_dataset["tweet"].tolist())
 # pad documents to a max length of 4 words
 max_length = len(max(np.array(cleaned_dataset["tweet"]), key=len))
 padded_docs = pad_sequences(encoded_docs, maxlen = max_length, padding = "post")
-print("\npadded_docs:\n",padded_docs)
+print("\npadded_docs:\n\n",padded_docs)
 
 
 
+columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"]
 # columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-columns = ["A", "B", "C", "D", "E"]
+# columns = ["A", "B", "C", "D", "E"]
 padded_docs = PCA(n_components=len(columns)).fit_transform(padded_docs)
 padded_docs = StandardScaler().fit_transform(padded_docs)
 padded_docs = MinMaxScaler().fit_transform(padded_docs)
@@ -236,7 +231,7 @@ tweet_train, tweet_test, labeled_train, labeled_test = train_test_split(features
 
 
 # fit the model
-svc = SVC(kernel="linear", C=1.0)
+svc = SVC(kernel="poly", C=1.0)
 svc.fit(tweet_train, labeled_train)
 
 
@@ -257,8 +252,17 @@ print(classification_report(labeled_test, labelPredicted, target_names=["Class: 
 
 confusionMatrix = confusion_matrix(labeled_test, labelPredicted)
 
-confMatrix_display = ConfusionMatrixDisplay(confusion_matrix=confusionMatrix, display_labels=[0, 1])
-confMatrix_display.plot()
-confMatrix_display.figure_.savefig(fname = rf"{path}\sarcasmModel.png", dpi=1000)
+ax= plt.subplot()
+sns.heatmap(confusionMatrix, annot=True, fmt='g', ax=ax, cmap="viridis") # annot=True to annotate cells, ftm='g' to disable scientific notation
+# sns.heatmap(confusionMatrix, annot=True, fmt='g', ax=ax, cmap="Blues") # annot=True to annotate cells, ftm='g' to disable scientific notation
 
+# labels, title and ticks
+ax.set_xlabel('Predicted labels')
+ax.set_ylabel('True labels')
+ax.set_title(f"Accuracy: {testScore*100:.2f}%")
+
+ax.xaxis.set_ticklabels([0, 1])
+ax.yaxis.set_ticklabels([0, 1])
+
+plt.savefig(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\SVC\confusionMatrix.png", dpi=1000)
 plt.show()
