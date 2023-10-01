@@ -16,6 +16,9 @@ from nltk.corpus import wordnet
 from nltk.corpus import stopwords
 from transformers import MarianMTModel, MarianTokenizer
 
+if not os.path.isdir(r"..\Datasets\Augmented Datasets"):
+    os.mkdir(r"..\Datasets\Augmented Datasets")
+
 
 
 def format_batch_texts(language_code, batch_texts):
@@ -114,13 +117,13 @@ def dataAugmentation(dataset):
             print(transArabicVer)
 
         augDataset.loc[len(augDataset.index)] = [
-                                                    transArabicVer,
+                                                    " ".join(transArabicVer),
                                                     sarcasmTweets_dialect[index],
                                                     sarcasmTweets_sentiment[index],
                                                     True
                                                 ]
         backtransDataset.loc[len(augDataset.index)] =   [
-                                                            transArabicVer,
+                                                            " ".join(transArabicVer),
                                                             sarcasmTweets_dialect[index],
                                                             sarcasmTweets_sentiment[index],
                                                             True
@@ -132,28 +135,27 @@ def dataAugmentation(dataset):
             print(synreplacement_ArabicVer)
 
         augDataset.loc[len(augDataset.index)] = [
-                                                    synreplacement_ArabicVer,
+                                                    " ".join(synreplacement_ArabicVer),
                                                     sarcasmTweets_dialect[index],
                                                     sarcasmTweets_sentiment[index],
                                                     True
                                                 ]
         synonymrepDataset.loc[len(augDataset.index)] = [
-                                                            synreplacement_ArabicVer,
+                                                            " ".join(synreplacement_ArabicVer),
                                                             sarcasmTweets_dialect[index],
                                                             sarcasmTweets_sentiment[index],
                                                             True
                                                         ]
         
-        print(transArabicVer,"\n",synreplacement_ArabicVer,"\n\n")
     return augDataset, backtransDataset, synonymrepDataset
 
 
 
 def siftData(data, name):
     data = data.drop_duplicates(subset=["tweet"])
-    data = data.dropna(axis=1)
+    data = data.dropna()
     data = data.reset_index(drop=True)
-    data.to_csv(rf"..\Datasets\{name}.csv", index=False)
+    data.to_csv(rf"..\Datasets\Augmented Datasets\{name}.csv", index=False)
 
 
 
@@ -171,9 +173,9 @@ def dataProcessing(dataset):
 
     print("\n-------        cleanData Done!        -------\n")
 
-    SiftData(augDataset.copy(deep=True), augDataset)
-    SiftData(backtransDataset.copy(deep=True), backtransDataset)
-    SiftData(synonymrepDataset.copy(deep=True), synonymrepDataset)
+    siftData(augDataset.copy(deep=True), "augDataset")
+    siftData(backtransDataset.copy(deep=True), "backtransDataset")
+    siftData(synonymrepDataset.copy(deep=True), "synonymrepDataset")
 
 
 
