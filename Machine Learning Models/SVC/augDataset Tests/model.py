@@ -37,7 +37,7 @@ if not os.path.isfile(r"Description.txt"):
 # dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv"), "Original Dataset"
 # dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/GPT%20Dataset.csv?token=GHSAT0AAAAAACHECZVUR5DAZ4AIBZAAI2W2ZIZV6SQ"), "GPT Combined Dataset"
 # dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/full%20Dataset.csv?token=GHSAT0AAAAAACHECZVUTGME3QISD67HNVVCZIZTZPA"), "Full Combined Dataset"
-dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/augmented%20Dataset.csv?token=GHSAT0AAAAAACHECZVV3CKM642ENHMLL5HIZIZV77Q"), "Augmented Combined Dataset"
+dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/augmented%20Dataset.csv?token=GHSAT0AAAAAACHECZVUAVU3RVR7F5KN5GR2ZIZYCXQ"), "Augmented Combined Dataset"
 # dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/backtrans%20Dataset.csv?token=GHSAT0AAAAAACHECZVUI26LHQ5QTCUI2WYIZIZWBYQ"), "Back Translated Combined Dataset"
 # dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/synrep%20Dataset.csv?token=GHSAT0AAAAAACHECZVVJEQEGYC3PSEKYN6GZIZWGBQ"), "Synonym Replacement Combined Dataset"
 # dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/backGPT%20Dataset.csv?token=GHSAT0AAAAAACHECZVUWXVHS5RWYUKHZ5XGZIZWA2A"), "Back Translated & GPT Combined Dataset"
@@ -72,8 +72,8 @@ print("\npadded_docs:\n\n",padded_docs)
 
 
 
-columns = ["A", "B", "C", "D", "E"]
-# columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+# columns = ["A", "B", "C", "D", "E"]
+columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
 # columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"]
 padded_docs = PCA(n_components=len(columns)).fit_transform(padded_docs)
 padded_docs = StandardScaler().fit_transform(padded_docs)
@@ -88,7 +88,7 @@ labels = cleaned_dataset[["sarcasm"]].copy()
 
 
 # splits into traint & test
-tweet_train, tweet_test, labeled_train, labeled_test = train_test_split(features, labels.to_numpy(), test_size=0.2, shuffle=True)
+tweet_train, tweet_test, labeled_train, labeled_test = train_test_split(features.to_numpy(), labels.to_numpy(), test_size=0.2, shuffle=True)
 
 
 
