@@ -3,7 +3,7 @@ import sys
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
-sys.path.append(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\sysPath")
+sys.path.append(r"C:\Users\Perseus\Documents\GitHub\ArabicSarcasmDetection\sysPath")
 os.chdir(dname)
 
 import time
