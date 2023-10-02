@@ -59,7 +59,7 @@ def get_synonyms(word):
     synonyms = set()
     
     for syn in wordnet.synsets(word): 
-        for l in syn.lemmas(): 
+        for l in syn.lemmas(): # type: ignore
             synonym = l.name().replace("_", " ").replace("-", " ").lower()
             synonym = "".join([char for char in synonym if char in ' qwertyuiopasdfghjklzxcvbnm'])
             synonyms.add(synonym) 
@@ -114,16 +114,16 @@ def dataAugmentation(dataset):
         try:
             transArabicVer = perform_translation([englishVersion], arabicModel, arabicModeltkn, "ar")
         except:
-            print(transArabicVer)
+            print(transArabicVer) # type: ignore
 
-        augDataset.loc[len(augDataset.index)] = [
-                                                    " ".join(transArabicVer),
+        augDataset.loc[len(augDataset.index)] = [ # type: ignore
+                                                    " ".join(transArabicVer), # type: ignore
                                                     sarcasmTweets_dialect[index],
                                                     sarcasmTweets_sentiment[index],
                                                     True
                                                 ]
-        backtransDataset.loc[len(augDataset.index)] =   [
-                                                            " ".join(transArabicVer),
+        backtransDataset.loc[len(augDataset.index)] =   [ # type: ignore
+                                                            " ".join(transArabicVer), # type: ignore
                                                             sarcasmTweets_dialect[index],
                                                             sarcasmTweets_sentiment[index],
                                                             True
@@ -132,16 +132,16 @@ def dataAugmentation(dataset):
         try:
             synreplacement_ArabicVer = perform_translation([synreplacement_EnglishVer], arabicModel, arabicModeltkn, "ar")
         except:
-            print(synreplacement_ArabicVer)
+            print(synreplacement_ArabicVer) # type: ignore
 
-        augDataset.loc[len(augDataset.index)] = [
-                                                    " ".join(synreplacement_ArabicVer),
+        augDataset.loc[len(augDataset.index)] = [ # type: ignore
+                                                    " ".join(synreplacement_ArabicVer), # type: ignore
                                                     sarcasmTweets_dialect[index],
                                                     sarcasmTweets_sentiment[index],
                                                     True
                                                 ]
-        synonymrepDataset.loc[len(augDataset.index)] = [
-                                                            " ".join(synreplacement_ArabicVer),
+        synonymrepDataset.loc[len(augDataset.index)] = [ # type: ignore
+                                                            " ".join(synreplacement_ArabicVer), # type: ignore
                                                             sarcasmTweets_dialect[index],
                                                             sarcasmTweets_sentiment[index],
                                                             True
