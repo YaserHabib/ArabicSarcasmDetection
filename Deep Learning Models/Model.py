@@ -3,7 +3,7 @@ import sys
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
-sys.path.append(r"C:\Users\Perseus\Documents\GitHub\ArabicSarcasmDetection\sysPath")
+sys.path.append(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\sysPath")
 os.chdir(dname)
 
 import shutil
@@ -38,7 +38,7 @@ callback = TensorBoard(log_dir=rf'logs/', histogram_freq=1)
 
 
 
-dataset = pd.read_csv(r"C:\Users\Perseus\Documents\GitHub\ArabicSarcasmDetection\Datasets\Total Dataset.csv")
+dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\Total Dataset.csv")
 dataset.info()
 # display the dataset before the pre-processing
 print(f"\n{dataset.head()}")
