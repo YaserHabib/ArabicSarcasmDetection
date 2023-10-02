@@ -35,13 +35,13 @@ if not os.path.isfile(r"Description.txt"):
 
 
 # dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv"), "Original Dataset"
-# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/GPT%20Dataset.csv?token=GHSAT0AAAAAACHECZVUR5DAZ4AIBZAAI2W2ZIZV6SQ"), "GPT Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/full%20Dataset.csv?token=GHSAT0AAAAAACHECZVUTGME3QISD67HNVVCZIZTZPA"), "Full Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/augmented%20Dataset.csv?token=GHSAT0AAAAAACHECZVVXUA6JGX72V2FZ74EZI2YMRQ"), "Augmented Combined Dataset"
-dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/backtrans%20Dataset.csv?token=GHSAT0AAAAAACHECZVVALUHSWZJ3UQ6Z5A2ZI2YR4A"), "Back Translated Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/synrep%20Dataset.csv?token=GHSAT0AAAAAACHECZVVJEQEGYC3PSEKYN6GZIZWGBQ"), "Synonym Replacement Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/backGPT%20Dataset.csv?token=GHSAT0AAAAAACHECZVUWXVHS5RWYUKHZ5XGZIZWA2A"), "Back Translated & GPT Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/synGPT%20Dataset.csv?token=GHSAT0AAAAAACHECZVV2HQS5ZV56T5VGP3EZIZWD3A"), "Synonym Replacement & GPT Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/GPT%20Dataset.csv?token=GHSAT0AAAAAACHECZVVEDC4VQMJ6AO6XPF6ZI3AVUQ"), "GPT Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/full%20Dataset.csv?token=GHSAT0AAAAAACHECZVV62FP7QAYRUGTXS5OZI3AWCA"), "Full Combined Dataset"
+dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/augmented%20Dataset.csv?token=GHSAT0AAAAAACHECZVUTZ6CBJRGKDJQ2ES6ZI3AWPQ"), "Augmented Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/backtrans%20Dataset.csv?token=GHSAT0AAAAAACHECZVUEQVE7JMQ6CNN6MZQZI3AW4Q"), "Back Translated Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/synrep%20Dataset.csv?token=GHSAT0AAAAAACHECZVV4OACFCEJRRPXYNYAZI3AXGQ"), "Synonym Replacement Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/backGPT%20Dataset.csv?token=GHSAT0AAAAAACHECZVVPUX7QVAOR4CCXT4SZI3AXSA"), "Back Translated & GPT Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/YaserHabib/ArabicSarcasmDetection/main/Datasets/synGPT%20Dataset.csv?token=GHSAT0AAAAAACHECZVUYCQXKVMGYNNG2DIWZI3AX6A"), "Synonym Replacement & GPT Combined Dataset"
 
 dataset.info()
 print(f"\n{dataset.head()}")
@@ -72,9 +72,9 @@ print("\npadded_docs:\n\n",padded_docs)
 
 
 
-columns = ["A", "B", "C", "D", "E"]
+# columns = ["A", "B", "C", "D", "E"]
 # columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-# columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"]
+columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"]
 padded_docs = PCA(n_components=len(columns)).fit_transform(padded_docs)
 padded_docs = StandardScaler().fit_transform(padded_docs)
 padded_docs = MinMaxScaler().fit_transform(padded_docs)
@@ -93,10 +93,10 @@ tweet_train, tweet_test, labeled_train, labeled_test = train_test_split(features
 
 
 # fit the model
-kernel = "linear"
+# kernel = "linear"
 # kernel = "poly"
 # kernel = "rbf"
-# kernel = "sigmoid"
+kernel = "sigmoid"
 
 svc = SVC(kernel=kernel, C=1.0)
 svc.fit(tweet_train, labeled_train)
