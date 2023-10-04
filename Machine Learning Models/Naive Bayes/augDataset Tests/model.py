@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 from keras.preprocessing.text import Tokenizer
 from keras.utils import pad_sequences
 
-from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
@@ -96,17 +96,18 @@ tweet_train, tweet_test, labeled_train, labeled_test = train_test_split(features
 # kernel = "linear"
 # kernel = "poly"
 # kernel = "rbf"
-kernel = "sigmoid"
+# kernel = "sigmoid"
+kernel = "Non"
 
-svc = SVC(kernel=kernel, C=1.0)
-svc.fit(tweet_train, labeled_train)
+NB = GaussianNB()
+NB.fit(tweet_train, labeled_train)
 
 
 
 #evaluate the model
-trainScore = svc.score(tweet_train, labeled_train)
-testScore = svc.score(tweet_test, labeled_test)
-labelPredicted = svc.predict(tweet_test)
+trainScore = NB.score(tweet_train, labeled_train)
+testScore = NB.score(tweet_test, labeled_test)
+labelPredicted = NB.predict(tweet_test)
 endTime = time.time()
 
 print()
