@@ -1,0 +1,23 @@
+====================================================================================================
+dual:                 False
+max_iter:             100
+loss used:            squared_hinge
+Penalty used:         l1
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:       43.327924966812134s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.83      0.85      2069
+    Class: 1       0.68      0.75      0.72       990
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.79      0.79      3059
+weighted avg       0.81      0.81      0.81      3059
+
+
