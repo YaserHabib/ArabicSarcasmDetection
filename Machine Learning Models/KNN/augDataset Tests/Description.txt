@@ -1,0 +1,552 @@
+
+n_neighbors:       3
+leaf_size :        30
+metric:            minkowski
+algorithm:         ball_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.88
+KNN model score on the test dataset:      0.78
+Execution Time:       15.89802622795105s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.84      0.84      0.84      2074
+    Class: 1       0.66      0.66      0.66       985
+
+    accuracy                           0.78      3059
+   macro avg       0.75      0.75      0.75      3059
+weighted avg       0.78      0.78      0.78      3059
+
+
+
+n_neighbors:       3
+leaf_size :        30
+metric:            manhattan
+algorithm:         ball_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.88
+KNN model score on the test dataset:      0.79
+Execution Time:       17.38159465789795s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.84      0.85      0.84      2043
+    Class: 1       0.68      0.67      0.67      1016
+
+    accuracy                           0.79      3059
+   macro avg       0.76      0.76      0.76      3059
+weighted avg       0.79      0.79      0.79      3059
+
+
+
+n_neighbors:       3
+leaf_size :        30
+metric:            euclidean
+algorithm:         ball_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.88
+KNN model score on the test dataset:      0.77
+Execution Time:       15.568869352340698s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.83      0.83      0.83      2033
+    Class: 1       0.66      0.65      0.66      1026
+
+    accuracy                           0.77      3059
+   macro avg       0.74      0.74      0.74      3059
+weighted avg       0.77      0.77      0.77      3059
+
+
+
+n_neighbors:       3
+leaf_size :        30
+metric:            euclidean
+algorithm:         kd_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.87
+KNN model score on the test dataset:      0.80
+Execution Time:       15.02146601676941s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.85      0.85      0.85      2088
+    Class: 1       0.68      0.67      0.67       971
+
+    accuracy                           0.80      3059
+   macro avg       0.76      0.76      0.76      3059
+weighted avg       0.79      0.80      0.79      3059
+
+
+
+n_neighbors:       3
+leaf_size :        30
+metric:            manhattan
+algorithm:         kd_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.88
+KNN model score on the test dataset:      0.80
+Execution Time:       14.9720938205719s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.85      0.85      0.85      2080
+    Class: 1       0.68      0.68      0.68       979
+
+    accuracy                           0.80      3059
+   macro avg       0.76      0.76      0.76      3059
+weighted avg       0.79      0.80      0.80      3059
+
+
+
+n_neighbors:       3
+leaf_size :        30
+metric:            minkowski
+algorithm:         kd_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.88
+KNN model score on the test dataset:      0.78
+Execution Time:       15.108201742172241s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.83      0.84      0.83      2033
+    Class: 1       0.67      0.66      0.67      1026
+
+    accuracy                           0.78      3059
+   macro avg       0.75      0.75      0.75      3059
+weighted avg       0.78      0.78      0.78      3059
+
+
+
+n_neighbors:       3
+leaf_size :        30
+metric:            minkowski
+algorithm:         brute
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.88
+KNN model score on the test dataset:      0.79
+Execution Time:       14.85298228263855s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.85      0.85      0.85      2080
+    Class: 1       0.68      0.67      0.68       979
+
+    accuracy                           0.79      3059
+   macro avg       0.76      0.76      0.76      3059
+weighted avg       0.79      0.79      0.79      3059
+
+
+
+n_neighbors:       3
+leaf_size :        30
+metric:            manhattan
+algorithm:         brute
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.87
+KNN model score on the test dataset:      0.78
+Execution Time:       26.70550799369812s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.84      0.84      0.84      2082
+    Class: 1       0.65      0.65      0.65       977
+
+    accuracy                           0.78      3059
+   macro avg       0.74      0.74      0.74      3059
+weighted avg       0.78      0.78      0.78      3059
+
+
+
+n_neighbors:       3
+leaf_size :        30
+metric:            euclidean
+algorithm:         brute
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.88
+KNN model score on the test dataset:      0.79
+Execution Time:       20.87432312965393s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.84      0.85      0.84      2069
+    Class: 1       0.68      0.65      0.66       990
+
+    accuracy                           0.79      3059
+   macro avg       0.76      0.75      0.75      3059
+weighted avg       0.78      0.79      0.79      3059
+
+
+
+n_neighbors:       3
+leaf_size :        30
+metric:            euclidean
+algorithm:         auto
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.88
+KNN model score on the test dataset:      0.78
+Execution Time:       16.948012113571167s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.84      0.84      0.84      2079
+    Class: 1       0.66      0.66      0.66       980
+
+    accuracy                           0.78      3059
+   macro avg       0.75      0.75      0.75      3059
+weighted avg       0.78      0.78      0.78      3059
+
+
+
+n_neighbors:       6
+leaf_size :        30
+metric:            euclidean
+algorithm:         auto
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.84
+KNN model score on the test dataset:      0.78
+Execution Time:       19.999193906784058s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.81      0.88      0.85      2049
+    Class: 1       0.71      0.59      0.64      1010
+
+    accuracy                           0.78      3059
+   macro avg       0.76      0.74      0.74      3059
+weighted avg       0.78      0.78      0.78      3059
+
+
+
+n_neighbors:       10
+leaf_size :        30
+metric:            euclidean
+algorithm:         auto
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.83
+KNN model score on the test dataset:      0.80
+Execution Time:       16.180095672607422s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.83      0.87      0.85      2003
+    Class: 1       0.73      0.65      0.69      1056
+
+    accuracy                           0.80      3059
+   macro avg       0.78      0.76      0.77      3059
+weighted avg       0.79      0.80      0.79      3059
+
+
+
+n_neighbors:       100
+leaf_size :        30
+metric:            euclidean
+algorithm:         auto
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.81
+KNN model score on the test dataset:      0.81
+Execution Time:       18.365357637405396s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.83      0.85      2095
+    Class: 1       0.67      0.75      0.71       964
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.79      0.78      3059
+weighted avg       0.81      0.81      0.81      3059
+
+
+
+n_neighbors:       100
+leaf_size :        30
+metric:            minkowski
+algorithm:         ball_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.81
+KNN model score on the test dataset:      0.81
+Execution Time:       17.915068864822388s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.89      0.83      0.86      2061
+    Class: 1       0.69      0.78      0.73       998
+
+    accuracy                           0.81      3059
+   macro avg       0.79      0.80      0.79      3059
+weighted avg       0.82      0.81      0.82      3059
+
+
+
+n_neighbors:       100
+leaf_size :        30
+metric:            manhattan
+algorithm:         ball_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.81
+KNN model score on the test dataset:      0.81
+Execution Time:       18.95767378807068s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.84      0.86      2098
+    Class: 1       0.69      0.76      0.72       961
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.80      0.79      3059
+weighted avg       0.82      0.81      0.82      3059
+
+
+
+n_neighbors:       100
+leaf_size :        30
+metric:            euclidean
+algorithm:         ball_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.81
+KNN model score on the test dataset:      0.80
+Execution Time:       22.337327241897583s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.81      0.84      2065
+    Class: 1       0.66      0.77      0.71       994
+
+    accuracy                           0.80      3059
+   macro avg       0.77      0.79      0.78      3059
+weighted avg       0.81      0.80      0.80      3059
+
+
+
+n_neighbors:       100
+leaf_size :        30
+metric:            euclidean
+algorithm:         kd_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.81
+KNN model score on the test dataset:      0.81
+Execution Time:       18.688567638397217s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.89      0.83      0.86      2117
+    Class: 1       0.66      0.76      0.71       942
+
+    accuracy                           0.81      3059
+   macro avg       0.77      0.79      0.78      3059
+weighted avg       0.82      0.81      0.81      3059
+
+
+
+n_neighbors:       100
+leaf_size :        30
+metric:            manhattan
+algorithm:         kd_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.81
+KNN model score on the test dataset:      0.80
+Execution Time:       19.818033695220947s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.82      0.85      2081
+    Class: 1       0.66      0.74      0.70       978
+
+    accuracy                           0.80      3059
+   macro avg       0.77      0.78      0.77      3059
+weighted avg       0.81      0.80      0.80      3059
+
+
+
+n_neighbors:       100
+leaf_size :        30
+metric:            minkowski
+algorithm:         kd_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.81
+KNN model score on the test dataset:      0.80
+Execution Time:       20.495017051696777s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.83      0.85      2054
+    Class: 1       0.68      0.74      0.71      1005
+
+    accuracy                           0.80      3059
+   macro avg       0.77      0.78      0.78      3059
+weighted avg       0.80      0.80      0.80      3059
+
+
+
+n_neighbors:       100
+leaf_size :        100
+metric:            minkowski
+algorithm:         kd_tree
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.81
+KNN model score on the test dataset:      0.80
+Execution Time:       16.286799669265747s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.83      0.85      2046
+    Class: 1       0.68      0.76      0.72      1013
+
+    accuracy                           0.80      3059
+   macro avg       0.78      0.79      0.78      3059
+weighted avg       0.81      0.80      0.81      3059
+
+
+
+n_neighbors:       100
+leaf_size :        100
+metric:            minkowski
+algorithm:         brute
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.81
+KNN model score on the test dataset:      0.79
+Execution Time:       15.391441822052002s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.81      0.84      2018
+    Class: 1       0.68      0.75      0.71      1041
+
+    accuracy                           0.79      3059
+   macro avg       0.77      0.78      0.77      3059
+weighted avg       0.80      0.79      0.79      3059
+
+
+
+n_neighbors:       200
+leaf_size :        100
+metric:            manhattan
+algorithm:         brute
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.81
+KNN model score on the test dataset:      0.80
+Execution Time:       15.346053123474121s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.89      0.81      0.85      2073
+    Class: 1       0.67      0.78      0.72       986
+
+    accuracy                           0.80      3059
+   macro avg       0.78      0.80      0.78      3059
+weighted avg       0.82      0.80      0.81      3059
+
+
+
+n_neighbors:       1000
+leaf_size :        100
+metric:            euclidean
+algorithm:         auto
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.80
+KNN model score on the test dataset:      0.79
+Execution Time:       21.334874868392944s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.92      0.76      0.83      2075
+    Class: 1       0.63      0.86      0.72       984
+
+    accuracy                           0.79      3059
+   macro avg       0.77      0.81      0.78      3059
+weighted avg       0.82      0.79      0.80      3059
+
+
+
+n_neighbors:       100
+leaf_size :        100
+metric:            euclidean
+algorithm:         auto
+Dimention Reduction:  7
+
+Dataset used:         Augmented Combined Dataset
+
+KNN model score on the training dataset:  0.81
+KNN model score on the test dataset:      0.81
+Execution Time:       16.78105664253235s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.84      0.85      2036
+    Class: 1       0.70      0.76      0.73      1023
+
+    accuracy                           0.81      3059
+   macro avg       0.79      0.80      0.79      3059
+weighted avg       0.82      0.81      0.81      3059
+
+
