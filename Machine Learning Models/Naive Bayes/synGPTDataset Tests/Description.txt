@@ -1,0 +1,57 @@
+====================================================================================================
+Kernel used:  Non
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.84
+SVC model score on the test dataset:      0.84
+Execution Time:   28.966522932052612s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.91      0.82      0.86      2110
+    Class: 1       0.77      0.88      0.82      1460
+
+    accuracy                           0.84      3570
+   macro avg       0.84      0.85      0.84      3570
+weighted avg       0.85      0.84      0.84      3570
+
+
+====================================================================================================
+Kernel used:  Non
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.83
+SVC model score on the test dataset:      0.84
+Execution Time:   27.04350733757019s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.89      0.83      0.86      2084
+    Class: 1       0.78      0.85      0.81      1486
+
+    accuracy                           0.84      3570
+   macro avg       0.83      0.84      0.83      3570
+weighted avg       0.84      0.84      0.84      3570
+
+
+====================================================================================================
+Kernel used:  Non
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.82
+Execution Time:   28.276697635650635s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.84      0.86      0.85      2123
+    Class: 1       0.78      0.77      0.78      1447
+
+    accuracy                           0.82      3570
+   macro avg       0.81      0.81      0.81      3570
+weighted avg       0.82      0.82      0.82      3570
+
+

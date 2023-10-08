@@ -1,0 +1,57 @@
+====================================================================================================
+Kernel used:  Non
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.79
+Execution Time:   23.19121241569519s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.89      0.79      0.84      2059
+    Class: 1       0.65      0.80      0.72      1000
+
+    accuracy                           0.79      3059
+   macro avg       0.77      0.79      0.78      3059
+weighted avg       0.81      0.79      0.80      3059
+
+
+====================================================================================================
+Kernel used:  Non
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.80
+SVC model score on the test dataset:      0.82
+Execution Time:   23.232295036315918s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.89      0.83      0.86      2045
+    Class: 1       0.70      0.79      0.74      1014
+
+    accuracy                           0.82      3059
+   macro avg       0.79      0.81      0.80      3059
+weighted avg       0.83      0.82      0.82      3059
+
+
+====================================================================================================
+Kernel used:  Non
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.73
+SVC model score on the test dataset:      0.73
+Execution Time:   23.20337414741516s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.77      0.86      0.81      2070
+    Class: 1       0.60      0.45      0.52       989
+
+    accuracy                           0.73      3059
+   macro avg       0.68      0.65      0.66      3059
+weighted avg       0.71      0.73      0.71      3059
+
+

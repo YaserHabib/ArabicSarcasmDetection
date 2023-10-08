@@ -3,7 +3,7 @@ import sys
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
-sys.path.append(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\sysPath")
+sys.path.append(r"C:\Users\PC\Documents\GitHub\ArabicSarcasmDetection\sysPath")
 os.chdir(dname)
 
 import time
@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 from keras.preprocessing.text import Tokenizer
 from keras.utils import pad_sequences
 
-from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
@@ -37,11 +37,11 @@ if not os.path.isfile(r"Description.txt"):
 # dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv"), "Original Dataset"
 # dataset, datasetName = pd.read_csv(r"../../../Datasets/GPT Dataset.csv"), "GPT Combined Dataset"
 dataset, datasetName = pd.read_csv(r"../../../Datasets/full Dataset.csv"), "Full Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../../Datasets/augmented Dataset.csv"), "Augmented Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../../Datasets/backtrans Dataset.csv"), "Back Translated Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../../Datasets/synrep Dataset.csv"), "Synonym Replacement Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../../Datasets/backGPT Dataset.csv"), "Back Translated & GPT Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../../Datasets/synGPT Dataset.csv"), "Synonym Replacement & GPT Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../Datasets/augmented Dataset.csv"), "Augmented Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../Datasets/backtrans Dataset.csv"), "Back Translated Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../Datasets/synrep Dataset.csv"), "Synonym Replacement Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../Datasets/backGPT Dataset.csv"), "Back Translated & GPT Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../Datasets/synGPT Dataset.csv"), "Synonym Replacement & GPT Combined Dataset"
 
 dataset.info()
 print(f"\n{dataset.head()}")
@@ -96,17 +96,18 @@ tweet_train, tweet_test, labeled_train, labeled_test = train_test_split(features
 # kernel = "linear"
 # kernel = "poly"
 # kernel = "rbf"
-kernel = "sigmoid"
+# kernel = "sigmoid"
+kernel = "Non"
 
-svc = SVC(kernel=kernel, C=1.0)
-svc.fit(tweet_train, labeled_train)
+NB = GaussianNB()
+NB.fit(tweet_train, labeled_train)
 
 
 
 #evaluate the model
-trainScore = svc.score(tweet_train, labeled_train)
-testScore = svc.score(tweet_test, labeled_test)
-labelPredicted = svc.predict(tweet_test)
+trainScore = NB.score(tweet_train, labeled_train)
+testScore = NB.score(tweet_test, labeled_test)
+labelPredicted = NB.predict(tweet_test)
 endTime = time.time()
 
 print()

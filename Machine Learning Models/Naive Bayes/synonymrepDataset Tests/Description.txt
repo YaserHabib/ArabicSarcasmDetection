@@ -1,0 +1,57 @@
+====================================================================================================
+Kernel used:  Non
+Dimention Reduction:  7
+Dataset used: Synonym Replacement Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   22.385640382766724s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.89      0.83      0.86      2081
+    Class: 1       0.65      0.76      0.70       838
+
+    accuracy                           0.81      2919
+   macro avg       0.77      0.79      0.78      2919
+weighted avg       0.82      0.81      0.81      2919
+
+
+====================================================================================================
+Kernel used:  Non
+Dimention Reduction:  12
+Dataset used: Synonym Replacement Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   22.043867588043213s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.85      0.86      2047
+    Class: 1       0.67      0.73      0.70       872
+
+    accuracy                           0.81      2919
+   macro avg       0.78      0.79      0.78      2919
+weighted avg       0.82      0.81      0.81      2919
+
+
+====================================================================================================
+Kernel used:  Non
+Dimention Reduction:  22
+Dataset used: Synonym Replacement Combined Dataset
+
+SVC model score on the training dataset:  0.77
+SVC model score on the test dataset:      0.78
+Execution Time:   22.137415170669556s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.83      0.87      0.85      2102
+    Class: 1       0.62      0.53      0.57       817
+
+    accuracy                           0.78      2919
+   macro avg       0.72      0.70      0.71      2919
+weighted avg       0.77      0.78      0.77      2919
+
+
