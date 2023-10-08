@@ -1,111 +1,206 @@
 ====================================================================================================
-Kernel used:  linear
-Dimention Reduction:  7
-Dataset used: Augmented Combined Dataset
-
-SVC model score on the training dataset:  0.79
-SVC model score on the test dataset:      0.79
-Execution Time:   17.1063494682312s
-
-              precision    recall  f1-score   support
-
-    Class: 0       0.94      0.75      0.83      2091
-    Class: 1       0.62      0.89      0.73       968
-
-    accuracy                           0.79      3059
-   macro avg       0.78      0.82      0.78      3059
-weighted avg       0.84      0.79      0.80      3059
-
-
-====================================================================================================
-Kernel used:  poly
+kernel used:	linear
 Dimention Reduction:  7
 Dataset used: Augmented Combined Dataset
 
 SVC model score on the training dataset:  0.80
-SVC model score on the test dataset:      0.81
-Execution Time:   18.144899606704712s
+SVC model score on the test dataset:      0.78
+Execution Time:   43.10819101333618s
 
               precision    recall  f1-score   support
 
-    Class: 0       0.91      0.79      0.85      2047
-    Class: 1       0.66      0.85      0.75      1012
+    Class: 0       0.93      0.73      0.82      2043
+    Class: 1       0.62      0.88      0.73      1016
+
+    accuracy                           0.78      3059
+   macro avg       0.77      0.81      0.77      3059
+weighted avg       0.82      0.78      0.79      3059
+
+
+====================================================================================================
+kernel used:	poly
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.80
+SVC model score on the test dataset:      0.79
+Execution Time:   36.25601649284363s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.90      0.77      0.83      2043
+    Class: 1       0.64      0.83      0.72      1016
+
+    accuracy                           0.79      3059
+   macro avg       0.77      0.80      0.78      3059
+weighted avg       0.81      0.79      0.80      3059
+
+
+====================================================================================================
+kernel used:	rbf
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.80
+SVC model score on the test dataset:      0.79
+Execution Time:   0.19156384468078613s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.92      0.75      0.82      2043
+    Class: 1       0.63      0.87      0.73      1016
+
+    accuracy                           0.79      3059
+   macro avg       0.78      0.81      0.78      3059
+weighted avg       0.82      0.79      0.79      3059
+
+
+====================================================================================================
+kernel used:	sigmoid
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.76
+SVC model score on the test dataset:      0.74
+Execution Time:   28.61017656326294s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.82      0.79      0.80      2043
+    Class: 1       0.60      0.65      0.63      1016
+
+    accuracy                           0.74      3059
+   macro avg       0.71      0.72      0.71      3059
+weighted avg       0.75      0.74      0.74      3059
+
+
+====================================================================================================
+kernel used:	linear
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.79
+SVC model score on the test dataset:      0.80
+Execution Time:   38.74062156677246s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.94      0.75      0.83      2068
+    Class: 1       0.63      0.91      0.74       991
+
+    accuracy                           0.80      3059
+   macro avg       0.79      0.83      0.79      3059
+weighted avg       0.84      0.80      0.80      3059
+
+
+====================================================================================================
+kernel used:	poly
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.80
+SVC model score on the test dataset:      0.81
+Execution Time:   40.19515824317932s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.91      0.80      0.85      2068
+    Class: 1       0.67      0.83      0.74       991
 
     accuracy                           0.81      3059
    macro avg       0.79      0.82      0.80      3059
-weighted avg       0.83      0.81      0.81      3059
+weighted avg       0.83      0.81      0.82      3059
 
 
 ====================================================================================================
-Kernel used:  rbf
-Dimention Reduction:  7
-Dataset used: Augmented Combined Dataset
-
-SVC model score on the training dataset:  0.80
-SVC model score on the test dataset:      0.79
-Execution Time:   23.213886499404907s
-
-              precision    recall  f1-score   support
-
-    Class: 0       0.94      0.75      0.83      2084
-    Class: 1       0.62      0.89      0.73       975
-
-    accuracy                           0.79      3059
-   macro avg       0.78      0.82      0.78      3059
-weighted avg       0.84      0.79      0.80      3059
-
-
-====================================================================================================
-Kernel used:  sigmoid
-Dimention Reduction:  7
-Dataset used: Augmented Combined Dataset
-
-SVC model score on the training dataset:  0.63
-SVC model score on the test dataset:      0.63
-Execution Time:   17.52323603630066s
-
-              precision    recall  f1-score   support
-
-    Class: 0       0.72      0.75      0.73      2075
-    Class: 1       0.42      0.39      0.41       984
-
-    accuracy                           0.63      3059
-   macro avg       0.57      0.57      0.57      3059
-weighted avg       0.62      0.63      0.63      3059
-
-
-====================================================================================================
-Kernel used:  linear
-Dimention Reduction:  12
-Dataset used: Augmented Combined Dataset
-
-SVC model score on the training dataset:  0.79
-SVC model score on the test dataset:      0.79
-Execution Time:   53.12849831581116s
-
-              precision    recall  f1-score   support
-
-    Class: 0       0.94      0.74      0.83      2052
-    Class: 1       0.63      0.90      0.74      1007
-
-    accuracy                           0.79      3059
-   macro avg       0.78      0.82      0.78      3059
-weighted avg       0.84      0.79      0.80      3059
-
-
-====================================================================================================
-Kernel used:  poly
+kernel used:	rbf
 Dimention Reduction:  12
 Dataset used: Augmented Combined Dataset
 
 SVC model score on the training dataset:  0.80
 SVC model score on the test dataset:      0.81
-Execution Time:   87.17365455627441s
+Execution Time:   5.496713876724243s
 
               precision    recall  f1-score   support
 
-    Class: 0       0.91      0.79      0.85      2074
-    Class: 1       0.66      0.84      0.73       985
+    Class: 0       0.92      0.78      0.85      2068
+    Class: 1       0.65      0.87      0.74       991
+
+    accuracy                           0.81      3059
+   macro avg       0.79      0.82      0.80      3059
+weighted avg       0.84      0.81      0.81      3059
+
+
+====================================================================================================
+kernel used:	sigmoid
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.63
+SVC model score on the test dataset:      0.62
+Execution Time:   22.579822301864624s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.71      0.73      0.72      2068
+    Class: 1       0.40      0.38      0.39       991
+
+    accuracy                           0.62      3059
+   macro avg       0.56      0.56      0.56      3059
+weighted avg       0.61      0.62      0.61      3059
+
+
+====================================================================================================
+kernel used:	linear
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.79
+SVC model score on the test dataset:      0.80
+Execution Time:   36.10466194152832s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.94      0.76      0.84      2076
+    Class: 1       0.63      0.89      0.74       983
+
+    accuracy                           0.80      3059
+   macro avg       0.79      0.82      0.79      3059
+weighted avg       0.84      0.80      0.81      3059
+
+
+====================================================================================================
+kernel used:	poly
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   33.84306073188782s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.90      0.81      0.85      2076
+    Class: 1       0.67      0.80      0.73       983
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.81      0.79      3059
+weighted avg       0.82      0.81      0.81      3059
+
+
+====================================================================================================
+kernel used:	rbf
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.80
+SVC model score on the test dataset:      0.81
+Execution Time:   5.953755140304565s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.91      0.79      0.85      2076
+    Class: 1       0.66      0.84      0.74       983
 
     accuracy                           0.81      3059
    macro avg       0.78      0.81      0.79      3059
@@ -113,116 +208,21 @@ weighted avg       0.83      0.81      0.81      3059
 
 
 ====================================================================================================
-Kernel used:  rbf
-Dimention Reduction:  12
-Dataset used: Augmented Combined Dataset
-
-SVC model score on the training dataset:  0.80
-SVC model score on the test dataset:      0.79
-Execution Time:   120.34539222717285s
-
-              precision    recall  f1-score   support
-
-    Class: 0       0.92      0.76      0.83      2069
-    Class: 1       0.63      0.86      0.73       990
-
-    accuracy                           0.79      3059
-   macro avg       0.77      0.81      0.78      3059
-weighted avg       0.82      0.79      0.80      3059
-
-
-====================================================================================================
-Kernel used:  sigmoid
-Dimention Reduction:  12
-Dataset used: Augmented Combined Dataset
-
-SVC model score on the training dataset:  0.63
-SVC model score on the test dataset:      0.63
-Execution Time:   103.88537979125977s
-
-              precision    recall  f1-score   support
-
-    Class: 0       0.72      0.75      0.74      2062
-    Class: 1       0.43      0.39      0.41       997
-
-    accuracy                           0.63      3059
-   macro avg       0.58      0.57      0.57      3059
-weighted avg       0.62      0.63      0.63      3059
-
-
-====================================================================================================
-Kernel used:  linear
+kernel used:	sigmoid
 Dimention Reduction:  22
 Dataset used: Augmented Combined Dataset
 
-SVC model score on the training dataset:  0.79
-SVC model score on the test dataset:      0.78
-Execution Time:   79.29328155517578s
-
-              precision    recall  f1-score   support
-
-    Class: 0       0.93      0.73      0.82      2054
-    Class: 1       0.62      0.89      0.73      1005
-
-    accuracy                           0.78      3059
-   macro avg       0.77      0.81      0.77      3059
-weighted avg       0.83      0.78      0.79      3059
-
-
-====================================================================================================
-Kernel used:  poly
-Dimention Reduction:  22
-Dataset used: Augmented Combined Dataset
-
-SVC model score on the training dataset:  0.81
-SVC model score on the test dataset:      0.81
-Execution Time:   63.82986903190613s
-
-              precision    recall  f1-score   support
-
-    Class: 0       0.89      0.81      0.85      2032
-    Class: 1       0.68      0.80      0.74      1027
-
-    accuracy                           0.81      3059
-   macro avg       0.79      0.81      0.79      3059
-weighted avg       0.82      0.81      0.81      3059
-
-
-====================================================================================================
-Kernel used:  rbf
-Dimention Reduction:  22
-Dataset used: Augmented Combined Dataset
-
-SVC model score on the training dataset:  0.81
-SVC model score on the test dataset:      0.79
-Execution Time:   82.85573768615723s
-
-              precision    recall  f1-score   support
-
-    Class: 0       0.90      0.78      0.83      2062
-    Class: 1       0.64      0.83      0.72       997
-
-    accuracy                           0.79      3059
-   macro avg       0.77      0.80      0.78      3059
-weighted avg       0.82      0.79      0.80      3059
-
-
-====================================================================================================
-Kernel used:  sigmoid
-Dimention Reduction:  22
-Dataset used: Augmented Combined Dataset
-
-SVC model score on the training dataset:  0.76
+SVC model score on the training dataset:  0.74
 SVC model score on the test dataset:      0.75
-Execution Time:   62.19263744354248s
+Execution Time:   30.011075258255005s
 
               precision    recall  f1-score   support
 
-    Class: 0       0.84      0.78      0.81      2056
-    Class: 1       0.61      0.69      0.65      1003
+    Class: 0       0.82      0.81      0.82      2076
+    Class: 1       0.61      0.63      0.62       983
 
     accuracy                           0.75      3059
-   macro avg       0.72      0.74      0.73      3059
-weighted avg       0.76      0.75      0.76      3059
+   macro avg       0.72      0.72      0.72      3059
+weighted avg       0.75      0.75      0.75      3059
 
 

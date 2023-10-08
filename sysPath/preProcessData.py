@@ -16,9 +16,9 @@ style.use("ggplot")
 
 
 
-# nltk.download('punkt')  # download punkt tokenizer if not already downloaded
-# nltk.download('stopwords') # download stopwords if not already downloaded
-# nltk.download('averaged_perceptron_tagger')
+#nltk.download('punkt')  # download punkt tokenizer if not already downloaded
+#nltk.download('stopwords') # download stopwords if not already downloaded
+#nltk.download('averaged_perceptron_tagger')
 warnings.filterwarnings(action = 'ignore')
 
 
