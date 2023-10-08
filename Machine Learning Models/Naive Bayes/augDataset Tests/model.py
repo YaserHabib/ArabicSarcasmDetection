@@ -35,13 +35,13 @@ if not os.path.isfile(r"Description.txt"):
 
 
 # dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv"), "Original Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/GPT Dataset.csv"), "GPT Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/full Dataset.csv"), "Full Combined Dataset"
-dataset, datasetName = pd.read_csv(r"../../Datasets/augmented Dataset.csv"), "Augmented Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/backtrans Dataset.csv"), "Back Translated Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/synrep Dataset.csv"), "Synonym Replacement Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/backGPT Dataset.csv"), "Back Translated & GPT Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/synGPT Dataset.csv"), "Synonym Replacement & GPT Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/GPT Dataset.csv"), "GPT Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/full Dataset.csv"), "Full Combined Dataset"
+dataset, datasetName = pd.read_csv(r"../../../Datasets/augmented Dataset.csv"), "Augmented Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/backtrans Dataset.csv"), "Back Translated Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/synrep Dataset.csv"), "Synonym Replacement Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/backGPT Dataset.csv"), "Back Translated & GPT Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/synGPT Dataset.csv"), "Synonym Replacement & GPT Combined Dataset"
 
 dataset.info()
 print(f"\n{dataset.head()}")
