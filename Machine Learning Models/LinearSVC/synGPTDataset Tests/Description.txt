@@ -1,0 +1,594 @@
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l1
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.84
+Execution Time:   76.93378710746765s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.84      0.89      0.87      2048
+    Class: 1       0.84      0.78      0.81      1522
+
+    accuracy                           0.84      3570
+   macro avg       0.84      0.84      0.84      3570
+weighted avg       0.84      0.84      0.84      3570
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l1
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   76.80179905891418s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.88      0.87      2048
+    Class: 1       0.83      0.80      0.82      1522
+
+    accuracy                           0.85      3570
+   macro avg       0.84      0.84      0.84      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l1
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   76.79598188400269s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.88      0.87      2048
+    Class: 1       0.83      0.80      0.82      1522
+
+    accuracy                           0.85      3570
+   macro avg       0.84      0.84      0.84      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.83
+SVC model score on the test dataset:      0.83
+Execution Time:   77.00822234153748s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.81      0.92      0.86      2048
+    Class: 1       0.87      0.71      0.78      1522
+
+    accuracy                           0.83      3570
+   macro avg       0.84      0.81      0.82      3570
+weighted avg       0.83      0.83      0.83      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   76.55992078781128s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.88      0.87      2048
+    Class: 1       0.83      0.80      0.82      1522
+
+    accuracy                           0.85      3570
+   macro avg       0.84      0.84      0.84      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   76.65865683555603s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.88      0.87      2048
+    Class: 1       0.83      0.80      0.82      1522
+
+    accuracy                           0.85      3570
+   macro avg       0.84      0.84      0.84      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.82
+SVC model score on the test dataset:      0.84
+Execution Time:   77.01179242134094s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.94      0.76      0.84      2048
+    Class: 1       0.75      0.94      0.83      1522
+
+    accuracy                           0.84      3570
+   macro avg       0.85      0.85      0.84      3570
+weighted avg       0.86      0.84      0.84      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.82
+SVC model score on the test dataset:      0.84
+Execution Time:   75.9906108379364s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.94      0.76      0.84      2048
+    Class: 1       0.75      0.94      0.83      1522
+
+    accuracy                           0.84      3570
+   macro avg       0.85      0.85      0.84      3570
+weighted avg       0.86      0.84      0.84      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.82
+SVC model score on the test dataset:      0.84
+Execution Time:   76.63998651504517s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.94      0.76      0.84      2048
+    Class: 1       0.75      0.94      0.83      1522
+
+    accuracy                           0.84      3570
+   macro avg       0.85      0.85      0.84      3570
+weighted avg       0.86      0.84      0.84      3570
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l1
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.84
+SVC model score on the test dataset:      0.85
+Execution Time:   76.98366498947144s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.86      0.86      1994
+    Class: 1       0.83      0.82      0.82      1576
+
+    accuracy                           0.85      3570
+   macro avg       0.84      0.84      0.84      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l1
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   76.12883687019348s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.86      0.87      1994
+    Class: 1       0.83      0.84      0.83      1576
+
+    accuracy                           0.85      3570
+   macro avg       0.85      0.85      0.85      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l1
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   75.89810681343079s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.86      0.87      1994
+    Class: 1       0.83      0.84      0.83      1576
+
+    accuracy                           0.85      3570
+   macro avg       0.85      0.85      0.85      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.83
+SVC model score on the test dataset:      0.83
+Execution Time:   76.9362998008728s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.80      0.93      0.86      1994
+    Class: 1       0.88      0.71      0.79      1576
+
+    accuracy                           0.83      3570
+   macro avg       0.84      0.82      0.82      3570
+weighted avg       0.84      0.83      0.83      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   76.16788458824158s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.86      0.87      1994
+    Class: 1       0.83      0.84      0.83      1576
+
+    accuracy                           0.85      3570
+   macro avg       0.85      0.85      0.85      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   76.30848360061646s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.86      0.87      1994
+    Class: 1       0.83      0.84      0.83      1576
+
+    accuracy                           0.85      3570
+   macro avg       0.85      0.85      0.85      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.82
+SVC model score on the test dataset:      0.84
+Execution Time:   77.07476830482483s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.95      0.75      0.84      1994
+    Class: 1       0.75      0.95      0.84      1576
+
+    accuracy                           0.84      3570
+   macro avg       0.85      0.85      0.84      3570
+weighted avg       0.86      0.84      0.84      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.82
+SVC model score on the test dataset:      0.84
+Execution Time:   77.01856660842896s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.95      0.75      0.84      1994
+    Class: 1       0.75      0.95      0.84      1576
+
+    accuracy                           0.84      3570
+   macro avg       0.85      0.85      0.84      3570
+weighted avg       0.86      0.84      0.84      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.82
+SVC model score on the test dataset:      0.84
+Execution Time:   76.52724957466125s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.95      0.75      0.84      1994
+    Class: 1       0.75      0.95      0.84      1576
+
+    accuracy                           0.84      3570
+   macro avg       0.85      0.85      0.84      3570
+weighted avg       0.86      0.84      0.84      3570
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l1
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   76.87913823127747s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.87      0.87      2037
+    Class: 1       0.82      0.83      0.83      1533
+
+    accuracy                           0.85      3570
+   macro avg       0.85      0.85      0.85      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l1
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   74.92715811729431s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.86      0.87      2037
+    Class: 1       0.82      0.83      0.83      1533
+
+    accuracy                           0.85      3570
+   macro avg       0.85      0.85      0.85      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l1
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   74.76315641403198s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.86      0.87      2037
+    Class: 1       0.82      0.83      0.83      1533
+
+    accuracy                           0.85      3570
+   macro avg       0.85      0.85      0.85      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.84
+Execution Time:   76.83760786056519s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.83      0.91      0.87      2037
+    Class: 1       0.86      0.76      0.80      1533
+
+    accuracy                           0.84      3570
+   macro avg       0.85      0.83      0.84      3570
+weighted avg       0.84      0.84      0.84      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   75.60455226898193s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.86      0.87      2037
+    Class: 1       0.82      0.83      0.83      1533
+
+    accuracy                           0.85      3570
+   macro avg       0.85      0.85      0.85      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   75.6391327381134s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.86      0.87      2037
+    Class: 1       0.82      0.83      0.83      1533
+
+    accuracy                           0.85      3570
+   macro avg       0.85      0.85      0.85      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.82
+SVC model score on the test dataset:      0.83
+Execution Time:   76.87083339691162s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.95      0.74      0.83      2037
+    Class: 1       0.73      0.95      0.83      1533
+
+    accuracy                           0.83      3570
+   macro avg       0.84      0.84      0.83      3570
+weighted avg       0.86      0.83      0.83      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.82
+SVC model score on the test dataset:      0.83
+Execution Time:   76.60773301124573s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.95      0.74      0.83      2037
+    Class: 1       0.73      0.95      0.83      1533
+
+    accuracy                           0.83      3570
+   macro avg       0.84      0.84      0.83      3570
+weighted avg       0.86      0.83      0.83      3570
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.82
+SVC model score on the test dataset:      0.83
+Execution Time:   76.8058271408081s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.95      0.74      0.83      2037
+    Class: 1       0.73      0.95      0.83      1533
+
+    accuracy                           0.83      3570
+   macro avg       0.84      0.84      0.83      3570
+weighted avg       0.86      0.83      0.83      3570
+
+
