@@ -1,0 +1,54 @@
+====================================================================================================
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.83
+SVC model score on the test dataset:      0.82
+Execution Time:   39.363330364227295s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.81      0.84      2038
+    Class: 1       0.77      0.84      0.80      1532
+
+    accuracy                           0.82      3570
+   macro avg       0.82      0.83      0.82      3570
+weighted avg       0.83      0.82      0.83      3570
+
+
+====================================================================================================
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.83
+SVC model score on the test dataset:      0.83
+Execution Time:   32.547024965286255s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.87      0.83      0.85      2064
+    Class: 1       0.78      0.83      0.81      1506
+
+    accuracy                           0.83      3570
+   macro avg       0.83      0.83      0.83      3570
+weighted avg       0.83      0.83      0.83      3570
+
+
+====================================================================================================
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   39.69664669036865s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.83      0.84      0.83      2071
+    Class: 1       0.77      0.76      0.77      1499
+
+    accuracy                           0.81      3570
+   macro avg       0.80      0.80      0.80      3570
+weighted avg       0.81      0.81      0.81      3570
+
+

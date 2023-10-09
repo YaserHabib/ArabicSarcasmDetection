@@ -1,0 +1,594 @@
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l1
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.80
+Execution Time:   65.47637009620667s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.82      0.85      2085
+    Class: 1       0.66      0.76      0.71       974
+
+    accuracy                           0.80      3059
+   macro avg       0.77      0.79      0.78      3059
+weighted avg       0.81      0.80      0.80      3059
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l1
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.80
+Execution Time:   65.24712085723877s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.82      0.85      2085
+    Class: 1       0.67      0.76      0.71       974
+
+    accuracy                           0.80      3059
+   macro avg       0.77      0.79      0.78      3059
+weighted avg       0.81      0.80      0.81      3059
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l1
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.80
+Execution Time:   65.02193784713745s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.82      0.85      2085
+    Class: 1       0.67      0.76      0.71       974
+
+    accuracy                           0.80      3059
+   macro avg       0.77      0.79      0.78      3059
+weighted avg       0.81      0.80      0.81      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.80
+SVC model score on the test dataset:      0.80
+Execution Time:   65.32551217079163s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.85      0.85      2085
+    Class: 1       0.68      0.71      0.70       974
+
+    accuracy                           0.80      3059
+   macro avg       0.77      0.78      0.78      3059
+weighted avg       0.81      0.80      0.81      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.80
+Execution Time:   65.21064305305481s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.82      0.85      2085
+    Class: 1       0.67      0.76      0.71       974
+
+    accuracy                           0.80      3059
+   macro avg       0.77      0.79      0.78      3059
+weighted avg       0.81      0.80      0.81      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.80
+Execution Time:   65.23076891899109s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.82      0.85      2085
+    Class: 1       0.67      0.76      0.71       974
+
+    accuracy                           0.80      3059
+   macro avg       0.77      0.79      0.78      3059
+weighted avg       0.81      0.80      0.81      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.80
+SVC model score on the test dataset:      0.78
+Execution Time:   65.4507646560669s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.93      0.72      0.82      2085
+    Class: 1       0.60      0.89      0.72       974
+
+    accuracy                           0.78      3059
+   macro avg       0.77      0.81      0.77      3059
+weighted avg       0.83      0.78      0.79      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.80
+SVC model score on the test dataset:      0.78
+Execution Time:   65.46572661399841s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.93      0.72      0.82      2085
+    Class: 1       0.60      0.89      0.72       974
+
+    accuracy                           0.78      3059
+   macro avg       0.77      0.81      0.77      3059
+weighted avg       0.83      0.78      0.79      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  7
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.80
+SVC model score on the test dataset:      0.78
+Execution Time:   65.48975276947021s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.93      0.72      0.82      2085
+    Class: 1       0.60      0.89      0.72       974
+
+    accuracy                           0.78      3059
+   macro avg       0.77      0.81      0.77      3059
+weighted avg       0.83      0.78      0.79      3059
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l1
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.80
+Execution Time:   64.97880697250366s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.82      0.85      2051
+    Class: 1       0.68      0.76      0.72      1008
+
+    accuracy                           0.80      3059
+   macro avg       0.78      0.79      0.78      3059
+weighted avg       0.81      0.80      0.81      3059
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l1
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   64.66597104072571s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.82      0.85      2051
+    Class: 1       0.68      0.77      0.72      1008
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.80      0.79      3059
+weighted avg       0.81      0.81      0.81      3059
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l1
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   63.77297067642212s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.82      0.85      2051
+    Class: 1       0.68      0.77      0.72      1008
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.80      0.79      3059
+weighted avg       0.81      0.81      0.81      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.80
+Execution Time:   65.33392214775085s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.90      0.79      0.84      2051
+    Class: 1       0.66      0.83      0.73      1008
+
+    accuracy                           0.80      3059
+   macro avg       0.78      0.81      0.79      3059
+weighted avg       0.82      0.80      0.80      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   65.0546817779541s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.82      0.85      2051
+    Class: 1       0.68      0.77      0.72      1008
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.80      0.79      3059
+weighted avg       0.81      0.81      0.81      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   64.93929290771484s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.88      0.82      0.85      2051
+    Class: 1       0.68      0.77      0.72      1008
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.80      0.79      3059
+weighted avg       0.81      0.81      0.81      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.79
+SVC model score on the test dataset:      0.78
+Execution Time:   65.47852659225464s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.93      0.73      0.82      2051
+    Class: 1       0.62      0.89      0.73      1008
+
+    accuracy                           0.78      3059
+   macro avg       0.77      0.81      0.77      3059
+weighted avg       0.83      0.78      0.79      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.79
+SVC model score on the test dataset:      0.78
+Execution Time:   65.50054693222046s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.93      0.73      0.82      2051
+    Class: 1       0.62      0.89      0.73      1008
+
+    accuracy                           0.78      3059
+   macro avg       0.77      0.81      0.77      3059
+weighted avg       0.83      0.78      0.79      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  12
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.79
+SVC model score on the test dataset:      0.78
+Execution Time:   65.44760775566101s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.93      0.73      0.82      2051
+    Class: 1       0.62      0.89      0.73      1008
+
+    accuracy                           0.78      3059
+   macro avg       0.77      0.81      0.77      3059
+weighted avg       0.83      0.78      0.79      3059
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l1
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   65.35930180549622s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.86      0.86      2075
+    Class: 1       0.71      0.70      0.70       984
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.78      0.78      3059
+weighted avg       0.81      0.81      0.81      3059
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l1
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   64.19743990898132s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.86      0.86      2075
+    Class: 1       0.71      0.69      0.70       984
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.78      0.78      3059
+weighted avg       0.81      0.81      0.81      3059
+
+
+====================================================================================================
+dual used:	False
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l1
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   62.365713119506836s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.87      0.86      2075
+    Class: 1       0.71      0.69      0.70       984
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.78      0.78      3059
+weighted avg       0.81      0.81      0.81      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.80
+SVC model score on the test dataset:      0.80
+Execution Time:   65.33777523040771s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.84      0.88      0.86      2075
+    Class: 1       0.72      0.64      0.68       984
+
+    accuracy                           0.80      3059
+   macro avg       0.78      0.76      0.77      3059
+weighted avg       0.80      0.80      0.80      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   63.54048013687134s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.87      0.86      2075
+    Class: 1       0.71      0.69      0.70       984
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.78      0.78      3059
+weighted avg       0.81      0.81      0.81      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	squared_hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.81
+SVC model score on the test dataset:      0.81
+Execution Time:   64.31067085266113s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.87      0.86      2075
+    Class: 1       0.71      0.69      0.70       984
+
+    accuracy                           0.81      3059
+   macro avg       0.78      0.78      0.78      3059
+weighted avg       0.81      0.81      0.81      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	100
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.79
+SVC model score on the test dataset:      0.79
+Execution Time:   65.38721108436584s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.94      0.75      0.83      2075
+    Class: 1       0.63      0.89      0.74       984
+
+    accuracy                           0.79      3059
+   macro avg       0.78      0.82      0.78      3059
+weighted avg       0.84      0.79      0.80      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	1000
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.79
+SVC model score on the test dataset:      0.79
+Execution Time:   65.30783796310425s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.94      0.75      0.83      2075
+    Class: 1       0.63      0.89      0.74       984
+
+    accuracy                           0.79      3059
+   macro avg       0.78      0.82      0.78      3059
+weighted avg       0.84      0.79      0.80      3059
+
+
+====================================================================================================
+dual used:	True
+loss used:	hinge
+max_iter used:	10000
+penalty used:	l2
+Dimention Reduction:  22
+Dataset used: Augmented Combined Dataset
+
+SVC model score on the training dataset:  0.79
+SVC model score on the test dataset:      0.79
+Execution Time:   65.0403892993927s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.94      0.75      0.83      2075
+    Class: 1       0.63      0.89      0.74       984
+
+    accuracy                           0.79      3059
+   macro avg       0.78      0.82      0.78      3059
+weighted avg       0.84      0.79      0.80      3059
+
+

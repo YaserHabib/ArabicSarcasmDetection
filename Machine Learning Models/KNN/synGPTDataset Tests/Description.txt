@@ -1,0 +1,114 @@
+====================================================================================================
+weights used:	uniform
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.88
+SVC model score on the test dataset:      0.82
+Execution Time:   65.03620171546936s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.83      0.84      2100
+    Class: 1       0.77      0.81      0.79      1470
+
+    accuracy                           0.82      3570
+   macro avg       0.81      0.82      0.82      3570
+weighted avg       0.82      0.82      0.82      3570
+
+
+====================================================================================================
+weights used:	distance
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  1.00
+SVC model score on the test dataset:      0.82
+Execution Time:   66.74106097221375s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.83      0.85      2100
+    Class: 1       0.77      0.80      0.79      1470
+
+    accuracy                           0.82      3570
+   macro avg       0.81      0.82      0.82      3570
+weighted avg       0.82      0.82      0.82      3570
+
+
+====================================================================================================
+weights used:	uniform
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.88
+SVC model score on the test dataset:      0.84
+Execution Time:   61.935410022735596s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.86      0.86      2070
+    Class: 1       0.80      0.81      0.81      1500
+
+    accuracy                           0.84      3570
+   macro avg       0.83      0.83      0.83      3570
+weighted avg       0.84      0.84      0.84      3570
+
+
+====================================================================================================
+weights used:	distance
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  1.00
+SVC model score on the test dataset:      0.84
+Execution Time:   64.12954998016357s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.86      0.86      2070
+    Class: 1       0.81      0.81      0.81      1500
+
+    accuracy                           0.84      3570
+   macro avg       0.83      0.83      0.83      3570
+weighted avg       0.84      0.84      0.84      3570
+
+
+====================================================================================================
+weights used:	uniform
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.88
+SVC model score on the test dataset:      0.82
+Execution Time:   65.66065669059753s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.84      0.85      2072
+    Class: 1       0.78      0.81      0.79      1498
+
+    accuracy                           0.82      3570
+   macro avg       0.82      0.82      0.82      3570
+weighted avg       0.83      0.82      0.83      3570
+
+
+====================================================================================================
+weights used:	distance
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  1.00
+SVC model score on the test dataset:      0.83
+Execution Time:   66.6623899936676s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.84      0.85      2072
+    Class: 1       0.78      0.81      0.80      1498
+
+    accuracy                           0.83      3570
+   macro avg       0.82      0.82      0.82      3570
+weighted avg       0.83      0.83      0.83      3570
+
+

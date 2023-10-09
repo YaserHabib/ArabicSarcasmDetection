@@ -1,0 +1,228 @@
+====================================================================================================
+kernel used:	linear
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.82
+SVC model score on the test dataset:      0.84
+Execution Time:   62.25557994842529s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.96      0.75      0.84      2036
+    Class: 1       0.74      0.95      0.84      1534
+
+    accuracy                           0.84      3570
+   macro avg       0.85      0.85      0.84      3570
+weighted avg       0.86      0.84      0.84      3570
+
+
+====================================================================================================
+kernel used:	poly
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.84
+SVC model score on the test dataset:      0.86
+Execution Time:   54.62244772911072s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.91      0.83      0.87      2036
+    Class: 1       0.80      0.90      0.84      1534
+
+    accuracy                           0.86      3570
+   macro avg       0.86      0.86      0.86      3570
+weighted avg       0.86      0.86      0.86      3570
+
+
+====================================================================================================
+kernel used:	rbf
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.84
+SVC model score on the test dataset:      0.86
+Execution Time:   14.43883752822876s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.86      0.89      0.88      2036
+    Class: 1       0.85      0.81      0.83      1534
+
+    accuracy                           0.86      3570
+   macro avg       0.86      0.85      0.85      3570
+weighted avg       0.86      0.86      0.86      3570
+
+
+====================================================================================================
+kernel used:	sigmoid
+Dimention Reduction:  7
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.78
+SVC model score on the test dataset:      0.80
+Execution Time:   53.45055890083313s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.83      0.81      0.82      2036
+    Class: 1       0.76      0.77      0.77      1534
+
+    accuracy                           0.80      3570
+   macro avg       0.79      0.79      0.79      3570
+weighted avg       0.80      0.80      0.80      3570
+
+
+====================================================================================================
+kernel used:	linear
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.82
+SVC model score on the test dataset:      0.83
+Execution Time:   61.3221595287323s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.95      0.75      0.84      2078
+    Class: 1       0.73      0.94      0.82      1492
+
+    accuracy                           0.83      3570
+   macro avg       0.84      0.85      0.83      3570
+weighted avg       0.86      0.83      0.83      3570
+
+
+====================================================================================================
+kernel used:	poly
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.84
+Execution Time:   52.67423129081726s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.89      0.83      0.86      2078
+    Class: 1       0.79      0.86      0.82      1492
+
+    accuracy                           0.84      3570
+   macro avg       0.84      0.85      0.84      3570
+weighted avg       0.85      0.84      0.85      3570
+
+
+====================================================================================================
+kernel used:	rbf
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.85
+Execution Time:   7.6840291023254395s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.90      0.83      0.86      2078
+    Class: 1       0.79      0.87      0.83      1492
+
+    accuracy                           0.85      3570
+   macro avg       0.84      0.85      0.84      3570
+weighted avg       0.85      0.85      0.85      3570
+
+
+====================================================================================================
+kernel used:	sigmoid
+Dimention Reduction:  12
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.78
+SVC model score on the test dataset:      0.79
+Execution Time:   47.85682916641235s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.82      0.81      0.82      2078
+    Class: 1       0.74      0.76      0.75      1492
+
+    accuracy                           0.79      3570
+   macro avg       0.78      0.78      0.78      3570
+weighted avg       0.79      0.79      0.79      3570
+
+
+====================================================================================================
+kernel used:	linear
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.83
+SVC model score on the test dataset:      0.82
+Execution Time:   57.9231321811676s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.95      0.73      0.83      2099
+    Class: 1       0.71      0.94      0.81      1471
+
+    accuracy                           0.82      3570
+   macro avg       0.83      0.84      0.82      3570
+weighted avg       0.85      0.82      0.82      3570
+
+
+====================================================================================================
+kernel used:	poly
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.84
+Execution Time:   53.87308979034424s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.89      0.83      0.86      2099
+    Class: 1       0.78      0.86      0.82      1471
+
+    accuracy                           0.84      3570
+   macro avg       0.84      0.84      0.84      3570
+weighted avg       0.85      0.84      0.84      3570
+
+
+====================================================================================================
+kernel used:	rbf
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.85
+SVC model score on the test dataset:      0.84
+Execution Time:   10.786189317703247s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.90      0.82      0.86      2099
+    Class: 1       0.77      0.86      0.82      1471
+
+    accuracy                           0.84      3570
+   macro avg       0.83      0.84      0.84      3570
+weighted avg       0.85      0.84      0.84      3570
+
+
+====================================================================================================
+kernel used:	sigmoid
+Dimention Reduction:  22
+Dataset used: Synonym Replacement & GPT Combined Dataset
+
+SVC model score on the training dataset:  0.68
+SVC model score on the test dataset:      0.68
+Execution Time:   46.503039598464966s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.72      0.74      0.73      2099
+    Class: 1       0.62      0.59      0.60      1471
+
+    accuracy                           0.68      3570
+   macro avg       0.67      0.67      0.67      3570
+weighted avg       0.68      0.68      0.68      3570
+
+
