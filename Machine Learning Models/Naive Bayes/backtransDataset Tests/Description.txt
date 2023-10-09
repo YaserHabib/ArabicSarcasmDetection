@@ -1,57 +1,54 @@
 ====================================================================================================
-Kernel used:  Non
 Dimention Reduction:  7
 Dataset used: Back Translated Combined Dataset
 
 SVC model score on the training dataset:  0.81
-SVC model score on the test dataset:      0.81
-Execution Time:   20.576101541519165s
+SVC model score on the test dataset:      0.82
+Execution Time:   20.282164573669434s
 
               precision    recall  f1-score   support
 
-    Class: 0       0.89      0.86      0.87      2072
-    Class: 1       0.62      0.68      0.65       711
+    Class: 0       0.89      0.87      0.88      2079
+    Class: 1       0.65      0.68      0.66       704
 
-    accuracy                           0.81      2783
-   macro avg       0.75      0.77      0.76      2783
-weighted avg       0.82      0.81      0.82      2783
+    accuracy                           0.82      2783
+   macro avg       0.77      0.78      0.77      2783
+weighted avg       0.83      0.82      0.83      2783
 
 
 ====================================================================================================
-Kernel used:  Non
 Dimention Reduction:  12
 Dataset used: Back Translated Combined Dataset
 
 SVC model score on the training dataset:  0.82
-SVC model score on the test dataset:      0.83
-Execution Time:   20.27430486679077s
+SVC model score on the test dataset:      0.82
+Execution Time:   23.068390369415283s
 
               precision    recall  f1-score   support
 
-    Class: 0       0.88      0.88      0.88      2051
-    Class: 1       0.67      0.67      0.67       732
+    Class: 0       0.89      0.86      0.87      2042
+    Class: 1       0.65      0.69      0.67       741
 
-    accuracy                           0.83      2783
-   macro avg       0.78      0.78      0.78      2783
-weighted avg       0.83      0.83      0.83      2783
+    accuracy                           0.82      2783
+   macro avg       0.77      0.78      0.77      2783
+weighted avg       0.82      0.82      0.82      2783
 
 
 ====================================================================================================
-Kernel used:  Non
 Dimention Reduction:  22
 Dataset used: Back Translated Combined Dataset
 
 SVC model score on the training dataset:  0.79
 SVC model score on the test dataset:      0.79
-Execution Time:   20.348326206207275s
+Execution Time:   25.14660882949829s
 
               precision    recall  f1-score   support
 
-    Class: 0       0.85      0.88      0.86      2093
-    Class: 1       0.59      0.52      0.55       690
+    Class: 0       0.84      0.89      0.87      2069
+    Class: 1       0.62      0.50      0.55       714
 
     accuracy                           0.79      2783
-   macro avg       0.72      0.70      0.71      2783
+   macro avg       0.73      0.70      0.71      2783
 weighted avg       0.78      0.79      0.79      2783
 
 

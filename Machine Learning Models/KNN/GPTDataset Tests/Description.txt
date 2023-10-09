@@ -1,0 +1,114 @@
+====================================================================================================
+weights used:	uniform
+Dimention Reduction:  7
+Dataset used: GPT Combined Dataset
+
+SVC model score on the training dataset:  0.90
+SVC model score on the test dataset:      0.86
+Execution Time:   59.120399951934814s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.89      0.91      0.90      2072
+    Class: 1       0.81      0.78      0.80      1077
+
+    accuracy                           0.86      3149
+   macro avg       0.85      0.84      0.85      3149
+weighted avg       0.86      0.86      0.86      3149
+
+
+====================================================================================================
+weights used:	distance
+Dimention Reduction:  7
+Dataset used: GPT Combined Dataset
+
+SVC model score on the training dataset:  1.00
+SVC model score on the test dataset:      0.86
+Execution Time:   62.015084743499756s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.89      0.90      0.89      2072
+    Class: 1       0.81      0.77      0.79      1077
+
+    accuracy                           0.86      3149
+   macro avg       0.85      0.84      0.84      3149
+weighted avg       0.86      0.86      0.86      3149
+
+
+====================================================================================================
+weights used:	uniform
+Dimention Reduction:  12
+Dataset used: GPT Combined Dataset
+
+SVC model score on the training dataset:  0.89
+SVC model score on the test dataset:      0.87
+Execution Time:   58.54921841621399s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.90      0.90      0.90      2073
+    Class: 1       0.81      0.81      0.81      1076
+
+    accuracy                           0.87      3149
+   macro avg       0.86      0.86      0.86      3149
+weighted avg       0.87      0.87      0.87      3149
+
+
+====================================================================================================
+weights used:	distance
+Dimention Reduction:  12
+Dataset used: GPT Combined Dataset
+
+SVC model score on the training dataset:  1.00
+SVC model score on the test dataset:      0.87
+Execution Time:   60.47148561477661s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.90      0.90      0.90      2073
+    Class: 1       0.81      0.81      0.81      1076
+
+    accuracy                           0.87      3149
+   macro avg       0.85      0.85      0.85      3149
+weighted avg       0.87      0.87      0.87      3149
+
+
+====================================================================================================
+weights used:	uniform
+Dimention Reduction:  22
+Dataset used: GPT Combined Dataset
+
+SVC model score on the training dataset:  0.89
+SVC model score on the test dataset:      0.87
+Execution Time:   61.75509738922119s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.90      0.91      0.90      2063
+    Class: 1       0.82      0.81      0.81      1086
+
+    accuracy                           0.87      3149
+   macro avg       0.86      0.86      0.86      3149
+weighted avg       0.87      0.87      0.87      3149
+
+
+====================================================================================================
+weights used:	distance
+Dimention Reduction:  22
+Dataset used: GPT Combined Dataset
+
+SVC model score on the training dataset:  1.00
+SVC model score on the test dataset:      0.87
+Execution Time:   62.05687999725342s
+
+              precision    recall  f1-score   support
+
+    Class: 0       0.90      0.90      0.90      2063
+    Class: 1       0.81      0.80      0.81      1086
+
+    accuracy                           0.87      3149
+   macro avg       0.86      0.85      0.85      3149
+weighted avg       0.87      0.87      0.87      3149
+
+
