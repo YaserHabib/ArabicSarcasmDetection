@@ -7,12 +7,20 @@ Original file is located at
 """
 
 import os
+import sys
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+sys.path.append(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\sysPath")
+os.chdir(dname)
+
 import re
 import nltk
 import shutil
 import warnings
 import numpy as np
 import pandas as pd
+import seaborn as sns
+import preProcessData #type: ignore
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import pyarabic.normalize as Normalize
@@ -21,274 +29,55 @@ from nltk import ngrams
 from numpy import array
 from nltk.corpus import stopwords
 from nltk.stem import ISRIStemmer
+from keras.utils import plot_model
 from keras.utils import pad_sequences
 from gensim.models import KeyedVectors
+from nltk.tokenize import word_tokenize
 from keras.callbacks import TensorBoard
-from sklearn.naive_bayes import GaussianNB
-from keras.utils.vis_utils import plot_model
 from keras.preprocessing.text import Tokenizer
-from sklearn.model_selection import train_test_split
-from nltk.tokenize import sent_tokenize, word_tokenize
-from yellowbrick.classifier import ClassificationReport
 from transformers import MarianMTModel, MarianTokenizer
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, confusion_matrix, precision_score, recall_score, f1_score
 
 # nltk.download('punkt')  # download punkt tokenizer if not already downloaded
 # nltk.download('stopwords') # download stopwords if not already downloaded
 # nltk.download('averaged_perceptron_tagger')
 
 warnings.filterwarnings(action = 'ignore')
+callback = TensorBoard(log_dir='logs/', histogram_freq=1)
 
 if os.path.isdir("logs"):
     shutil.rmtree("logs")
-    
-
-orgDataset = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv")
-dataset = orgDataset[["tweet", "sarcasm"]]
-callback = TensorBoard(log_dir='logs/', histogram_freq=1)
-
-def remove_emojis(text):
-    emoji_pattern = re.compile("["
-                                    u"\U0001F600-\U0001F64F"  # emoticons
-                                    u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-                                    u"\U0001F680-\U0001F6FF"  # transport & map symbols
-                                    u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
-                                    u"\U00002702-\U000027B0"
-                                    u"\U000024C2-\U0001F251"
-                                    u"\U0001F90C-\U0001F93A"  # Supplemental Symbols
-                                    u"\U0001F93C-\U0001F945"  # and
-                                    u"\U0001F947-\U0001F9FF"  # Pictographs
-                                "]+", flags=re.UNICODE)
-    return emoji_pattern.sub(r'', text)
-
-def removeConsecutiveDuplicates(text):
-    # Replace any group of two or more consecutive characters with just one
-    #clean = re.sub(r'(\S)(\1+)', r'\1', text, flags=re.UNICODE)
-
-    clean = re.sub(r'(\S)(\1{2,})', r'\1', text, flags=re.UNICODE)
-    #This one only replaces it if there are more than two duplicates. For example, الله has 2 لs but we don't want it removed
-
-    return clean
-
-def removeEnglish(text):
-    return re.sub(r"[A-Za-z0-9]+","",text)
-
-def lemmatizeArabic(text):
-    """
-    This function takes an Arabic word as input and returns its lemma using NLTK's ISRI stemmer
-    """
-    # Create an instance of the ISRI stemmer
-    stemmer = ISRIStemmer()
-    # Apply the stemmer to the word
-    lemma = stemmer.stem(text)
-    return lemma
-
-def removeStopwords(text):
-    # Tokenize the text into wordsz
-    words = nltk.word_tokenize(text)
-    # Get the Arabic stop words from NLTK
-    stop_words = set(stopwords.words('arabic'))
-    # Remove the stop words from the list of words
-    words_filtered = [word for word in words if word.lower() not in stop_words]
-    # Join the words back into a string
-    clean = ' '.join(words_filtered)
-    return clean
-
-def removePunctuation(text):
-    # Define the Arabic punctuation regex pattern
-    arabicPunctPattern = r'[؀-؃؆-؊،؍؛؞]'
-    engPunctPattern = r'[.,;''`~:"]'
-    # Use re.sub to replace all occurrences of Arabic punctuation with an empty string
-    clean = re.sub(arabicPunctPattern + '|' + engPunctPattern, '', text)
-    return clean
-
-def tokenizeArabic(text):
-    # Tokenize the text using the word_tokenize method and return the list of tokenized words
-    return word_tokenize(text)
-
-def extractSarcasticFeatures(tweet):
-    """
-    Extract features from an Arabic tweet for sarcasm detection.
-
-    Args:
-        tweet (str): The Arabic tweet to extract features from.
-
-    Returns:
-        dict: A dictionary of features extracted from the tweet for now.
-
-    IDEA: Put this in cleanData and add another return there for this dict. Remove unwanted features and keep wanted ones
-    """
-    # Define a list of Arabic stop words
-    stop_words = set(nltk.corpus.stopwords.words('arabic'))
-
-    # Tokenize the tweet into words
-    words = word_tokenize(tweet)
-
-    # Calculate the ratio of stop words in the tweet
-    stop_word_count = sum(1 for word in words if word in stop_words)
-
-    # Count the number of exclamation and question marks in the tweet
-    exclamation_count = len(re.findall(r'!', tweet))
-    question_count = len(re.findall(r'\?', tweet))
-
-    # Extract bigram features from the tweet
-    bigrams = list(ngrams(words, 2))
-    bigram_freq = nltk.FreqDist(bigrams)
-    top_bigrams = tuple(bigram_freq.most_common(5))
-
-    # Extract trigram features from the tweet
-    trigrams = list(ngrams(words, 3))
-    trigram_freq = nltk.FreqDist(trigrams)
-    top_trigrams = tuple(trigram_freq.most_common(5))
-
-    # Count the number of Arabic emojis in the tweet
-    emoji_pattern = re.compile("["
-                                    u"\U0001F600-\U0001F64F"  # emoticons
-                                    u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-                                    u"\U0001F680-\U0001F6FF"  # transport & map symbols
-                                    u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
-                                    u"\U00002702-\U000027B0"
-                                    u"\U000024C2-\U0001F251"
-                                    u"\U0001F90C-\U0001F93A"  # Supplemental Symbols
-                                    u"\U0001F93C-\U0001F945"  # and
-                                    u"\U0001F947-\U0001F9FF"  # Pictographs
-                                "]")
-    emoji_count = len(emoji_pattern.findall(tweet))
-
-    #Count the number of consecutive duplicate letters(len>2)
-    consec_dup = len(re.findall(r'(\S)(\1{2,})', tweet))
 
 
-    # Define a dictionary of features
-    features = {
-        'stop_word_count': stop_word_count,
-        'exclamation_count': exclamation_count,
-        'question_count': question_count,
-        'top_bigrams': top_bigrams,
-        'top_trigrams': top_trigrams,
-        'emoji_count': emoji_count,
-        'consecutive_duplicates': consec_dup
-    }
+# dataset = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv")
+# dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\Datasets\GPT Dataset.csv")
+dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\Datasets\full Dataset.csv")
+dataset.info()
+print(f"\n{dataset.head()}")
+cleaned_dataset = preProcessData.preProcessData(dataset.copy(deep=True))
 
-    return features
 
-def format_batch_texts(language_code, batch_texts):
-    formated_bach = [">>{}<< {}".format(language_code, text) for text in batch_texts]
-    return formated_bach
-
-def perform_translation(batch_texts, model, tokenizer, language="en"):
-    # Prepare the text data into appropriate format for the model
-    formated_batch_texts = format_batch_texts(language, batch_texts)
-    
-    # Generate translation using model
-    translated = model.generate(**tokenizer(formated_batch_texts, return_tensors="pt", padding=True))
-
-    # Convert the generated tokens indices back into text
-    translated_texts = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
-    
-    return translated_texts
-
-def cleanData():
-    i = 0
-    for tweet in dataset["tweet"].tolist():
-        #standard tweet cleaning
-        clean = re.sub(r"(http[s]?\://\S+)|([\[\(].*[\)\]])|([#@]\S+)|\n", "", tweet)
-        
-        #Test to see if they're useful or not
-        clean = remove_emojis(clean)
-        clean = removeConsecutiveDuplicates(clean)
-
-        # mandatory arabic preprocessing
-        clean = Normalize.normalize_searchtext(clean)
-        clean = removeEnglish(clean)
-        clean = lemmatizeArabic(clean)
-        clean = removeStopwords(clean)
-        clean = removePunctuation(clean)
-
-        # clean = tokenizeArabic(clean)
-        dataset.loc[i, "tweet"] = clean # replace the old values with the cleaned one.
-        i += 1
-        # add to clean array
-        # cleaned_tweets.append(clean)
-
-def dataAugmentation():
-    # sarcasmRatio = dataset["sarcasm"].value_counts()[0] - dataset["sarcasm"].value_counts()[1]
-    # sarcasmRatio = sarcasmRatio - dataset["sarcasm"].value_counts()[1]
-    sarcasmTweets = dataset[dataset.sarcasm == 1]["tweet"].tolist()
-
-    for i in range(5):
-        englishVersion = perform_translation([sarcasmTweets[i]], englishModel, englishModeltkn, "en")
-        frenchVersion = perform_translation(englishVersion, frenchModel, frenchModeltkn, "fr")
-        arabicVersion = perform_translation(frenchVersion, arabicModel, arabicModeltkn, "ar")
-
-        # sarcasmTweets.append(*arabicVersion)
-        dataset.loc[len(dataset), "tweet"] = str(*arabicVersion)
-        dataset.loc[len(dataset) - 1, "sarcasm"] = True
-
-def tokenization():
-    i = 0
-    for tweet in dataset[["tweet"]].values.tolist():
-        tokenizedTweet = tokenizeArabic(*tweet)
-        dataset.at[i, "tweet"] = tokenizedTweet
-        i += 1
-
-    i = 0
-    for sarcasm in dataset["sarcasm"].tolist():
-        if sarcasm == True:
-            dataset.loc[i, "sarcasm"] = 1
-        else:
-            dataset.loc[i, "sarcasm"] = 0
-        i += 1
-
-    return dataset
-
-def preProcessData():
-    cleanData()
-    print("\n---------- cleanData Done! ----------\n")
-
-    # dataAugmentation()
-    print("\n---------- Skip dataAugmentation for now! ----------\n")
-    
-    data = tokenization()
-    print("\n---------- dataTokenization Done! ----------\n")
-
-    df = orgDataset[['tweet']] # replace with cleaned dataset with just the features we want. Add a feature reduction function and then run the cleaning one
-    features = df['tweet'].apply(extractSarcasticFeatures)
-    feature_columns = features.apply(pd.Series).add_prefix('sarcasm_')
-    df = pd.concat([data, feature_columns], axis=1)
-    
-    return df
-
-englishModelName = "Helsinki-NLP/opus-mt-ar-en"
-frenchModelName = "Helsinki-NLP/opus-mt-en-fr"
-arabicModelName = "Helsinki-NLP/opus-mt-fr-ar"
-
-englishModeltkn = MarianTokenizer.from_pretrained(englishModelName)
-frenchModeltkn = MarianTokenizer.from_pretrained(frenchModelName)
-arabicModeltkn = MarianTokenizer.from_pretrained(arabicModelName)
-
-englishModel = MarianMTModel.from_pretrained(englishModelName)
-frenchModel = MarianMTModel.from_pretrained(frenchModelName)
-arabicModel = MarianMTModel.from_pretrained(arabicModelName)
-
-cleaned_dataset = preProcessData()
-# cleaned_dataset.head()
-cleaned_dataset.to_excel('cleanedset.xlsx')
-# cleaned_dataset.head()
 
 # prepare tokenizer
 T = Tokenizer()
 T.fit_on_texts(cleaned_dataset["tweet"].tolist())
 vocab_size = len(T.word_index) + 1
 
+
+
 # integer encode the documents
 encoded_docs = T.texts_to_sequences(cleaned_dataset["tweet"].tolist())
 # print("encoded_docs:\n",encoded_docs)
+
+
 
 # pad documents to a max length of 4 words
 max_length = len(max(np.array(dataset["tweet"]), key=len))
 padded_docs = pad_sequences(encoded_docs, maxlen = max_length, padding = "post")
 print("\npadded_docs:\n",padded_docs)
+
 
 
 # load the whole embedding into memory
@@ -298,13 +87,17 @@ TOTAL_EMBEDDING_DIM = 300
 # Aravec Twitter-SkipGram Model ===> https://bakrianoo.ewr1.vultrobjects.com/aravec/full_grams_sg_300_twitter.zip
 # Aravec Wikipedia-CBOW Model ===> https://bakrianoo.ewr1.vultrobjects.com/aravec/full_grams_cbow_300_wiki.zip
 # Aravec Wikipedia-SkipGram Model ===> https://bakrianoo.ewr1.vultrobjects.com/aravec/full_grams_sg_300_wiki.zip
-embeddings_file = r"Aravec Twitter-CBOW Model\full_grams_cbow_300_twitter.mdl"
+embeddings_file = r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\full_grams_cbow_300_twitter\full_grams_cbow_300_twitter.mdl"
 w2v_model = KeyedVectors.load(embeddings_file)
+
+
 
 for word in w2v_model.wv.index_to_key:
     w2v_embeddings_index[word] = w2v_model.wv[word]
 
 print("\nLoaded %s word vectors."% len(w2v_embeddings_index))
+
+
 
 # create a weight matrix for words in training docs
 embedding_matrix = np.zeros((vocab_size, TOTAL_EMBEDDING_DIM))
@@ -316,14 +109,45 @@ for word, i in T.word_index.items():
 
 print("\nEmbedding Matrix shape:", embedding_matrix.shape)
 
-embedding_layer = tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, weights=[embedding_matrix], input_length=4, trainable=False)
+
 
 # define model
-input_placeholder= tf.keras.Input(shape=(max_length,), dtype = "int32")
-input_embedding = embedding_layer(input_placeholder)
-lstm = tf.keras.layers.LSTM(units = 10, activation = "relu")(input_embedding)
-preds = tf.keras.layers.Dense(1, activation = "sigmoid", name = "activation")(lstm)
-model = tf.keras.models.Model(inputs = input_placeholder, outputs = preds)
+# embedding_layer = tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, weights=[embedding_matrix], input_length=4, trainable=False)
+# input_placeholder= tf.keras.Input(shape=(max_length,), dtype = "int32")
+# input_embedding = embedding_layer(input_placeholder)
+# lstm = tf.keras.layers.LSTM(units = 10, activation = "relu")(input_embedding)
+# preds = tf.keras.layers.Dense(1, activation = "sigmoid", name = "activation")(lstm)
+# model = tf.keras.models.Model(inputs = input_placeholder, outputs = preds)
+
+model = tf.keras.Sequential([
+    # Embedding layer for creating word embeddings
+    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
+
+    # GlobalMaxPooling layer to extract relevant features
+    tf.keras.layers.GlobalMaxPool1D(),
+
+    # First Dense layer with 40 neurons and ReLU activation
+    tf.keras.layers.Dense(40, activation='relu'),
+
+    # Dropout layer to prevent overfitting
+    tf.keras.layers.Dropout(0.5),
+
+    # Second Dense layer with 20 neurons and ReLU activation
+    tf.keras.layers.Dense(20, activation='relu'),
+
+    # Dropout layer to prevent overfitting
+    tf.keras.layers.Dropout(0.5),
+
+    # Third Dense layer with 10 neurons and ReLU activation
+    tf.keras.layers.Dense(10, activation='relu'),
+
+    # Dropout layer to prevent overfitting
+    tf.keras.layers.Dropout(0.2),
+
+    # Final Dense layer with 1 neuron and sigmoid activation for binary classification
+    tf.keras.layers.Dense(1, activation='sigmoid')
+])
+
 
 # compile the model
 model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate = 0.001, beta_1=0.9, beta_2=0.999), metrics=["accuracy"])
@@ -331,17 +155,20 @@ model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(lea
 # summarize the model
 print(f"\n{model.summary()}")
 print("\n # Wait just Fitting model on training data")
-plot_model(model, to_file='summary.png', show_shapes=True, show_layer_names=True)
+plot_model(model, to_file='summary.png', show_shapes=True, show_layer_names=True, dpi=1000)
 
 # splits into traint & test
-tweet_train, tweet_test, labeled_train, labeled_test = train_test_split(padded_docs, array(cleaned_dataset[["sarcasm"]].values.tolist()), test_size=0.20)
+tweet_train, tweet_test, labeled_train, labeled_test = train_test_split(padded_docs, array(cleaned_dataset[["sarcasm"]].values.tolist()), test_size=0.20, random_state=42)
 
 # fit the model
-model.fit(tweet_train, labeled_train, epochs = 15, verbose = 1, callbacks=[callback]) # type: ignore
+model.fit(tweet_train, labeled_train, epochs = 5, verbose = 1, callbacks=[callback]) # type: ignore
 
 # evaluate the model
 loss, accuracy = model.evaluate(tweet_test, labeled_test, verbose = 0) # type: ignore
 print("\nAccuracy: %f" %(accuracy*100))
+
+
+
 
 # get Classification report
 predicted = np.round(model.predict(tweet_test))
@@ -349,83 +176,19 @@ report = classification_report(labeled_test, predicted, target_names=["0", "1"])
 
 print(f"\n{report}\n")
 
-"""
-# Instantiate the classification model and visualizer
-bayes = GaussianNB()
-visualizer = ClassificationReport(bayes, support=True)
 
-visualizer.fit(tweet_train, labeled_train)  # Fit the visualizer and the model
-visualizer.score(tweet_test, labeled_test)  # Evaluate the model on the test data
-visualizer.show() 
-"""
 
-"""
-print ("\n\n ######################## \n\n")
+confusionMatrix = confusion_matrix(labeled_test, predicted)
 
-# Testing the model
-tweets = ["ما أجمل العيش في وسط الفوضى والفساد",
-            "أنا أحب الطبيعة والهدوء والإسترخاء",
-            "أشعر بالفخر لأنني أعمل بجد لتحقيق أهدافي",
-            "الأسرة هي الأساس الذي يقوم عليه المجتمع",
-            "لا يوجد شيء أفضل من تجربة الإنتاجية في أجواء العمل المريحة",
-            "ما أروع أن يعيش الإنسان في عصر الكذب والنفاق",
-            "العمل الجماعي يعزز الروح الإيجابية ويحقق النجاح المشترك",
-            "أحب أن أقوم بأعمال البحث والتنقيب على الإنترنت بدلًا من الإستمتاع بالطقس الجميل في الخارج",
-            "يا لها من فرصة رائعة لقضاء العطلة في العمل والتعب",
-            "التعليم هو المفتاح لتحقيق الإنجازات والنجاح في الحياة"]
+ax= plt.subplot()
+sns.heatmap(confusionMatrix, annot=True, fmt='g', ax=ax, cmap="viridis") # annot=True to annotate cells, ftm='g' to disable scientific notation
 
-for tweet in tweets:
-    encoded_text = T.texts_to_sequences([tweet])
-    # print("encoded_text:\n",encoded_text)
+# labels, title and ticks
+ax.set_xlabel('Predicted labels')
+ax.set_ylabel('True labels')
+ax.set_title(f"Accuracy: {accuracy*100:.2f}%")
+ax.xaxis.set_ticklabels(["0", "1"])
+ax.yaxis.set_ticklabels(["0", "1"])
 
-    # pad documents to a max length of 4 words
-    padded_text = pad_sequences(encoded_text, maxlen = max_length, padding="post")
-    # print("padded_text:\n",padded_text)
-
-    result=int(model.predict(padded_text).round().item())
-    print("Input %s Prediction: %s\n" %(tweet, result))
-# predicted output is 1 0 0 0 1 1 0 1 1 0
-"""
-
-"""
-# --------------------------Below here are various tests--------------------------
-
-print(lemmatizeArabic("ينتظرون"))
-
-print(tokenizeArabic(lemmatizeArabic(removeConsecutiveDuplicates(Normalize.normalize_searchtext(" هههههههههههههههههههه إحنا بنكتب صح يا باشا مش مستنين شوية إصفار ووحايد يقولولنا نكتب إزاي")))))
-
-tokens = tokenizeArabic("الكويس إنك مش هتروح تبحث علي النت عشان تسطب اللغه")
-print(tokens)
-tagged = nltk.pos_tag(tokens) # tagger not accurate for arabic. Check other taggers
-print(tagged)
-
-print("أستشتري دمـــى آلية لأبنائك قبل الإغلاق"[::-1])
-
-print(removeEnglish(removeStopwords("كان helloاحمد في المدرسة قبل البارحة")))
-
-extractSarcasticFeatures(removePunctuation(removeEnglish(removeStopwords(re.sub(r"(http[s]?\://\S+)|([\[\(].*[\)\]])|([#@]\S+)|\n", "",dataset["tweet"][3])))))
-"""
-
-"""
-test = [
-        "د.محمود_العلايلي:أرى أن الفريق أحمد شفيق رقم مهم في المعادلة السياسية المصرية ولا يمكن إغفاله هل ترى أن هذا صحيح؟",
-        "مع فيدرر يا آجا والكبار",
-        "الداعون لمبدأ الاختلاط بين الجنسين؛ كالداعين لإلغاء التسعيرة كلاهما يريد تصفية السوق السوداء بجعلها حرة.",
-        "قل شرق حلب ولا تقل حلب الشرقية ....وقل غرب حلب ولا تقل حلب الغربية ....فحلب موحدة ويريدونها منقسمة",
-        "مرسي : مش هنام اكتر من اربع ساعات في اليوم...... لو نمت دقيقة كمان زيادة هديك علي دماغك",
-        "ذهبت إلي المدرسة صباحا"
-        ]
-
-for tweet in test:
-
-    englishVersion = perform_translation([tweet], englishModel, englishModeltkn, "en")
-    frenchVersion = perform_translation(englishVersion, frenchModel, frenchModeltkn, "fr")
-    arabicVersion = perform_translation(frenchVersion, arabicModel, arabicModeltkn, "ar")
-
-    print(tweet)
-    print(englishVersion)
-    print(frenchVersion)
-    print(arabicVersion)
-
-    print("")
-"""
+plt.savefig(f"keras - Full dataset.png", dpi=1000)
+plt.close()
