@@ -10,7 +10,7 @@ import shutil
 import warnings
 import numpy as np
 import pandas as pd
-import preProcessData
+import preProcessData # type: ignore
 import seaborn as sns
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -171,8 +171,8 @@ ax.set_xlabel('Predicted labels')
 ax.set_ylabel('True labels')
 ax.set_title(f"Accuracy: {testScore*100:.2f}%")
 
-ax.xaxis.set_ticklabels([0, 1])
-ax.yaxis.set_ticklabels([0, 1])
+ax.xaxis.set_ticklabels(["Class: 0", "Class: 1"])
+ax.yaxis.set_ticklabels(["Class: 0", "Class: 1"])
 
 plt.savefig(r"keras confusionMatrix.png", dpi=1000)
 plt.show()
