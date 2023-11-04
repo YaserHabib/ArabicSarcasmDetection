@@ -1,5 +1,8 @@
+import math
 import os
 import sys
+
+from matplotlib.pylab import beta
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -35,9 +38,14 @@ if os.path.isdir("logs"):
 
 
 
-# dataset = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv")
-# dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\Datasets\GPT Dataset.csv")
-dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\Datasets\full Dataset.csv")
+# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv"), "Original Dataset"
+# dataset, datasetName = pd.read_csv(r"../../Datasets/GPT Dataset.csv"), "GPT Combined Dataset"
+dataset, datasetName = pd.read_csv(r"../../Datasets/full Dataset.csv"), "Full Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../Datasets/augmented Dataset.csv"), "Augmented Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../Datasets/backtrans Dataset.csv"), "Back Translated Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../Datasets/synrep Dataset.csv"), "Synonym Replacement Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../Datasets/backGPT Dataset.csv"), "Back Translated & GPT Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../Datasets/synGPT Dataset.csv"), "Synonym Replacement & GPT Combined Dataset"
 
 dataset.info()
 print(f"\n{dataset.head()}")
@@ -104,22 +112,22 @@ print("\nEmbedding Matrix shape:", embedding_matrix.shape)
 #     tf.keras.layers.GlobalMaxPool1D(),
 
 #     # First Dense layer with 40 neurons and ReLU activation
-#     tf.keras.layers.Dense(40, activation='relu'),
+#     tf.keras.layers.Dense(64, activation='relu'),
 
 #     # Dropout layer to prevent overfitting
 #     tf.keras.layers.Dropout(0.5),
 
 #     # Second Dense layer with 20 neurons and ReLU activation
-#     tf.keras.layers.Dense(20, activation='relu'),
+#     tf.keras.layers.Dense(16, activation='relu'),
 
 #     # Dropout layer to prevent overfitting
-#     tf.keras.layers.Dropout(0.5),
+#     tf.keras.layers.Dropout(0.4),
 
 #     # Third Dense layer with 10 neurons and ReLU activation
-#     tf.keras.layers.Dense(10, activation='relu'),
+#     tf.keras.layers.Dense(4, activation='relu'),
 
 #     # Dropout layer to prevent overfitting
-#     tf.keras.layers.Dropout(0.2),
+#     tf.keras.layers.Dropout(0.1),
 
 #     # Final Dense layer with 1 neuron and sigmoid activation for binary classification
 #     tf.keras.layers.Dense(1, activation='sigmoid')
@@ -128,28 +136,19 @@ print("\nEmbedding Matrix shape:", embedding_matrix.shape)
 
 model = tf.keras.Sequential([
 
-    # tf.keras.layers.Input(shape=(max_length,)),
+    tf.keras.layers.InputLayer(input_shape=(max_length,)),
 
     # Embedding layer for creating word embeddings
     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
 
+    # Conv1D layer for pattern recognition model and extract the feature from the vectors
+    tf.keras.layers.Conv1D(filters=128, kernel_size=2),
+    
     # GlobalMaxPooling layer to extract relevant features
     tf.keras.layers.GlobalMaxPool1D(),
 
     # First Dense layer with 64 neurons and ReLU activation
-    tf.keras.layers.Dense(64, activation='relu'),
-
-    # Dropout layer to prevent overfitting
-    tf.keras.layers.Dropout(0.25),
-
-    # Second Dense layer with 4 neurons and ReLU activation
     tf.keras.layers.Dense(16, activation='relu'),
-
-    # Dropout layer to prevent overfitting
-    tf.keras.layers.Dropout(0.4),
-
-    # Second Dense layer with 4 neurons and ReLU activation
-    tf.keras.layers.Dense(4, activation='relu'),
 
     # Dropout layer to prevent overfitting
     tf.keras.layers.Dropout(0.5),
@@ -159,9 +158,9 @@ model = tf.keras.Sequential([
 ])
 
 
-
+# learning_rate = 0.00001, beta_1=0.99, beta_2=0.9999
 # compile the model
-model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(), metrics=["accuracy"])
+model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate=0.00001), metrics=["accuracy"])
 
 
 
@@ -183,11 +182,12 @@ tweet_train, tweet_test, labeled_train, labeled_test = train_test_split(padded_d
 
 
 # fit the model
-result = model.fit(tweet_train, labeled_train, batch_size = 32, epochs = 10, validation_data = (tweet_test, labeled_test), verbose = 1, callbacks=[callback]) # type: ignore
+result = model.fit(tweet_train, labeled_train, epochs = 40, validation_data = (tweet_test, labeled_test), verbose = 1, callbacks=[callback]) # type: ignore
 
 
 
 # get Classification report
+print()
 predicted = np.round(model.predict(tweet_test))
 accuracy = accuracy_score(labeled_test, predicted)
 report = classification_report(labeled_test, predicted, target_names=["non-Sarcasm", "Sarcasm"])

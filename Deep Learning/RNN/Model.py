@@ -60,7 +60,7 @@ encoded_docs = T.texts_to_sequences(cleaned_dataset["tweet"].tolist())
 
 
 # pad documents to a max length of 4 words
-max_length = len(max(np.array(dataset["tweet"]), key=len))
+max_length = len(max(np.array(cleaned_dataset["tweet"]), key=len))
 padded_docs = pad_sequences(encoded_docs, maxlen = max_length, padding = "post")
 print("\npadded_docs:\n",padded_docs)
 
@@ -92,21 +92,20 @@ for word, i in T.word_index.items():
 print("\nEmbedding Matrix shape:", embedding_matrix.shape)
 
 
-model = tf.keras.models.Sequential([
-    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
-    tf.keras.layers.LSTM(64, dropout=0.5, recurrent_dropout=0.3),
-    tf.keras.layers.Dense(1)
-    ])
+# model = tf.keras.models.Sequential([
+#     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
+
+#     tf.keras.layers.LSTM(64, dropout=0.2, recurrent_dropout=0.25),
+
+#     tf.keras.layers.Dense(1, activation="sigmoid")
+#     ])
 
 # model = tf.keras.Sequential([
 #     # Embedding layer for creating word embeddings
 #     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
 
 #     # Second Dense layer with 16 neurons and ReLU activation
-#     tf.keras.layers.SimpleRNN(64, activation='relu'),
-
-#     # Dropout layer to prevent overfitting
-#     tf.keras.layers.Dropout(0.5),
+#     tf.keras.layers.SimpleRNN(64, dropout=0.5, recurrent_dropout=0.3,  activation='relu'),
 
 #     tf.keras.layers.Dense(1, activation="sigmoid")
 # ])
@@ -115,21 +114,23 @@ model = tf.keras.models.Sequential([
 #     # Embedding layer for creating word embeddings
 #     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
 
-#     tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(units=64 , recurrent_dropout = 0.3 , dropout = 0.3, return_sequences = True)),
-#     tf.keras.layers.Bidirectional(tf.keras.layers.GRU(units=16 , recurrent_dropout = 0.1 , dropout = 0.1)),
-#     tf.keras.layers.Dense(1, activation="sigmoid")
-# ])
+#     tf.keras.layers.LSTM(units=64 , recurrent_dropout = 0.3 , dropout = 0.3, return_sequences = True),
 
-# model = tf.keras.Sequential([
-#     # Embedding layer for creating word embeddings
-#     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
-
-#     tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, dropout = 0.3, recurrent_dropout=0.3, return_sequences = True)),
-
-#     tf.keras.layers.Bidirectional(tf.keras.layers.GRU(16, dropout = 0.1)),
+#     tf.keras.layers.GRU(units=16 , recurrent_dropout = 0.1 , dropout = 0.1),
 
 #     tf.keras.layers.Dense(1, activation="sigmoid")
 # ])
+
+model = tf.keras.Sequential([
+    # Embedding layer for creating word embeddings
+    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
+
+    tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, dropout = 0.5, recurrent_dropout=0.3, return_sequences = True)),
+
+    tf.keras.layers.Bidirectional(tf.keras.layers.GRU(4, dropout = 0.5)),
+
+    tf.keras.layers.Dense(1, activation="sigmoid")
+])
 
 
 # compile the model
@@ -155,7 +156,7 @@ tweet_train, labeled_train = sm.fit_resample(tweet_train, labeled_train) # type:
 
 
 # fit the model
-result = model.fit(tweet_train, labeled_train, batch_size = 32, epochs = 10, validation_data = (tweet_test, labeled_test), verbose = 1, callbacks=[callback]) # type: ignore
+result = model.fit(tweet_train, labeled_train, batch_size = 32, epochs = 25, validation_data = (tweet_test, labeled_test), verbose = 1, callbacks=[callback]) # type: ignore
 
 
 
