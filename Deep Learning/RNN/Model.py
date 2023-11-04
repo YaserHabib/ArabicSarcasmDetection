@@ -69,7 +69,7 @@ print("\npadded_docs:\n",padded_docs)
 # load the whole embedding into memory
 w2v_embeddings_index = {}
 TOTAL_EMBEDDING_DIM = 300
-embeddings_file = r"C:\Users\Perseus\Downloads\Embeddings-20231002T115827Z-001\Embeddings\Aravec CBOW Model\full_grams_cbow_300_twitter.mdl"
+embeddings_file = r"..\..\Embeddings\Aravec CBOW Model\tweets_cbow_300"
 w2v_model = KeyedVectors.load(embeddings_file)
 
 
