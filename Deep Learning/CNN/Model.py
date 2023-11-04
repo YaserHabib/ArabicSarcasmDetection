@@ -6,7 +6,7 @@ from matplotlib.pylab import beta
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
-sys.path.append(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\sysPath")
+sys.path.append(r"..\..\sysPath")
 os.chdir(dname)
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Set TensorFlow logging level to 2 (ERROR)
@@ -77,7 +77,7 @@ print("\npadded_docs:\n",padded_docs)
 # load the whole embedding into memory
 w2v_embeddings_index = {}
 TOTAL_EMBEDDING_DIM = 300
-embeddings_file = r"../../full_grams_cbow_300_twitter/full_grams_cbow_300_twitter.mdl"
+embeddings_file = r"../../Embeddings\Aravec CBOW Model\full_grams_cbow_300_twitter.mdl"
 w2v_model = KeyedVectors.load(embeddings_file)
 
 

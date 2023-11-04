@@ -3,7 +3,7 @@ import sys
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
-sys.path.append(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\sysPath")
+sys.path.append(r"..\..\syspath")
 os.chdir(dname)
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Set TensorFlow logging level to 2 (ERROR)
@@ -37,7 +37,7 @@ if os.path.isdir("logs"):
 
 # dataset = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv")
 # dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\Datasets\GPT Dataset.csv")
-dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\Datasets\full Dataset.csv")
+dataset = pd.read_csv(r"..\..\Datasets\full Dataset.csv")
 
 dataset.info()
 print(f"\n{dataset.head()}")
@@ -69,7 +69,7 @@ print("\npadded_docs:\n",padded_docs)
 # load the whole embedding into memory
 w2v_embeddings_index = {}
 TOTAL_EMBEDDING_DIM = 300
-embeddings_file = r"../../full_grams_cbow_300_twitter/full_grams_cbow_300_twitter.mdl"
+embeddings_file = r"C:\Users\Perseus\Downloads\Embeddings-20231002T115827Z-001\Embeddings\Aravec CBOW Model\full_grams_cbow_300_twitter.mdl"
 w2v_model = KeyedVectors.load(embeddings_file)
 
 
