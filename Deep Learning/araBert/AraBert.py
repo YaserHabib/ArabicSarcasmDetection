@@ -7,8 +7,6 @@ dname = os.path.dirname(abspath)
 sys.path.append(r"..\..\sysPath")
 os.chdir(dname)
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
 from transformers import TFAutoModelForSequenceClassification, AutoTokenizer
 from arabert import ArabertPreprocessor
 import shutil
@@ -19,6 +17,9 @@ import seaborn as sns
 import preProcessData #type: ignore
 import tensorflow as tf
 import matplotlib.pyplot as plt
+
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 MODEL_NAME = "aubmindlab/bert-base-arabertv02"
 
@@ -34,7 +35,7 @@ encoded_tweets = tokenizer(tweets, padding=True, truncation=True, max_length=128
 
 # Labels
 # Assume 0 for 'not sarcastic' and 1 for 'sarcastic'
-labels = [0, 1]  # Replace with your labels
+labels = dataset['sarcasm'].values  # Replace with your labels
 labels = tf.keras.utils.to_categorical(labels, num_classes=2)
 
 # Load the AraBERT model with a classification head
