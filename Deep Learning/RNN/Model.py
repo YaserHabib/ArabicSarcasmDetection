@@ -37,8 +37,9 @@ if os.path.isdir("logs"):
 
 
 # dataset = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv")
-# dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\Datasets\GPT Dataset.csv")
-dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\Datasets\full Dataset.csv")
+# dataset = pd.read_csv(r"../../../Datasets/GPT Dataset.csv")
+dataset = pd.read_csv(r"../../Datasets/full Dataset.csv")
+# dataset, datasetName = pd.read_csv(r"../../Datasets/balanced.csv"), "balanced dataset from original"
 
 dataset.info()
 print(f"\n{dataset.head()}")
@@ -112,12 +113,15 @@ print("\nEmbedding Matrix shape:", embedding_matrix.shape)
 # ])
 
 model = tf.keras.Sequential([
+
+    tf.keras.layers.InputLayer(input_shape=(max_length,)),
+
     # Embedding layer for creating word embeddings
     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
 
-    tf.keras.layers.LSTM(units=64, dropout = 0.5, recurrent_dropout=0.4, return_sequences = True),
+    tf.keras.layers.LSTM(units=10, activation="relu", return_sequences = True),
 
-    tf.keras.layers.GRU(units=16, dropout = 0.4, recurrent_dropout=0.2),
+    tf.keras.layers.GRU(units=4),
 
     tf.keras.layers.Dense(1, activation="sigmoid")
 ])
@@ -135,7 +139,7 @@ model = tf.keras.Sequential([
 
 
 # compile the model
-model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), metrics=["accuracy"])
+model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(), metrics=["accuracy"])
 
 
 
@@ -160,7 +164,7 @@ train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet,
 # fit the model
 class_weights = class_weight.compute_class_weight(class_weight="balanced", classes=np.unique(train_labels), y=train_labels)
 class_weights = dict(enumerate(class_weights))
-result = model.fit(train_tweet, train_labels, epochs = 35, verbose = 1, validation_data=(val_tweet, val_labels), callbacks=[callback]) # type: ignore
+result = model.fit(train_tweet, train_labels, epochs = 10, verbose = 1, validation_data=(val_tweet, val_labels), callbacks=[callback]) # type: ignore
 
 
 
