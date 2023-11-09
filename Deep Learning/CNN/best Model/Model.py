@@ -1,9 +1,8 @@
 import os
 import sys
-
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
-sys.path.append(r"../../syspath")
+sys.path.append(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\sysPath")
 os.chdir(dname)
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Set TensorFlow logging level to 2 (ERROR)
@@ -16,13 +15,13 @@ import seaborn as sns
 import preProcessData #type: ignore
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from imblearn.over_sampling import SMOTE
 
 from keras.utils import plot_model
 from keras.utils import pad_sequences
 from gensim.models import KeyedVectors
 from sklearn.utils import class_weight
 from keras.callbacks import TensorBoard
+from imblearn.over_sampling import SMOTE
 from keras.preprocessing.text import Tokenizer
 
 from sklearn.model_selection import train_test_split
@@ -36,9 +35,14 @@ if os.path.isdir("logs"):
 
 
 
-# dataset = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv")
-# dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\Datasets\GPT Dataset.csv")
-dataset = pd.read_csv(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\Datasets\full Dataset.csv")
+# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv"), "Original Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/GPT Dataset.csv"), "GPT Combined Dataset"
+dataset, datasetName = pd.read_csv(r"../../../Datasets/full Dataset.csv"), "Full Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/augmented Dataset.csv"), "Augmented Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/backtrans Dataset.csv"), "Back Translated Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/synrep Dataset.csv"), "Synonym Replacement Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/backGPT Dataset.csv"), "Back Translated & GPT Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/synGPT Dataset.csv"), "Synonym Replacement & GPT Combined Dataset"
 
 dataset.info()
 print(f"\n{dataset.head()}")
@@ -61,7 +65,7 @@ encoded_docs = T.texts_to_sequences(cleaned_dataset["tweet"].tolist())
 
 
 # pad documents to a max length of 4 words
-max_length = len(max(np.array(cleaned_dataset["tweet"]), key=len))
+max_length = len(max(np.array(dataset["tweet"]), key=len))
 padded_docs = pad_sequences(encoded_docs, maxlen = max_length, padding = "post")
 print("\npadded_docs:\n",padded_docs)
 
@@ -70,7 +74,7 @@ print("\npadded_docs:\n",padded_docs)
 # load the whole embedding into memory
 w2v_embeddings_index = {}
 TOTAL_EMBEDDING_DIM = 300
-embeddings_file = r"../../full_grams_cbow_300_twitter/full_grams_cbow_300_twitter.mdl"
+embeddings_file = r"../../../full_grams_cbow_300_twitter/full_grams_cbow_300_twitter.mdl"
 w2v_model = KeyedVectors.load(embeddings_file)
 
 
@@ -93,49 +97,35 @@ for word, i in T.word_index.items():
 print("\nEmbedding Matrix shape:", embedding_matrix.shape)
 
 
-# model = tf.keras.models.Sequential([
-#     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
-
-#     tf.keras.layers.LSTM(64, dropout=0.2, recurrent_dropout=0.25),
-
-#     tf.keras.layers.Dense(1, activation="sigmoid")
-#     ])
-
-# model = tf.keras.Sequential([
-#     # Embedding layer for creating word embeddings
-#     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
-
-#     # Second Dense layer with 16 neurons and ReLU activation
-#     tf.keras.layers.SimpleRNN(64, dropout=0.5, recurrent_dropout=0.3,  activation='relu'),
-
-#     tf.keras.layers.Dense(1, activation="sigmoid")
-# ])
 
 model = tf.keras.Sequential([
+
+    tf.keras.layers.InputLayer(input_shape=(max_length,)),
+
     # Embedding layer for creating word embeddings
-    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
+    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length, trainable=False),
 
-    tf.keras.layers.LSTM(units=64, dropout = 0.5, recurrent_dropout=0.4, return_sequences = True),
+    # Conv1D layer for pattern recognition model and extract the feature from the vectors
+    tf.keras.layers.Conv1D(filters=64, kernel_size=3),
+    
+    # GlobalMaxPooling layer to extract relevant features
+    tf.keras.layers.GlobalMaxPool1D(),
 
-    tf.keras.layers.GRU(units=16, dropout = 0.4, recurrent_dropout=0.2),
+    # First Dense layer with 64 neurons and ReLU activation
+    tf.keras.layers.Dense(16, activation='relu'),
 
-    tf.keras.layers.Dense(1, activation="sigmoid")
+    # Dropout layer to prevent overfitting
+    tf.keras.layers.Dropout(0.5),
+
+    # Final Dense layer with 1 neuron and sigmoid activation for binary classification
+    tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 
-# model = tf.keras.Sequential([
-#     # Embedding layer for creating word embeddings
-#     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length, trainable=False),
-
-#     tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, dropout = 0.5, return_sequences = True)),
-
-#     tf.keras.layers.Bidirectional(tf.keras.layers.GRU(4, dropout = 0.5)),
-
-#     tf.keras.layers.Dense(1, activation="sigmoid")
-# ])
 
 
+# learning_rate = 0.00001, beta_1=0.99, beta_2=0.9999
 # compile the model
-model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), metrics=["accuracy"])
+model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate=0.00001), metrics=["accuracy"])
 
 
 
@@ -160,7 +150,7 @@ train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet,
 # fit the model
 class_weights = class_weight.compute_class_weight(class_weight="balanced", classes=np.unique(train_labels), y=train_labels)
 class_weights = dict(enumerate(class_weights))
-result = model.fit(train_tweet, train_labels, epochs = 35, verbose = 1, validation_data=(val_tweet, val_labels), callbacks=[callback]) # type: ignore
+result = model.fit(train_tweet, train_labels, epochs = 20, verbose = 1, validation_data=(val_tweet, val_labels), callbacks=[callback]) # type: ignore
 
 
 

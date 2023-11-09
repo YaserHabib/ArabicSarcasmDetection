@@ -16,9 +16,9 @@ style.use("ggplot")
 
 
 
-#nltk.download('punkt')  # download punkt tokenizer if not already downloaded
-#nltk.download('stopwords') # download stopwords if not already downloaded
-#nltk.download('averaged_perceptron_tagger')
+# nltk.download('punkt')  # download punkt tokenizer if not already downloaded
+# nltk.download('stopwords') # download stopwords if not already downloaded
+# nltk.download('averaged_perceptron_tagger')
 warnings.filterwarnings(action = 'ignore')
 
 
@@ -101,6 +101,7 @@ def cleanData(dataset):
     for index, tweet in enumerate(dataset["tweet"].tolist()):
         #standard tweet cleaning
         clean = re.sub(r"(http[s]?\://\S+)|([\[\(].*[\)\]])|([#@]\S+)|\n", "", tweet)
+        clean = re.sub(r"[,.\"\'!@#$%^&*(){}?/;`~:<>+=-«»…؟“]", "", clean)
         
         #Test to see if they're useful or not
         clean = remove_emojis(clean)
@@ -137,12 +138,12 @@ def tokenization(dataset):
 def preProcessData(dataset):
 
     data = cleanData(dataset.copy(deep=True))
-    print("\n----------         cleanData Done!         ----------\n")
+    print("\n\t----------        cleanData Done!        ----------\n")
 
     # dataAugmentation()
     print("\n---------- dataAugmentation done in a separate file ----------\n")
 
     data = tokenization(data.copy(deep=True))
-    print("\n----------     dataTokenization Done!      ----------\n")
+    print("\n\t---------     dataTokenization Done!     ----------\n")
 
     return data
