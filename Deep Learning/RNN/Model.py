@@ -94,13 +94,16 @@ for word, i in T.word_index.items():
 print("\nEmbedding Matrix shape:", embedding_matrix.shape)
 
 
-# model = tf.keras.models.Sequential([
-#     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
+model = tf.keras.models.Sequential([
 
-#     tf.keras.layers.LSTM(64, dropout=0.2, recurrent_dropout=0.25),
+    tf.keras.layers.InputLayer(input_shape=(max_length,)),
 
-#     tf.keras.layers.Dense(1, activation="sigmoid")
-#     ])
+    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
+
+    tf.keras.layers.LSTM(10),
+
+    tf.keras.layers.Dense(1, activation="sigmoid")
+    ])
 
 # model = tf.keras.Sequential([
 #     # Embedding layer for creating word embeddings
@@ -112,19 +115,19 @@ print("\nEmbedding Matrix shape:", embedding_matrix.shape)
 #     tf.keras.layers.Dense(1, activation="sigmoid")
 # ])
 
-model = tf.keras.Sequential([
+# model = tf.keras.Sequential([
 
-    tf.keras.layers.InputLayer(input_shape=(max_length,)),
+#     tf.keras.layers.InputLayer(input_shape=(max_length,)),
 
-    # Embedding layer for creating word embeddings
-    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
+#     # Embedding layer for creating word embeddings
+#     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
 
-    tf.keras.layers.LSTM(units=10, activation="relu", return_sequences = True),
+#     tf.keras.layers.LSTM(units=10, return_sequences = True),
 
-    tf.keras.layers.GRU(units=4),
+#     tf.keras.layers.GRU(units=4),
 
-    tf.keras.layers.Dense(1, activation="sigmoid")
-])
+#     tf.keras.layers.Dense(1, activation="sigmoid")
+# ])
 
 # model = tf.keras.Sequential([
 #     # Embedding layer for creating word embeddings
@@ -152,7 +155,7 @@ plot_model(model, to_file='summary.png', show_shapes=True, show_layer_names=True
 
 # splits into traint, validation, and test
 train_tweet, test_tweet, train_labels, test_labels = train_test_split(padded_docs, cleaned_dataset["sarcasm"].to_numpy(), test_size=0.20)
-train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size=0.20)
+# train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size=0.20)
 
 
 
@@ -164,7 +167,7 @@ train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet,
 # fit the model
 class_weights = class_weight.compute_class_weight(class_weight="balanced", classes=np.unique(train_labels), y=train_labels)
 class_weights = dict(enumerate(class_weights))
-result = model.fit(train_tweet, train_labels, epochs = 10, verbose = 1, validation_data=(val_tweet, val_labels), callbacks=[callback]) # type: ignore
+result = model.fit(train_tweet, train_labels, epochs = 10, verbose = 2, callbacks=[callback]) # type: ignore
 
 
 
