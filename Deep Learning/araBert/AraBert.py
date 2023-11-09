@@ -60,3 +60,38 @@ model.fit(train_dataset, epochs=3)
 
 # To make predictions
 # predictions = model.predict(encoded_tweets['input_ids'], attention_mask=encoded_tweets['attention_mask'])
+
+'''
+import pandas as pd
+import tensorflow as tf
+from transformers import AutoTokenizer
+from arabert import ArabertPreprocessor
+
+# Load the dataset
+dataset = pd.read_csv(r"path_to_your/full Dataset.csv")
+
+# Convert boolean 'sarcasm' labels to integers
+dataset['sarcasm'] = dataset['sarcasm'].astype(int)
+
+# Convert labels to categorical format
+labels = tf.keras.utils.to_categorical(dataset['sarcasm'], num_classes=2)
+
+# Prepare the tokenizer and preprocessor
+MODEL_NAME = "aubmindlab/bert-base-arabertv02"
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+preprocess = ArabertPreprocessor(model_name=MODEL_NAME)
+
+# Tokenize the tweets
+tweets = dataset["tweet"].apply(lambda x: preprocess.preprocess(x)).tolist()
+encoded_tweets = tokenizer(tweets, padding=True, truncation=True, max_length=128, return_tensors="tf")
+
+# Ensure that the number of labels matches the number of tweets
+assert len(labels) == len(encoded_tweets['input_ids'])
+
+# Create the TensorFlow dataset
+train_dataset = tf.data.Dataset.from_tensor_slices((
+    dict(input_ids=encoded_tweets['input_ids'], attention_mask=encoded_tweets['attention_mask']),
+    labels
+)).shuffle(len(tweets)).batch(8)
+
+'''
