@@ -42,9 +42,13 @@ dataset = pd.read_csv(r"../../Datasets/full Dataset.csv")
 # dataset, datasetName = pd.read_csv(r"../../Datasets/balanced.csv"), "balanced dataset from original"
 
 dataset.info()
-print(f"\n{dataset.head()}")
+print(f"\n{dataset.head()}\n")
 
 cleaned_dataset = preProcessData.preProcessData(dataset.copy(deep=True))
+print("="*50)
+cleaned_dataset.info()
+print(f"{cleaned_dataset.head()}")
+print("="*50)
 
 
 
@@ -91,58 +95,24 @@ for word, i in T.word_index.items():
     if embedding_vector is not None:
         embedding_matrix[i] = embedding_vector
 
-print("\nEmbedding Matrix shape:", embedding_matrix.shape)
+print("Embedding Matrix shape:", embedding_matrix.shape, "\n")
 
 
-model = tf.keras.models.Sequential([
 
-    tf.keras.layers.InputLayer(input_shape=(max_length,)),
+model = tf.keras.Sequential([
+    # Embedding layer for creating word embeddings
+    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length, trainable=True),
 
-    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
+    tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, dropout = 0.5, return_sequences = True)),
 
-    tf.keras.layers.LSTM(10),
+    tf.keras.layers.Bidirectional(tf.keras.layers.GRU(4, dropout = 0.5)),
 
     tf.keras.layers.Dense(1, activation="sigmoid")
-    ])
-
-# model = tf.keras.Sequential([
-#     # Embedding layer for creating word embeddings
-#     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
-
-#     # Second Dense layer with 16 neurons and ReLU activation
-#     tf.keras.layers.SimpleRNN(64, dropout=0.5, recurrent_dropout=0.3,  activation='relu'),
-
-#     tf.keras.layers.Dense(1, activation="sigmoid")
-# ])
-
-# model = tf.keras.Sequential([
-
-#     tf.keras.layers.InputLayer(input_shape=(max_length,)),
-
-#     # Embedding layer for creating word embeddings
-#     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
-
-#     tf.keras.layers.LSTM(units=10, return_sequences = True),
-
-#     tf.keras.layers.GRU(units=4),
-
-#     tf.keras.layers.Dense(1, activation="sigmoid")
-# ])
-
-# model = tf.keras.Sequential([
-#     # Embedding layer for creating word embeddings
-#     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length, trainable=False),
-
-#     tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, dropout = 0.5, return_sequences = True)),
-
-#     tf.keras.layers.Bidirectional(tf.keras.layers.GRU(4, dropout = 0.5)),
-
-#     tf.keras.layers.Dense(1, activation="sigmoid")
-# ])
+])
 
 
 # compile the model
-model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(), metrics=["accuracy"])
+model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate=0.00001), metrics=["accuracy"])
 
 
 
@@ -155,7 +125,7 @@ plot_model(model, to_file='summary.png', show_shapes=True, show_layer_names=True
 
 # splits into traint, validation, and test
 train_tweet, test_tweet, train_labels, test_labels = train_test_split(padded_docs, cleaned_dataset["sarcasm"].to_numpy(), test_size=0.20)
-# train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size=0.20)
+train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size=0.20)
 
 
 
@@ -167,7 +137,7 @@ train_tweet, test_tweet, train_labels, test_labels = train_test_split(padded_doc
 # fit the model
 class_weights = class_weight.compute_class_weight(class_weight="balanced", classes=np.unique(train_labels), y=train_labels)
 class_weights = dict(enumerate(class_weights))
-result = model.fit(train_tweet, train_labels, epochs = 10, verbose = 2, callbacks=[callback]) # type: ignore
+result = model.fit(train_tweet, train_labels, epochs = 40, verbose = 1, validation_data = (val_tweet, val_labels), class_weight=class_weights, callbacks=[callback]) # type: ignore
 
 
 

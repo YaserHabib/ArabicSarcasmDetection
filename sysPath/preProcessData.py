@@ -9,7 +9,8 @@ from nltk.tokenize import word_tokenize
 
 from sklearn.preprocessing import LabelEncoder
 
-from matplotlib import style
+from matplotlib import axis, style
+from sympy import subsets
 
 le = LabelEncoder()
 style.use("ggplot")
@@ -124,10 +125,12 @@ def cleanData(dataset):
 
 def tokenization(dataset):
     for index, tweet in enumerate(dataset[["tweet"]].values.tolist()):
+        if len(tweet) == 0 or len(tweet) == 1: continue
+
         tokenizedTweet = tokenizeArabic(*tweet)
         dataset.at[index, "tweet"] = tokenizedTweet
 
-    dataset["sentiment"] = le.fit_transform(dataset["sentiment"])
+    # dataset["sentiment"] = le.fit_transform(dataset["sentiment"])
     dataset["dialect"] = le.fit_transform(dataset["dialect"])
     dataset["sarcasm"] = le.fit_transform(dataset["sarcasm"])
 
@@ -136,7 +139,8 @@ def tokenization(dataset):
 
 
 def preProcessData(dataset):
-
+    dataset = dataset.drop_duplicates(subset=["tweet"])
+    
     data = cleanData(dataset.copy(deep=True))
     print("\n\t----------        cleanData Done!        ----------\n")
 

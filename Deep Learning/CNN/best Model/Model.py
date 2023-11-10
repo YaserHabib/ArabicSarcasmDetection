@@ -43,6 +43,7 @@ dataset, datasetName = pd.read_csv(r"../../../Datasets/full Dataset.csv"), "Full
 # dataset, datasetName = pd.read_csv(r"../../../Datasets/synrep Dataset.csv"), "Synonym Replacement Combined Dataset"
 # dataset, datasetName = pd.read_csv(r"../../../Datasets/backGPT Dataset.csv"), "Back Translated & GPT Combined Dataset"
 # dataset, datasetName = pd.read_csv(r"../../../Datasets/synGPT Dataset.csv"), "Synonym Replacement & GPT Combined Dataset"
+# dataset, datasetName = pd.read_csv(r"../../../Datasets/balanced.csv"), "balanced dataset from original"
 
 dataset.info()
 print(f"\n{dataset.head()}")
@@ -103,10 +104,10 @@ model = tf.keras.Sequential([
     tf.keras.layers.InputLayer(input_shape=(max_length,)),
 
     # Embedding layer for creating word embeddings
-    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length, trainable=False),
+    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length, trainable=True),
 
     # Conv1D layer for pattern recognition model and extract the feature from the vectors
-    tf.keras.layers.Conv1D(filters=64, kernel_size=3),
+    tf.keras.layers.Conv1D(filters=64, kernel_size=2),
     
     # GlobalMaxPooling layer to extract relevant features
     tf.keras.layers.GlobalMaxPool1D(),
@@ -150,7 +151,7 @@ train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet,
 # fit the model
 class_weights = class_weight.compute_class_weight(class_weight="balanced", classes=np.unique(train_labels), y=train_labels)
 class_weights = dict(enumerate(class_weights))
-result = model.fit(train_tweet, train_labels, epochs = 20, verbose = 1, validation_data=(val_tweet, val_labels), callbacks=[callback]) # type: ignore
+result = model.fit(train_tweet, train_labels, epochs = 40, verbose = 1, validation_data=(val_tweet, val_labels), callbacks=[callback]) # type: ignore
 
 
 
