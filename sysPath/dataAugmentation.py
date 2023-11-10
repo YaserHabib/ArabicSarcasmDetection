@@ -11,6 +11,8 @@ import nltk
 import random
 import pandas as pd
 import preProcessData
+import nltk
+nltk.download('wordnet')
 
 
 from nltk.corpus import wordnet
@@ -99,13 +101,12 @@ def synonym_replacement(words, n):
 
 
 def dataAugmentation(dataset):
-    augDataset = pd.DataFrame(columns=["tweet", "dialect", "sentiment", "sarcasm"])
-    backtransDataset = pd.DataFrame(columns=["tweet", "dialect", "sentiment", "sarcasm"])
-    synonymrepDataset = pd.DataFrame(columns=["tweet", "dialect", "sentiment", "sarcasm"])
+    augDataset = pd.DataFrame(columns=["tweet", "sarcasm", "dialect"])
+    backtransDataset = pd.DataFrame(columns=["tweet", "sarcasm", "dialect"])
+    synonymrepDataset = pd.DataFrame(columns=["tweet", "sarcasm", "dialect"])
 
     sarcasmTweets = dataset[dataset.sarcasm == 1]["tweet"].tolist()
     sarcasmTweets_dialect = dataset[dataset.sarcasm ==1]["dialect"].tolist()
-    sarcasmTweets_sentiment = dataset[dataset.sarcasm ==1]["sentiment"].tolist()
 
 
     for index in range(len(sarcasmTweets)):
@@ -120,13 +121,11 @@ def dataAugmentation(dataset):
         augDataset.loc[len(augDataset.index)] = [ # type: ignore
                                                     " ".join(transArabicVer), # type: ignore
                                                     sarcasmTweets_dialect[index],
-                                                    sarcasmTweets_sentiment[index],
                                                     True
                                                 ]
         backtransDataset.loc[len(augDataset.index)] =   [ # type: ignore
                                                             " ".join(transArabicVer), # type: ignore
                                                             sarcasmTweets_dialect[index],
-                                                            sarcasmTweets_sentiment[index],
                                                             True
                                                         ]
 
@@ -138,13 +137,11 @@ def dataAugmentation(dataset):
         augDataset.loc[len(augDataset.index)] = [ # type: ignore
                                                     " ".join(synreplacement_ArabicVer), # type: ignore
                                                     sarcasmTweets_dialect[index],
-                                                    sarcasmTweets_sentiment[index],
                                                     True
                                                 ]
         synonymrepDataset.loc[len(augDataset.index)] = [ # type: ignore
                                                             " ".join(synreplacement_ArabicVer), # type: ignore
                                                             sarcasmTweets_dialect[index],
-                                                            sarcasmTweets_sentiment[index],
                                                             True
                                                         ]
         
@@ -180,13 +177,13 @@ def dataProcessing(dataset):
 
 
 
-ArsarcasmTrain = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv")[['tweet','sarcasm']]
-ArsarcasmTest = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/testing_data.csv")[['tweet','sarcasm']]
-iSarcasmEvalTrain = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/iSarcasmEval/main/train/train.Ar.csv")[['text','sarcastic']]
-iSarcasmEvalTestA = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/iSarcasmEval/main/test/task_A_Ar_test.csv")[['text','sarcastic']]
-iSarcasmEvalTestC = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/iSarcasmEval/main/test/task_C_Ar_test.csv")[['text_0','text_1', 'sarcastic_id']]
+ArsarcasmTrain = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv")[['tweet','sarcasm','dialect']]
+ArsarcasmTest = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/testing_data.csv")[['tweet','sarcasm','dialect']]
+iSarcasmEvalTrain = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/iSarcasmEval/main/train/train.Ar.csv")[['text','sarcastic','dialect']]
+iSarcasmEvalTestA = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/iSarcasmEval/main/test/task_A_Ar_test.csv")[['text','sarcastic','dialect']]
+iSarcasmEvalTestC = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/iSarcasmEval/main/test/task_C_Ar_test.csv")[['text_0','text_1', 'sarcastic_id','dialect']]
 
-iSarcasmEvalTrain.columns = ['tweet', 'sarcasm']
+iSarcasmEvalTrain.columns = ['tweet', 'sarcasm', 'dialect']
 
 print(iSarcasmEvalTestC)
 
@@ -195,13 +192,15 @@ iSarcasmEvalTestC['non_sarcastic_tweet'] = iSarcasmEvalTestC.apply(lambda row: r
 
 sarcastic_df = pd.DataFrame({
     'tweet': iSarcasmEvalTestC['sarcastic_tweet'],
-    'sarcasm': 1
+    'sarcasm': 1,
+    'dialect': iSarcasmEvalTestC['dialect']
 })
 
 # Create a DataFrame for non-sarcastic tweets
 non_sarcastic_df = pd.DataFrame({
     'tweet': iSarcasmEvalTestC['non_sarcastic_tweet'],
-    'sarcasm': 0
+    'sarcasm': 0,
+    'dialect': iSarcasmEvalTestC['dialect']
 })
 
 # Combine the DataFrames
