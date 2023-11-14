@@ -75,7 +75,7 @@ print("\npadded_docs:\n",padded_docs)
 # load the whole embedding into memory
 w2v_embeddings_index = {}
 TOTAL_EMBEDDING_DIM = 300
-embeddings_file = r"../../full_grams_cbow_300_twitter/full_grams_cbow_300_twitter.mdl"
+embeddings_file = r"..\..\Embeddings\Aravec CBOW Model\tweets_cbow_300"
 w2v_model = KeyedVectors.load(embeddings_file)
 
 
@@ -125,7 +125,7 @@ plot_model(model, to_file='summary.png', show_shapes=True, show_layer_names=True
 
 # splits into traint, validation, and test
 train_tweet, test_tweet, train_labels, test_labels = train_test_split(padded_docs, cleaned_dataset["sarcasm"].to_numpy(), test_size=0.20)
-train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size=0.20)
+#train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size=0.20)
 
 
 
@@ -137,7 +137,7 @@ train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet,
 # fit the model
 class_weights = class_weight.compute_class_weight(class_weight="balanced", classes=np.unique(train_labels), y=train_labels)
 class_weights = dict(enumerate(class_weights))
-result = model.fit(train_tweet, train_labels, epochs = 40, verbose = 1, validation_data = (val_tweet, val_labels), class_weight=class_weights, callbacks=[callback]) # type: ignore
+result = model.fit(train_tweet, train_labels, epochs = 40, verbose = 1, class_weight=class_weights, callbacks=[callback]) # type: ignore
 
 
 
@@ -170,24 +170,23 @@ plt.close()
 
 # Plot results
 acc = result.history['accuracy']
-val_acc = result.history['val_accuracy']
+#val_acc = result.history['val_accuracy']
 loss = result.history['loss']
-val_loss = result.history['val_loss']
+#val_loss = result.history['val_loss']
 
 epochs = range(1, len(acc)+1)
 
 plt.plot(epochs, acc, 'g', label='Training accuracy')
-plt.plot(epochs, val_acc, 'r', label='Validation accuracy')
-plt.title('Training and validation accuracy')
+plt.title('Training accuracy')
 plt.legend()
 plt.savefig(f"Training vs validation accuracy", dpi=1000)
 
 plt.close()
 
 plt.plot(epochs, loss, 'g', label='Training loss')
-plt.plot(epochs, val_loss, 'r', label='Validation loss')
-plt.title('Training and validation loss')
+#plt.plot(epochs, 'r', label='Validation loss')
+plt.title('Training loss')
 plt.legend()
-plt.savefig(f"Training vs validation loss", dpi=1000)
+plt.savefig(f"Training loss", dpi=1000)
 
 plt.close()
