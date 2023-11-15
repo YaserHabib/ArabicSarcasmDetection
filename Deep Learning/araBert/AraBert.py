@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from keras.utils import plot_model
+from keras.callbacks import EarlyStopping
 
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -71,16 +72,43 @@ test_dataset = tf.data.Dataset.from_tensor_slices((
 # Load the AraBERT model with a classification head
 model = TFAutoModelForSequenceClassification.from_pretrained("aubmindlab/bert-base-arabertv02", num_labels=2)
 
-EPOCH = 1
+model.summary()
+num_layers = len(model.layers)
+print(f"Total number of layers in the model: {num_layers}")
+
+#Freeze AraBERT Layerst to prevent overfitting(Keep Top Layers)
+"""nonFrozenLayers = 4
+totalLayers = len(model.layers[0].encoder.layer)  # Total number of layers in the encoder
+
+for layer in model.layers[0].encoder.layer[:totalLayers-nonFrozenLayers]:
+    layer.trainable = False"""
+
+#Keep Bottom Layers
+nonFrozenLayers = 4
+
+for layer in model.layers[0].encoder.layer[:-nonFrozenLayers]:
+    layer.trainable = False
+
+#Hyperparameters
+EPOCH = 15
 LEARNING_RATE = 5e-7
+WEIGHT_DECAY = 0.005
 
 # Compile the model
-optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE)
+optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE, weight_decay = WEIGHT_DECAY)
 loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
 
+early_stopping = EarlyStopping(
+    monitor='val_loss',
+    patience=3,
+    verbose=1,
+    mode='min',           
+    restore_best_weights=True
+)
+
 # Train the model with validation data
-history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH)
+history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH, callbacks = [early_stopping])
 
 # Evaluate the model on the test dataset
 test_loss, test_accuracy = model.evaluate(test_dataset)
