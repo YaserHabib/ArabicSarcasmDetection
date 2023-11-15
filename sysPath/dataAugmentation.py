@@ -98,13 +98,12 @@ def synonym_replacement(words, n):
 
 
 def dataAugmentation(dataset):
-    augDataset = pd.DataFrame(columns=["tweet", "dialect", "sentiment", "sarcasm"])
-    backtransDataset = pd.DataFrame(columns=["tweet", "dialect", "sentiment", "sarcasm"])
-    synonymrepDataset = pd.DataFrame(columns=["tweet", "dialect", "sentiment", "sarcasm"])
+    augDataset = pd.DataFrame(columns=["tweet", "dialect", "sarcasm"])
+    backtransDataset = pd.DataFrame(columns=["tweet", "dialect", "sarcasm"])
+    synonymrepDataset = pd.DataFrame(columns=["tweet", "dialect", "sarcasm"])
 
     sarcasmTweets = dataset[dataset.sarcasm == 1]["tweet"].tolist()
     sarcasmTweets_dialect = dataset[dataset.sarcasm ==1]["dialect"].tolist()
-    sarcasmTweets_sentiment = dataset[dataset.sarcasm ==1]["sentiment"].tolist()
 
 
     for index in range(len(sarcasmTweets)):
@@ -119,13 +118,11 @@ def dataAugmentation(dataset):
         augDataset.loc[len(augDataset.index)] = [ # type: ignore
                                                     " ".join(transArabicVer), # type: ignore
                                                     sarcasmTweets_dialect[index],
-                                                    sarcasmTweets_sentiment[index],
                                                     True
                                                 ]
         backtransDataset.loc[len(augDataset.index)] =   [ # type: ignore
                                                             " ".join(transArabicVer), # type: ignore
                                                             sarcasmTweets_dialect[index],
-                                                            sarcasmTweets_sentiment[index],
                                                             True
                                                         ]
 
@@ -137,13 +134,11 @@ def dataAugmentation(dataset):
         augDataset.loc[len(augDataset.index)] = [ # type: ignore
                                                     " ".join(synreplacement_ArabicVer), # type: ignore
                                                     sarcasmTweets_dialect[index],
-                                                    sarcasmTweets_sentiment[index],
                                                     True
                                                 ]
         synonymrepDataset.loc[len(augDataset.index)] = [ # type: ignore
                                                             " ".join(synreplacement_ArabicVer), # type: ignore
                                                             sarcasmTweets_dialect[index],
-                                                            sarcasmTweets_sentiment[index],
                                                             True
                                                         ]
         
@@ -179,7 +174,7 @@ def dataProcessing(dataset):
 
 
 
-dataset = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv")
+dataset = pd.read_csv(r"..\Datasets\originalCombined.csv")
 startTime = time.time()
 dataProcessing(dataset.copy(deep=True))
 endTime = time.time()

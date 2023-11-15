@@ -69,12 +69,12 @@ test_dataset = tf.data.Dataset.from_tensor_slices((
 model = TFAutoModelForSequenceClassification.from_pretrained("aubmindlab/bert-base-arabertv02", num_labels=2)
 
 # Compile the model
-optimizer = tf.keras.optimizers.Adam(learning_rate=5e-5)
+optimizer = tf.keras.optimizers.Adam(learning_rate=5e-7)
 loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
 
 # Train the model with validation data
-history = model.fit(train_dataset, validation_data=val_dataset, epochs=1)
+history = model.fit(train_dataset, validation_data=val_dataset, epochs=2)
 
 # Evaluate the model on the test dataset
 test_loss, test_accuracy = model.evaluate(test_dataset)
