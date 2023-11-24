@@ -74,15 +74,15 @@ model = TFAutoModelForSequenceClassification.from_pretrained("aubmindlab/bert-ba
 
 model.summary()
 num_layers = len(model.layers)
-print(f"Total number of layers in the model: {num_layers}")
-
+print(f"Total number of layers in the model:",len(model.layers[0].encoder.layer))
+'''
 #Freeze AraBERT Layerst to prevent overfitting(Keep Top Layers)
-"""nonFrozenLayers = 4
+nonFrozenLayers = 5
 totalLayers = len(model.layers[0].encoder.layer)  # Total number of layers in the encoder
 
 for layer in model.layers[0].encoder.layer[:totalLayers-nonFrozenLayers]:
-    layer.trainable = False"""
-
+    layer.trainable = False
+'''
 #Keep Bottom Layers
 nonFrozenLayers = 4
 
@@ -95,13 +95,13 @@ LEARNING_RATE = 5e-7
 WEIGHT_DECAY = 0.005
 
 # Compile the model
-optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE, weight_decay = WEIGHT_DECAY)
+optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE)
 loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
 
 early_stopping = EarlyStopping(
     monitor='val_loss',
-    patience=3,
+    patience=2,
     verbose=1,
     mode='min',           
     restore_best_weights=True
