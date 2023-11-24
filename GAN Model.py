@@ -1,11 +1,11 @@
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.layers import Input, Embedding, Conv1D, Flatten, Dense, Reshape
-from tensorflow.keras.models import Model
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.losses import BinaryCrossentropy
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+from keras.layers import Input, Embedding, Conv1D, Flatten, Dense, Reshape
+from keras.models import Model
+from keras.optimizers import Adam
+from keras.losses import BinaryCrossentropy
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
 
 # Define parameters
 seq_length = 50
