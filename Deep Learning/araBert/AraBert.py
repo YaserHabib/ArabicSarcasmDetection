@@ -7,7 +7,7 @@ dname = os.path.dirname(abspath)
 sys.path.append(r"..\..\sysPath")
 os.chdir(dname)
 
-from transformers import TFAutoModelForSequenceClassification, AutoTokenizer
+from transformers import TFAutoModelForSequenceClassification, AutoTokenizer, AutoConfig, AdamW
 from arabert import ArabertPreprocessor
 import shutil
 import warnings
@@ -70,7 +70,9 @@ test_dataset = tf.data.Dataset.from_tensor_slices((
 
 
 # Load the AraBERT model with a classification head
-model = TFAutoModelForSequenceClassification.from_pretrained("aubmindlab/bert-base-arabertv02", num_labels=2)
+#model = TFAutoModelForSequenceClassification.from_pretrained("aubmindlab/bert-base-arabertv02", num_labels=2)
+config = AutoConfig.from_pretrained(MODEL_NAME, num_labels=2, hidden_dropout_prob=0.5, attention_probs_dropout_prob=0.5)
+model = TFAutoModelForSequenceClassification.from_config(config)
 
 model.summary()
 num_layers = len(model.layers)
@@ -95,7 +97,8 @@ LEARNING_RATE = 5e-7
 WEIGHT_DECAY = 0.005
 
 # Compile the model
-optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE)
+#optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE)
+optimizer = AdamW(model.trainable_variables, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
 loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
 
