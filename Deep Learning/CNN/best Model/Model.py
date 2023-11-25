@@ -75,7 +75,7 @@ print("\npadded_docs:\n",padded_docs)
 # load the whole embedding into memory
 w2v_embeddings_index = {}
 TOTAL_EMBEDDING_DIM = 300
-embeddings_file = r"../../../Embeddings/Aravec CBOW Model/tweets_cbow_300"
+embeddings_file = r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\full_grams_cbow_300_twitter\full_grams_cbow_300_twitter.mdl"
 w2v_model = KeyedVectors.load(embeddings_file)
 
 
@@ -107,19 +107,20 @@ model = tf.keras.Sequential([
     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length, trainable=True),
 
     # Conv1D layer for pattern recognition model and extract the feature from the vectors
-    tf.keras.layers.Conv1D(filters=64, kernel_size=2),
+    tf.keras.layers.Conv1D(filters=64, kernel_size=3),
     
     # GlobalMaxPooling layer to extract relevant features
     tf.keras.layers.GlobalMaxPool1D(),
 
-    # First Dense layer with 64 neurons and ReLU activation
-    tf.keras.layers.Dense(16, activation='relu'),
+    # First Dense layer with 4 neurons and ReLU activation
+    tf.keras.layers.Dense(4, activation='relu'),
 
     # Dropout layer to prevent overfitting
     tf.keras.layers.Dropout(0.5),
 
     # Final Dense layer with 1 neuron and sigmoid activation for binary classification
     tf.keras.layers.Dense(1, activation='sigmoid')
+
 ])
 
 
@@ -138,8 +139,8 @@ plot_model(model, to_file='summary.png', show_shapes=True, show_layer_names=True
 
 
 # splits into traint, validation, and test
-train_tweet, test_tweet, train_labels, test_labels = train_test_split(padded_docs, cleaned_dataset["sarcasm"].to_numpy(), test_size=0.20)
-train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size=0.20)
+train_tweet, test_tweet, train_labels, test_labels = train_test_split(padded_docs, cleaned_dataset["sarcasm"].to_numpy(), test_size=0.10, random_state=42)
+train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size=0.05, random_state=42)
 
 
 
@@ -151,7 +152,7 @@ train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet,
 # fit the model
 class_weights = class_weight.compute_class_weight(class_weight="balanced", classes=np.unique(train_labels), y=train_labels)
 class_weights = dict(enumerate(class_weights))
-result = model.fit(train_tweet, train_labels, epochs = 40, verbose = 1, validation_data=(val_tweet, val_labels), callbacks=[callback]) # type: ignore
+result = model.fit(train_tweet, train_labels, epochs = 20, verbose = 1, validation_data=(val_tweet, val_labels), class_weight=class_weights) # type: ignore
 
 
 
