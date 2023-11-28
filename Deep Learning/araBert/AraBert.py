@@ -7,6 +7,10 @@ dname = os.path.dirname(abspath)
 sys.path.append(r"..\..\sysPath")
 os.chdir(dname)
 
+results_dir = os.path.join(os.path.dirname(__file__), "Arabert Results")
+if not os.path.exists(results_dir):
+    os.makedirs(results_dir)
+
 from transformers import TFAutoModelForSequenceClassification, AutoTokenizer, AutoConfig, AdamW
 from arabert import ArabertPreprocessor
 import shutil
@@ -20,7 +24,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from keras.utils import plot_model
-from keras.callbacks import EarlyStopping
+from keras.callbacks import EarlyStopping, LearningRateScheduler
 
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -38,12 +42,14 @@ MODEL_NAME = "aubmindlab/bert-base-arabertv02"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 preprocess = ArabertPreprocessor(model_name=MODEL_NAME)
 
+SPLIT_VALUE = 0.20
+
 # Tokenize the dataset
 dataset = pd.read_csv(r"../../Datasets/full Dataset.csv")
-train_df, test_df = train_test_split(dataset, test_size=0.2, random_state=42)
+train_df, test_df = train_test_split(dataset, test_size=SPLIT_VALUE, random_state=42)
 
 # Split the training data further to create a validation set
-train_df, val_df = train_test_split(train_df, test_size=0.2, random_state=42)
+train_df, val_df = train_test_split(train_df, test_size=SPLIT_VALUE, random_state=42)
 
 # Tokenize and preprocess training and testing sets
 train_encoded, train_labels = tokenize_and_preprocess(train_df, tokenizer, preprocess)
@@ -70,13 +76,13 @@ test_dataset = tf.data.Dataset.from_tensor_slices((
 
 
 # Load the AraBERT model with a classification head
-#model = TFAutoModelForSequenceClassification.from_pretrained("aubmindlab/bert-base-arabertv02", num_labels=2)
-config = AutoConfig.from_pretrained(MODEL_NAME, num_labels=2, hidden_dropout_prob=0.5, attention_probs_dropout_prob=0.5)
-model = TFAutoModelForSequenceClassification.from_config(config)
+model = TFAutoModelForSequenceClassification.from_pretrained("aubmindlab/bert-base-arabertv02", num_labels=2)
+'''config = AutoConfig.from_pretrained(MODEL_NAME, num_labels=2, hidden_dropout_prob=0.5, attention_probs_dropout_prob=0.5)
+model = TFAutoModelForSequenceClassification.from_config(config)'''
 
 model.summary()
 num_layers = len(model.layers)
-print(f"Total number of layers in the model:",len(model.layers[0].encoder.layer))
+print(f"Total number of layers in the BERT Layers:",len(model.layers[0].encoder.layer))
 '''
 #Freeze AraBERT Layerst to prevent overfitting(Keep Top Layers)
 nonFrozenLayers = 5
@@ -86,32 +92,44 @@ for layer in model.layers[0].encoder.layer[:totalLayers-nonFrozenLayers]:
     layer.trainable = False
 '''
 #Keep Bottom Layers
-nonFrozenLayers = 4
+nonFrozenLayers = 3
 
 for layer in model.layers[0].encoder.layer[:-nonFrozenLayers]:
     layer.trainable = False
+model.summary()
 
 #Hyperparameters
-EPOCH = 15
-LEARNING_RATE = 5e-7
+EPOCH = 30
+LEARNING_RATE = 5e-4
 WEIGHT_DECAY = 0.005
 
 # Compile the model
-#optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE)
-optimizer = AdamW(model.trainable_variables, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
+#optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE, beta_1=0.9, beta_2=0.999, epsilon=1e-07, amsgrad=False, name='Adam', decay=WEIGHT_DECAY)
+
+optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE, name='Adam', decay=WEIGHT_DECAY)
 loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
 
 early_stopping = EarlyStopping(
-    monitor='val_loss',
-    patience=2,
+    monitor='val_accuracy',
+    patience=4,
     verbose=1,
-    mode='min',           
+    mode='max',           
     restore_best_weights=True
 )
 
+def step_decay(epoch):
+    initial_lrate = 5e-5
+    drop = 0.5
+    epochs_drop = 10.0
+    lrate = initial_lrate * math.pow(drop, math.floor((1+epoch)/epochs_drop))
+    return lrate
+
+
 # Train the model with validation data
-history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH, callbacks = [early_stopping])
+#history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH, callbacks = [early_stopping])
+history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH)
+
 
 # Evaluate the model on the test dataset
 test_loss, test_accuracy = model.evaluate(test_dataset)
@@ -121,29 +139,39 @@ predicted_classes = np.argmax(predictions.logits, axis=1)
 true_classes = np.argmax(test_labels, axis=1)
 print(classification_report(true_classes, predicted_classes))
 
-#Accuracy Plot
+# Accuracy Plot
+plt.figure()
 plt.plot(history.history['accuracy'])
 plt.plot(history.history['val_accuracy'])
 plt.title('Model Accuracy')
 plt.ylabel('Accuracy')
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Val'], loc='upper left')
-#plt.savefig(f"Epoch :{EPOCH}, Learning Rate:{LEARNING_RATE} Training vs validation Accuracy", dpi=1000)
-plt.show()
+filename_acc = f"accuracy_epoch {EPOCH}_lr {LEARNING_RATE}_wd {WEIGHT_DECAY}.png"
+full_path_acc = os.path.join(results_dir, filename_acc)
+plt.savefig(full_path_acc, dpi=300)
+plt.close()
 
+# Loss Plot
+plt.figure()
 plt.plot(history.history['loss'])
 plt.plot(history.history['val_loss'])
 plt.title('Model Loss')
 plt.ylabel('Loss')
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Val'], loc='upper left')
-#plt.savefig(f"Epoch :{EPOCH}, Learning Rate:{LEARNING_RATE} Training vs validation loss", dpi=1000)
-plt.show()
+filename_loss = f"loss_epoch {EPOCH}_lr {LEARNING_RATE}_wd {WEIGHT_DECAY}.png"
+full_path_loss = os.path.join(results_dir, filename_loss)
+plt.savefig(full_path_loss, dpi=300)  # Saves the loss plot
+plt.close()
 
 # Confusion Matrix
 cm = confusion_matrix(true_classes, predicted_classes)
+plt.figure()
 sns.heatmap(cm, annot=True, fmt='d')
 plt.ylabel('Actual')
 plt.xlabel('Predicted')
-#plt.savefig(f"Epoch :{EPOCH}, Learning Rate:{LEARNING_RATE} Confusion Matrix", dpi=1000)
-plt.show()
+filename_cm = f"confusion_matrix_epoch {EPOCH}_lr {LEARNING_RATE}_wd {WEIGHT_DECAY}.png"
+full_path_cm = os.path.join(results_dir, filename_cm)
+plt.savefig(full_path_cm, dpi=300)
+plt.close()
