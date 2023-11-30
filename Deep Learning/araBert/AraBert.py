@@ -25,7 +25,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from keras.utils import plot_model
 from keras.callbacks import EarlyStopping, LearningRateScheduler
-
+import pickle
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -38,12 +38,11 @@ def tokenize_and_preprocess(dataframe, tokenizer, preprocess):
 
 MODEL_NAME = "aubmindlab/bert-base-arabertv02"
 
-# Load the tokenizer and pre[rpcessor]
+# Load the tokenizer and preprocessor]
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 preprocess = ArabertPreprocessor(model_name=MODEL_NAME)
 
-SPLIT_VALUE = 0.20
-
+SPLIT_VALUE = 0.20  
 # Tokenize the dataset
 dataset = pd.read_csv(r"../../Datasets/full Dataset.csv")
 train_df, test_df = train_test_split(dataset, test_size=SPLIT_VALUE, random_state=42)
@@ -92,21 +91,22 @@ for layer in model.layers[0].encoder.layer[:totalLayers-nonFrozenLayers]:
     layer.trainable = False
 '''
 #Keep Bottom Layers
-nonFrozenLayers = 3
+nonFrozenLayers = 4
 
 for layer in model.layers[0].encoder.layer[:-nonFrozenLayers]:
     layer.trainable = False
 model.summary()
 
 #Hyperparameters
-EPOCH = 30
-LEARNING_RATE = 5e-4
-WEIGHT_DECAY = 0.005
+EPOCH = 14
+LEARNING_RATE = 5e-7
+WEIGHT_DECAY = 0.000
 
 # Compile the model
 #optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE, beta_1=0.9, beta_2=0.999, epsilon=1e-07, amsgrad=False, name='Adam', decay=WEIGHT_DECAY)
+#optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE, name='Adam', decay=WEIGHT_DECAY)
 
-optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE, name='Adam', decay=WEIGHT_DECAY)
+optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE, name='Adam')
 loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
 
@@ -129,6 +129,7 @@ def step_decay(epoch):
 #history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH, callbacks = [early_stopping])
 history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH)
 
+model.save('./Sarcasm_araBERT(epoch20)')
 
 # Evaluate the model on the test dataset
 test_loss, test_accuracy = model.evaluate(test_dataset)
@@ -174,3 +175,4 @@ filename_cm = f"confusion_matrix_epoch {EPOCH}_lr {LEARNING_RATE}_wd {WEIGHT_DEC
 full_path_cm = os.path.join(results_dir, filename_cm)
 plt.savefig(full_path_cm, dpi=300)
 plt.close()
+
