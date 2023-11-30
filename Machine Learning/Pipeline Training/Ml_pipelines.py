@@ -6,6 +6,10 @@ dname = os.path.dirname(abspath)
 sys.path.append(r"..\..\sysPath")
 os.chdir(dname)
 
+models_dir = os.path.join(dname, 'Trained Models')
+if not os.path.exists(models_dir):
+    os.makedirs(models_dir)
+
 import preProcessData  #type: ignore
 import tensorflow as tf
 from transformers import TFAutoModel, AutoTokenizer
@@ -17,6 +21,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression, RidgeClassifier
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.svm import SVC, LinearSVC
@@ -65,6 +70,10 @@ fit_models = {}
 for algo, pipeline in pipelines.items():
     model = pipeline.fit(X_train, y_train)
     fit_models[algo] = model
+
+    model_path = os.path.join(models_dir, f'{algo}.pkl')
+    with open(model_path, 'wb') as f:
+        pickle.dump(model, f)
 
 for algo, model in fit_models.items():
     yhat = model.predict(X_test)
