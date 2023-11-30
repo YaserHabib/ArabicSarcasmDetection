@@ -29,7 +29,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 
 warnings.filterwarnings(action = 'ignore')
-callback = TensorBoard(log_dir='logs/', histogram_freq=1)
+callback = TensorBoard(log_dir = 'logs/', histogram_freq = 1)
 
 if os.path.isdir("logs"):
     shutil.rmtree("logs")
@@ -44,11 +44,7 @@ dataset = pd.read_csv(r"../../Datasets/full Dataset.csv")
 dataset.info()
 print(f"\n{dataset.head()}\n")
 
-cleaned_dataset = preProcessData.preProcessData(dataset.copy(deep=True))
-print("="*50)
-cleaned_dataset.info()
-print(f"{cleaned_dataset.head()}")
-print("="*50)
+cleaned_dataset = preProcessData.preProcessData(dataset.copy(deep = True))
 
 
 
@@ -66,7 +62,7 @@ encoded_docs = T.texts_to_sequences(cleaned_dataset["tweet"].tolist())
 
 
 # pad documents to a max length of 4 words
-max_length = len(max(np.array(cleaned_dataset["tweet"]), key=len))
+max_length = len(max(np.array(cleaned_dataset["tweet"]), key = len))
 padded_docs = pad_sequences(encoded_docs, maxlen = max_length, padding = "post")
 print("\npadded_docs:\n",padded_docs)
 
@@ -74,8 +70,8 @@ print("\npadded_docs:\n",padded_docs)
 
 # load the whole embedding into memory
 w2v_embeddings_index = {}
-TOTAL_EMBEDDING_DIM = 300
-embeddings_file = r"..\..\Embeddings\Aravec CBOW Model\tweets_cbow_300"
+TOTAL_EMBEDDING_DIM = 100
+embeddings_file = r"../../full_grams_cbow_100_twitter/full_grams_cbow_100_twitter.mdl"
 w2v_model = KeyedVectors.load(embeddings_file)
 
 
@@ -101,40 +97,44 @@ print("Embedding Matrix shape:", embedding_matrix.shape, "\n")
 
 model = tf.keras.Sequential([
     # Embedding layer for creating word embeddings
-    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length, trainable=True),
+    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, weights = [embedding_matrix], input_length = max_length, trainable = False),
 
-    # Embedding layer for creating word embeddings
-    tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, dropout=0.1)),
+    tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, dropout = 0.5, return_sequences = True)),
 
-    # Dense layer with 40 neurons and ReLU activation
-    tf.keras.layers.Dense(40, activation='relu'),
+    tf.keras.layers.Bidirectional(tf.keras.layers.GRU(64, dropout = 0.5, return_sequences = True)),
 
-    # Second Dense layer with 20 neurons and ReLU activation
-    tf.keras.layers.Dense(20, activation='relu'),
+    # Conv1D layer for pattern recognition model and extract the feature from the vectors
+    tf.keras.layers.Conv1D(filters = 32, kernel_size = 3, activation = "relu"),
+    
+    # GlobalMaxPooling layer to extract relevant features
+    tf.keras.layers.GlobalMaxPool1D(),
 
-    # Third Dense layer with 10 neurons and ReLU activation
-    tf.keras.layers.Dense(10, activation='relu'),
+    # First Dense layer with 4 neurons and ReLU activation
+    tf.keras.layers.Dense(32, activation = 'relu'),
+
+    # Dropout layer to prevent overfitting
+    tf.keras.layers.Dropout(0.5),
 
     # Final Dense layer with 1 neuron and sigmoid activation for binary classification
-    tf.keras.layers.Dense(1, activation='sigmoid')
+    tf.keras.layers.Dense(1, activation = 'sigmoid')
 ])
 
 
 # compile the model
-model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate=0.00001), metrics=["accuracy"])
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate = 0.00001), metrics = ["accuracy"], loss = "binary_crossentropy")
 
 
 
 # summarize the model
 print(f"\n{model.summary()}")
 print("\n # Wait just Fitting model on training data")
-plot_model(model, to_file='summary.png', show_shapes=True, show_layer_names=True, dpi=1000)
+plot_model(model, to_file = 'summary.png', show_shapes = True, show_layer_names = True, dpi = 1000)
 
 
 
 # splits into traint, validation, and test
-train_tweet, test_tweet, train_labels, test_labels = train_test_split(padded_docs, cleaned_dataset["sarcasm"].to_numpy(), test_size=0.20)
-train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size=0.20)
+train_tweet, test_tweet, train_labels, test_labels = train_test_split(padded_docs, cleaned_dataset["sarcasm"].to_numpy(), test_size=0.1, random_state=42)
+train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size = 0.05, random_state = 42)
 
 
 
@@ -144,9 +144,9 @@ train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet,
 
 
 # fit the model
-class_weights = class_weight.compute_class_weight(class_weight="balanced", classes=np.unique(train_labels), y=train_labels)
+class_weights = class_weight.compute_class_weight(class_weight = "balanced", classes = np.unique(train_labels), y = train_labels)
 class_weights = dict(enumerate(class_weights))
-result = model.fit(train_tweet, train_labels, epochs = 40, verbose = 1, class_weight=class_weights, callbacks=[callback]) # type: ignore
+result = model.fit(train_tweet, train_labels, epochs = 20, verbose = 1, batch_size = 16, validation_data = (val_tweet, val_labels), class_weight = class_weights) # type: ignore
 
 
 
@@ -154,7 +154,7 @@ result = model.fit(train_tweet, train_labels, epochs = 40, verbose = 1, class_we
 print()
 predicted = np.round(model.predict(test_tweet))
 accuracy = accuracy_score(test_labels, predicted)
-report = classification_report(test_labels, predicted, target_names=["non-Sarcasm", "Sarcasm"])
+report = classification_report(test_labels, predicted, target_names = ["non-Sarcasm", "Sarcasm"])
 
 print(f"\n{report}\n")
 
@@ -162,8 +162,8 @@ print(f"\n{report}\n")
 
 confusionMatrix = confusion_matrix(test_labels, predicted)
 
-ax= plt.subplot()
-sns.heatmap(confusionMatrix, annot=True, fmt='g', ax=ax, cmap="viridis") # annot=True to annotate cells, ftm='g' to disable scientific notation
+ax = plt.subplot()
+sns.heatmap(confusionMatrix, annot = True, fmt = 'g', ax = ax, cmap = "viridis") # annot = True to annotate cells, ftm = 'g' to disable scientific notation
 
 # labels, title and ticks
 ax.set_xlabel('Predicted labels')
@@ -172,30 +172,30 @@ ax.set_title(f"Accuracy: {accuracy*100:.2f}%")
 ax.xaxis.set_ticklabels(["non-Sarcasm", "Sarcasm"])
 ax.yaxis.set_ticklabels(["non-Sarcasm", "Sarcasm"])
 
-plt.savefig(f"keras - Full dataset.png", dpi=1000)
+plt.savefig(f"keras - Full dataset.png", dpi = 1000)
 plt.close()
 
 
 
 # Plot results
 acc = result.history['accuracy']
-#val_acc = result.history['val_accuracy']
+val_acc = result.history['val_accuracy']
 loss = result.history['loss']
-#val_loss = result.history['val_loss']
-
+val_loss = result.history['val_loss']
 epochs = range(1, len(acc)+1)
 
-plt.plot(epochs, acc, 'g', label='Training accuracy')
-plt.title('Training accuracy')
+plt.plot(epochs, acc, 'g', label = 'Training accuracy')
+plt.plot(epochs, val_acc, 'r', label = 'Validation accuracy')
+plt.title('Training and validation accuracy')
 plt.legend()
-plt.savefig(f"Training vs validation accuracy", dpi=1000)
+plt.savefig(f"Training vs validation accuracy", dpi = 1000)
 
 plt.close()
 
-plt.plot(epochs, loss, 'g', label='Training loss')
-#plt.plot(epochs, 'r', label='Validation loss')
-plt.title('Training loss')
+plt.plot(epochs, loss, 'g', label = 'Training loss')
+plt.plot(epochs, val_loss, 'r', label = 'Validation loss')
+plt.title('Training and validation loss')
 plt.legend()
-plt.savefig(f"Training loss", dpi=1000)
+plt.savefig(f"Training vs validation loss", dpi = 1000)
 
 plt.close()

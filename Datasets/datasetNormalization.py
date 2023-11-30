@@ -1,3 +1,9 @@
+import os
+
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+
 import pandas as pd
 
 ArsarcasmTrain = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv")[['tweet','sarcasm', "dialect"]]
@@ -23,8 +29,12 @@ dataset = pd.concat([ArsarcasmTrain, ArsarcasmTest, iSarcasmEvalTrain, iSarcasmE
 dataset = dataset.drop_duplicates()
 dataset = dataset.dropna()
 dataset = dataset.sample(frac=1)
+dataset = dataset.reset_index(drop=True)
+dataset = dataset[["tweet", "dialect", "sarcasm"]]
 
 # Print the counts
-print(dataset['sarcasm'].value_counts())
+print(f"\n{dataset['sarcasm'].value_counts()}\n")
+print(f"\n{dataset.head()}\n")
+print(f"\n{dataset.info()}\n")
 
-dataset.to_csv(rf"Datasets\originalCombined.csv", index=False)
+dataset.to_csv(r"originalCombined.csv", index=False)

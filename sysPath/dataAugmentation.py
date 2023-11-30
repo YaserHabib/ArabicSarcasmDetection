@@ -1,9 +1,7 @@
 import os
-import sys
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
-sys.path.append(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project in CS\sysPath")
 os.chdir(dname)
 
 import time
@@ -12,12 +10,13 @@ import random
 import pandas as pd
 import preProcessData
 
+from tqdm import tqdm
 from nltk.corpus import wordnet
 from nltk.corpus import stopwords
 from transformers import MarianMTModel, MarianTokenizer
 
-if not os.path.isdir(r"..\Datasets\Augmented Datasets"):
-    os.mkdir(r"..\Datasets\Augmented Datasets")
+if not os.path.isdir(r"../Datasets/Augmented Datasets"):
+    os.mkdir(r"../Datasets/Augmented Datasets")
 
 
 
@@ -98,6 +97,9 @@ def synonym_replacement(words, n):
 
 
 def dataAugmentation(dataset):
+    total = len(dataset[dataset.sarcasm == 1]["tweet"].tolist())
+    progressBar = tqdm(total=total, ncols=145, desc="Data Augmentation", ascii="░▒█")
+    
     augDataset = pd.DataFrame(columns=["tweet", "dialect", "sarcasm"])
     backtransDataset = pd.DataFrame(columns=["tweet", "dialect", "sarcasm"])
     synonymrepDataset = pd.DataFrame(columns=["tweet", "dialect", "sarcasm"])
@@ -112,36 +114,38 @@ def dataAugmentation(dataset):
 
         try:
             transArabicVer = perform_translation([englishVersion], arabicModel, arabicModeltkn, "ar")
-        except:
-            print(transArabicVer) # type: ignore
 
-        augDataset.loc[len(augDataset.index)] = [ # type: ignore
-                                                    " ".join(transArabicVer), # type: ignore
-                                                    sarcasmTweets_dialect[index],
-                                                    True
-                                                ]
-        backtransDataset.loc[len(augDataset.index)] =   [ # type: ignore
-                                                            " ".join(transArabicVer), # type: ignore
-                                                            sarcasmTweets_dialect[index],
-                                                            True
-                                                        ]
+            augDataset.loc[len(augDataset.index)] = [ # type: ignore
+                                                        " ".join(transArabicVer), # type: ignore
+                                                        sarcasmTweets_dialect[index],
+                                                        True
+                                                    ]
+            backtransDataset.loc[len(augDataset.index)] =   [ # type: ignore
+                                                                " ".join(transArabicVer), # type: ignore
+                                                                sarcasmTweets_dialect[index],
+                                                                True
+                                                            ]
+        except Exception as e:
+            print(f"\nTranslation error: {e}\n")
+            progressBar.update(1)
 
         try:
             synreplacement_ArabicVer = perform_translation([synreplacement_EnglishVer], arabicModel, arabicModeltkn, "ar")
-        except:
-            print(synreplacement_ArabicVer) # type: ignore
-
-        augDataset.loc[len(augDataset.index)] = [ # type: ignore
+            
+            augDataset.loc[len(augDataset.index)] = [ # type: ignore
                                                     " ".join(synreplacement_ArabicVer), # type: ignore
                                                     sarcasmTweets_dialect[index],
                                                     True
                                                 ]
-        synonymrepDataset.loc[len(augDataset.index)] = [ # type: ignore
-                                                            " ".join(synreplacement_ArabicVer), # type: ignore
-                                                            sarcasmTweets_dialect[index],
-                                                            True
-                                                        ]
+            synonymrepDataset.loc[len(augDataset.index)] = [ # type: ignore
+                                                                " ".join(synreplacement_ArabicVer), # type: ignore
+                                                                sarcasmTweets_dialect[index],
+                                                                True
+                                                            ]
+        except Exception as e:
+            print(f"\nSynonym replacement error: {e}\n")
         
+        progressBar.update(1)
     return augDataset, backtransDataset, synonymrepDataset
 
 
@@ -174,7 +178,7 @@ def dataProcessing(dataset):
 
 
 
-dataset = pd.read_csv(r"..\Datasets\originalCombined.csv")
+dataset = pd.read_csv(r"../Datasets/originalCombined.csv")
 startTime = time.time()
 dataProcessing(dataset.copy(deep=True))
 endTime = time.time()
