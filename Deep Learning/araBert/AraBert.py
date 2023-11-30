@@ -125,7 +125,6 @@ def step_decay(epoch):
     lrate = initial_lrate * math.pow(drop, math.floor((1+epoch)/epochs_drop))
     return lrate
 
-
 # Train the model with validation data
 #history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH, callbacks = [early_stopping])
 history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH)

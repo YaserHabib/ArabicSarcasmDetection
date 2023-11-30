@@ -2,7 +2,7 @@ import os
 import sys
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
-sys.path.append(r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\sysPath")
+sys.path.append(r"..\..\..\sysPath")
 os.chdir(dname)
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Set TensorFlow logging level to 2 (ERROR)
@@ -74,7 +74,7 @@ print("\npadded_docs:\n",padded_docs)
 # load the whole embedding into memory
 w2v_embeddings_index = {}
 TOTAL_EMBEDDING_DIM = 300
-embeddings_file = r"../../../full_grams_cbow_300_twitter/full_grams_cbow_300_twitter.mdl"
+embeddings_file = r"C:\Users\Perseus\Documents\GitHub\ArabicSarcasmDetection\Embeddings\Aravec CBOW Model\tweets_cbow_300"
 w2v_model = KeyedVectors.load(embeddings_file)
 
 
@@ -102,6 +102,8 @@ model = tf.keras.Sequential([
 
     # Embedding layer for creating word embeddings
     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length),
+
+    tf.keras.layers.Conv1D(filters=128, kernel_size=3),
 
     # GlobalMaxPooling layer to extract relevant features
     tf.keras.layers.GlobalMaxPool1D(),

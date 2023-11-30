@@ -103,11 +103,20 @@ model = tf.keras.Sequential([
     # Embedding layer for creating word embeddings
     tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, input_length=max_length, trainable=True),
 
-    tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, dropout = 0.5, return_sequences = True)),
+    # Embedding layer for creating word embeddings
+    tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, dropout=0.1)),
 
-    tf.keras.layers.Bidirectional(tf.keras.layers.GRU(4, dropout = 0.5)),
+    # Dense layer with 40 neurons and ReLU activation
+    tf.keras.layers.Dense(40, activation='relu'),
 
-    tf.keras.layers.Dense(1, activation="sigmoid")
+    # Second Dense layer with 20 neurons and ReLU activation
+    tf.keras.layers.Dense(20, activation='relu'),
+
+    # Third Dense layer with 10 neurons and ReLU activation
+    tf.keras.layers.Dense(10, activation='relu'),
+
+    # Final Dense layer with 1 neuron and sigmoid activation for binary classification
+    tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 
 
@@ -125,7 +134,7 @@ plot_model(model, to_file='summary.png', show_shapes=True, show_layer_names=True
 
 # splits into traint, validation, and test
 train_tweet, test_tweet, train_labels, test_labels = train_test_split(padded_docs, cleaned_dataset["sarcasm"].to_numpy(), test_size=0.20)
-#train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size=0.20)
+train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size=0.20)
 
 
 

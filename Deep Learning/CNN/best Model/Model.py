@@ -75,7 +75,7 @@ print("\npadded_docs:\n",padded_docs)
 # load the whole embedding into memory
 w2v_embeddings_index = {}
 TOTAL_EMBEDDING_DIM = 300
-embeddings_file = r"C:\Users\Mohamed\Documents\Fall 2023 - 2024\Senior Project\full_grams_cbow_300_twitter\full_grams_cbow_300_twitter.mdl"
+embeddings_file = r"C:\Users\Perseus\Documents\GitHub\ArabicSarcasmDetection\Embeddings\Aravec CBOW Model\tweets_cbow_300"
 w2v_model = KeyedVectors.load(embeddings_file)
 
 
