@@ -1,7 +1,6 @@
-import regex as re
+import re
 import nltk
 import warnings
-import numpy as np
 import pyarabic.normalize as Normalize
 
 from nltk.corpus import stopwords
@@ -10,17 +9,17 @@ from nltk.tokenize import word_tokenize
 
 from sklearn.preprocessing import LabelEncoder
 
-from matplotlib import style
+from matplotlib import axis, style
+from sympy import subsets
 
 le = LabelEncoder()
 style.use("ggplot")
 
 
 
-# nltk.download("punkt")  # download punkt tokenizer if not already downloaded
-# nltk.download("wordnet")
-# nltk.download("stopwords") # download stopwords if not already downloaded
-# nltk.download("averaged_perceptron_tagger")
+# nltk.download('punkt')  # download punkt tokenizer if not already downloaded
+# nltk.download('stopwords') # download stopwords if not already downloaded
+# nltk.download('averaged_perceptron_tagger')
 warnings.filterwarnings(action = 'ignore')
 
 
@@ -53,7 +52,7 @@ def removeConsecutiveDuplicates(text):
 
 
 def removeEnglish(text):
-    return re.sub(r"[A-Za-z0-9]+"," ",text)
+    return re.sub(r"[A-Za-z0-9]+","",text)
 
 
 
@@ -84,11 +83,10 @@ def removeStopwords(text):
 
 def removePunctuation(text):
     # Define the Arabic punctuation regex pattern
-    arabicPunctPattern = r"[؀-؃؆-؊،؍؛؞]"
-    engPunctPattern = r"[.,;''`~:\"]"
-
+    arabicPunctPattern = r'[؀-؃؆-؊،؍؛؞]'
+    engPunctPattern = r'[.,;''`~:"]'
     # Use re.sub to replace all occurrences of Arabic punctuation with an empty string
-    clean = re.sub(f"{arabicPunctPattern}|{engPunctPattern}", " ", text)
+    clean = re.sub(arabicPunctPattern + '|' + engPunctPattern, '', text)
     return clean
 
 
@@ -99,70 +97,26 @@ def tokenizeArabic(text):
 
 
 
-def dropOutliers(dataset):
-    # get the length of tweets and add it to the dataset DataFrame
-    length = [len(tweet) for tweet in dataset["tweet"]]
-
-    # calculate Q1 & Q3
-    Q1 = np.percentile(length, 25)
-    Q3 = np.percentile(length, 75)
-
-    # Calculate IQR
-    IQR = Q3 - Q1
-
-    # Define the acceptable range for tweet lengths (excluding outliers)
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
-
-    indices_to_drop = []
-    for index, length in enumerate(length):
-        if upper_bound < length or length < lower_bound:
-            indices_to_drop.append(index)
-    
-    dataset = dataset.drop(index=indices_to_drop)
-    dataset = dataset.reset_index(drop=True)
-    return dataset
-
 def cleanData(dataset):
-    dataset = dataset.drop_duplicates(subset=["tweet"])
-    dataset = dataset.reset_index(drop=True)
 
-    cleaned_tweets = []
-    for tweet in dataset["tweet"]:
+    for index, tweet in enumerate(dataset["tweet"].tolist()):
         #standard tweet cleaning
-
-        # Remove URLs
-        clean = re.sub(r"https?://\S+|www\.\S+", " ", tweet)
-
-        # Remove punctuation, numbers, Arabic numbers, underscores
-        clean = re.sub(r"\p{Mn}", "", clean) # Remove non-spacing marks
-        # Replace punctuation, non-(whitespace/word) characters, and Arabic-Indic digits with spaces
-        clean = re.sub(r"\p{P}|[^\s\w\u0660-\u0669]|ﷻ|ﷺ|ۥۦ", " ", clean)
-
-        # Remove extra whitespaces
-        clean = re.sub(r"\s+", " ", clean.strip())
+        clean = re.sub(r"(http[s]?\://\S+)|([\[\(].*[\)\]])|([#@]\S+)|\n", "", tweet)
+        clean = re.sub(r"[,.\"\'!@#$%^&*(){}?/;`~:<>+=-«»…؟“]", "", clean)
         
         #Test to see if they're useful or not
-        # clean = remove_emojis(tweet)
+        clean = remove_emojis(clean)
         clean = removeConsecutiveDuplicates(clean)
 
         # mandatory arabic preprocessing
         clean = Normalize.normalize_searchtext(clean)
-        # clean = removeEnglish(clean)
+        clean = removeEnglish(clean)
         clean = lemmatizeArabic(clean)
         clean = removeStopwords(clean)
-        # clean = removePunctuation(clean)
+        clean = removePunctuation(clean)
 
-        clean = re.sub(r"[^\u0621-\u064A\u0623\u0624\u0625\u0626\s]+", " ", clean)
-        clean = re.sub(r"\s+", " ", clean.strip())
-
-        cleaned_tweets.append(clean)
-
-    # Replace the 'tweet' column with the cleaned tweets
-    dataset["tweet"] = cleaned_tweets
-
-    # Drop the outliers tweets based on their length
-    dataset = dropOutliers(dataset.copy(deep = True))
+        # clean = tokenizeArabic(clean)
+        dataset.loc[index, "tweet"] = clean # replace the old values with the cleaned one.
 
     # datasetdrop_duplicates(subset=["tweet"])
     return dataset
@@ -184,16 +138,16 @@ def tokenization(dataset):
 
 
 
-def preProcessData(dataset):    
-    dataset = cleanData(dataset.copy(deep=True))
+def preProcessData(dataset):
+    dataset = dataset.drop_duplicates(subset=["tweet"])
+    
+    data = cleanData(dataset.copy(deep=True))
     print("\n\t----------        cleanData Done!        ----------\n")
 
     # dataAugmentation()
     print("\n---------- dataAugmentation done in a separate file ----------\n")
 
-    dataset = tokenization(dataset.copy(deep=True))
+    data = tokenization(data.copy(deep=True))
     print("\n\t---------     dataTokenization Done!     ----------\n")
 
-    # dataset = dataset.drop(["level_0", "index"], axis=1)
-
-    return dataset
+    return data
