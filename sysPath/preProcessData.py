@@ -1,4 +1,4 @@
-import re
+import regex as re
 import nltk
 import warnings
 import numpy as np
@@ -116,44 +116,50 @@ def dropOutliers(dataset):
 
     indices_to_drop = []
     for index, length in enumerate(length):
-        if upper_bound < length < lower_bound:
+        if upper_bound < length or length < lower_bound:
             indices_to_drop.append(index)
-
-    dataset = dataset.drop(indices_to_drop)
-    dataset = dataset.reset_index()
+    
+    dataset = dataset.drop(index=indices_to_drop)
+    dataset = dataset.reset_index(drop=True)
     return dataset
 
 def cleanData(dataset):
+    dataset = dataset.drop_duplicates(subset=["tweet"])
+    dataset = dataset.reset_index(drop=True)
 
-    dataset = dataset.drop_duplicates(subset="tweet", keep=False)
-    dataset = dataset.reset_index()
-
-    for index, tweet in enumerate(dataset["tweet"].tolist()):
+    cleaned_tweets = []
+    for tweet in dataset["tweet"]:
         #standard tweet cleaning
 
         # Remove URLs
-        clean = re.sub(r"http\S+\s*|#\d+K\d+", " ", tweet)
-        # Remove RT and cc
-        clean = re.sub(r"RT|cc", " ", clean)
+        clean = re.sub(r"https?://\S+|www\.\S+", " ", tweet)
+
         # Remove punctuation, numbers, Arabic numbers, underscores
-        clean = re.sub(r"[,.\"،\/@#!\$%\^&\*;:{}=\-_`~()?“؟﴾﴿«»…<>+[\]0-9\u0660-\u0669_]", " ", clean)
+        clean = re.sub(r"\p{Mn}", "", clean) # Remove non-spacing marks
+        # Replace punctuation, non-(whitespace/word) characters, and Arabic-Indic digits with spaces
+        clean = re.sub(r"\p{P}|[^\s\w\u0660-\u0669]|ﷻ|ﷺ|ۥۦ", " ", clean)
+
         # Remove extra whitespaces
-        clean = re.sub(r"\s+", " ", clean).strip()
+        clean = re.sub(r"\s+", " ", clean.strip())
         
         #Test to see if they're useful or not
-        clean = remove_emojis(clean)
+        # clean = remove_emojis(tweet)
         clean = removeConsecutiveDuplicates(clean)
 
         # mandatory arabic preprocessing
         clean = Normalize.normalize_searchtext(clean)
-        clean = removeEnglish(clean)
+        # clean = removeEnglish(clean)
         clean = lemmatizeArabic(clean)
         clean = removeStopwords(clean)
-        clean = removePunctuation(clean)
-        clean = re.sub(r"\s+", " ", tweet)
+        # clean = removePunctuation(clean)
 
-        # clean = tokenizeArabic(clean)
-        dataset.loc[index, "tweet"] = clean # replace the old values with the cleaned one.
+        clean = re.sub(r"[^\u0621-\u064A\u0623\u0624\u0625\u0626\s]+", " ", clean)
+        clean = re.sub(r"\s+", " ", clean.strip())
+
+        cleaned_tweets.append(clean)
+
+    # Replace the 'tweet' column with the cleaned tweets
+    dataset["tweet"] = cleaned_tweets
 
     # Drop the outliers tweets based on their length
     dataset = dropOutliers(dataset.copy(deep = True))
@@ -178,16 +184,16 @@ def tokenization(dataset):
 
 
 
-def preProcessData(dataset):
-    dataset = dataset.drop_duplicates(subset=["tweet"])
-    
-    data = cleanData(dataset.copy(deep=True))
+def preProcessData(dataset):    
+    dataset = cleanData(dataset.copy(deep=True))
     print("\n\t----------        cleanData Done!        ----------\n")
 
     # dataAugmentation()
     print("\n---------- dataAugmentation done in a separate file ----------\n")
 
-    data = tokenization(data.copy(deep=True))
+    dataset = tokenization(dataset.copy(deep=True))
     print("\n\t---------     dataTokenization Done!     ----------\n")
 
-    return data
+    # dataset = dataset.drop(["level_0", "index"], axis=1)
+
+    return dataset

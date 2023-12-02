@@ -98,7 +98,7 @@ def synonym_replacement(words, n):
 
 def dataAugmentation(dataset):
     total = len(dataset[dataset.sarcasm == 1]["tweet"].tolist())
-    progressBar = tqdm(total=total, ncols=145, desc="Data Augmentation", ascii="░▒█")
+    progressBar = tqdm(total=total, ncols=140, desc="Data Augmentation", ascii="░▒█")
     
     augDataset = pd.DataFrame(columns=["tweet", "dialect", "sarcasm"])
     backtransDataset = pd.DataFrame(columns=["tweet", "dialect", "sarcasm"])
@@ -127,7 +127,6 @@ def dataAugmentation(dataset):
                                                             ]
         except Exception as e:
             print(f"\nTranslation error: {e}\n")
-            progressBar.update(1)
 
         try:
             synreplacement_ArabicVer = perform_translation([synreplacement_EnglishVer], arabicModel, arabicModeltkn, "ar")
@@ -144,8 +143,11 @@ def dataAugmentation(dataset):
                                                             ]
         except Exception as e:
             print(f"\nSynonym replacement error: {e}\n")
-        
+
+        progressBar.set_description(f"Data Augmentation {'.' * (index % 4)}{' ' * (4 - (index % 4))} ")
         progressBar.update(1)
+
+    progressBar.set_description("Data Augmentation")
     return augDataset, backtransDataset, synonymrepDataset
 
 
