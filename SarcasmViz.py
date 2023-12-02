@@ -49,7 +49,7 @@ def tokenize_and_preprocess_single(text, tokenizer, preprocess):
     encoded = tokenizer(preprocessed_text, padding=True, truncation=True, max_length=128, return_tensors="tf")
     return encoded
 
-def extract_features(texts, model_name="aubmindlab/bert-base-arabert"):
+def extract_features(texts, model_name="aubmindlab/bert-base-arabertv2"):
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         model = TFAutoModel.from_pretrained(model_name)
 

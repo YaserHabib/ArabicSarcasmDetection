@@ -73,7 +73,6 @@ test_dataset = tf.data.Dataset.from_tensor_slices((
     test_labels
 )).batch(BATCH_SIZE)
 
-
 # Load the AraBERT model with a classification head
 model = TFAutoModelForSequenceClassification.from_pretrained("aubmindlab/bert-base-arabertv02", num_labels=2)
 '''config = AutoConfig.from_pretrained(MODEL_NAME, num_labels=2, hidden_dropout_prob=0.5, attention_probs_dropout_prob=0.5)
@@ -130,11 +129,6 @@ def step_decay(epoch):
 history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH, callbacks = [early_stopping])
 
 #model.save('./Sarcasm_araBERT_NEW/arabert_sarc.keras')
-
-with open('arabert_model.pkl', 'wb') as file:
-        pickle.dump(model, file)
-
-print("Model have been saved as pickle file.")
 
 # Evaluate the model on the test dataset
 test_loss, test_accuracy = model.evaluate(test_dataset)
