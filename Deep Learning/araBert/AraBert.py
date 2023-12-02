@@ -36,7 +36,7 @@ def tokenize_and_preprocess(dataframe, tokenizer, preprocess):
     labels = tf.keras.utils.to_categorical(dataframe['sarcasm'].values, num_classes=2)
     return encoded, labels
 
-MODEL_NAME = "aubmindlab/bert-base-arabertv2"
+MODEL_NAME = "aubmindlab/bert-base-arabertv02"
 
 # Load the tokenizer and preprocessor]
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
