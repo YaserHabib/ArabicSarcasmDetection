@@ -29,8 +29,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 
 
-tokenizer = AutoTokenizer.from_pretrained("aubmindlab/bert-base-arabert")
-model = TFAutoModel.from_pretrained("aubmindlab/bert-base-arabert")
+tokenizer = AutoTokenizer.from_pretrained("aubmindlab/bert-base-arabertv02")
+model = TFAutoModel.from_pretrained("aubmindlab/bert-base-arabertv02")
 batch_size = 64
 
 def extract_arabert_features(texts, model, tokenizer):
