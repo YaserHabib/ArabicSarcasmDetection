@@ -129,7 +129,7 @@ def step_decay(epoch):
 #history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH, callbacks = [early_stopping])
 history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH, callbacks = [early_stopping])
 
-#model.save('./Sarcasm_araBERT_NEW')
+#model.save('./Sarcasm_araBERT_NEW/arabert_sarc.keras')
 
 with open('arabert_model.pkl', 'wb') as file:
         pickle.dump(model, file)
