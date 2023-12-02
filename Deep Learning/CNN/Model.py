@@ -1,32 +1,25 @@
 import os
 import sys
+import time
+
+from sympy import rational_interpolate
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
-sys.path.append(r"..\..\sysPath")
+sys.path.append(r"../../sysPath")
 os.chdir(dname)
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Set TensorFlow logging level to 2 (ERROR)
 
 import shutil
 import warnings
-import numpy as np
 import pandas as pd
-import seaborn as sns
 import preProcessData #type: ignore
 import tensorflow as tf
-import matplotlib.pyplot as plt
 
-from keras.utils import plot_model
-from keras.utils import pad_sequences
-from gensim.models import KeyedVectors
-from sklearn.utils import class_weight
+from summarize import prepareData, summarize, TrainTestSplit, smote, fit, modelEvaluation, display # type: ignore
+from summarize import recordResult, plotPerformance, saveFig, recordXLSX, barPlot # type: ignore
 from keras.callbacks import TensorBoard
-from imblearn.over_sampling import SMOTE
-from keras.preprocessing.text import Tokenizer
-
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 
 warnings.filterwarnings(action = 'ignore')
 callback = TensorBoard(log_dir = 'logs/', histogram_freq = 1)
@@ -36,178 +29,93 @@ if os.path.isdir("logs"):
 
 
 
-# dataset, datasetName = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv"), "Original Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/GPT Dataset.csv"), "GPT Combined Dataset"
-dataset, datasetName = pd.read_csv(r"../../Datasets/full Dataset.csv"), "Full Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/augmented Dataset.csv"), "Augmented Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/backtrans Dataset.csv"), "Back Translated Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/synrep Dataset.csv"), "Synonym Replacement Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/backGPT Dataset.csv"), "Back Translated & GPT Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/synGPT Dataset.csv"), "Synonym Replacement & GPT Combined Dataset"
-# dataset, datasetName = pd.read_csv(r"../../Datasets/balanced.csv"), "balanced dataset from original"
+def configModel(max_length, vocab_size, TOTAL_EMBEDDING_DIM, embedding_matrix):
+    model = tf.keras.Sequential([
 
-dataset.info()
-print(f"\n{dataset.head()}")
+        tf.keras.layers.InputLayer(input_shape = (max_length,)),
 
-dataset = preProcessData.preProcessData(dataset.copy(deep = True))
+        # Embedding layer for creating word embeddings
+        tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, weights = [embedding_matrix] , input_length = max_length, trainable = True),
 
-dataset.info()
-print(f"\n{dataset.head()}")
+        # Conv1D layer for pattern recognition model and extract the feature from the vectors
+        tf.keras.layers.Conv1D(filters = 128, kernel_size = 3, activation = "relu"),
 
+        tf.keras.layers.BatchNormalization(),
 
+        tf.keras.layers.LSTM(128, dropout = 0.5, return_sequences = True),
 
-# prepare tokenizer
-T = Tokenizer()
-T.fit_on_texts(dataset["tweet"].tolist())
-vocab_size = len(T.word_index) + 1
+        # GlobalMaxPooling layer to extract relevant features
+        tf.keras.layers.GlobalMaxPool1D(),
 
+        # First Dense layer with 64 neurons and ReLU activation
+        tf.keras.layers.Dense(64, activation = 'relu'),
 
+        # Dropout layer to prevent overfitting
+        tf.keras.layers.Dropout(0.5),
 
-# integer encode the documents
-encoded_docs = T.texts_to_sequences(dataset["tweet"].tolist())
-# print("encoded_docs:\n",encoded_docs)
+        # Final Dense layer with 1 neuron and sigmoid activation for binary classification
+        tf.keras.layers.Dense(1, activation = 'sigmoid')
+    ])
 
+    # compile the model
+    model.compile(optimizer = tf.keras.optimizers.Adam(0.00002), metrics = ["accuracy"], loss = "binary_crossentropy")
 
+    return model
 
-# pad documents to a max length of 4 words
-max_length = len(max(np.array(dataset["tweet"]), key = len))
-padded_docs = pad_sequences(encoded_docs, maxlen = max_length, padding = "post")
-print("\npadded_docs:\n",padded_docs)
 
 
+ArsarcasmTrain = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/ArSarcasm-v2/main/ArSarcasm-v2/training_data.csv")[['tweet','sarcasm', "dialect"]]
 
-# load the whole embedding into memory
-w2v_embeddings_index = {}
-TOTAL_EMBEDDING_DIM = 300
-embeddings_file = r"../../full_grams_cbow_300_twitter/full_grams_cbow_300_twitter.mdl"
-w2v_model = KeyedVectors.load(embeddings_file)
+iSarcasmEvalTrain = pd.read_csv(r"https://raw.githubusercontent.com/iabufarha/iSarcasmEval/main/train/train.Ar.csv")[['text','sarcastic', 'dialect']]
+iSarcasmEvalTrain.columns = ['tweet','sarcasm', "dialect"]
 
+iEval_Ar_Dataset = pd.concat([ArsarcasmTrain, iSarcasmEvalTrain], ignore_index=True)
+fullDataset = pd.read_csv(r"../../Datasets/full Dataset.csv")[['tweet','sarcasm', "dialect"]]
 
+datasets = {
+    "ArsarcasmV2 Dataset": ArsarcasmTrain,
+    "ISarcasmEval Dataset": iSarcasmEvalTrain,
+    "IEval_Ar_Dataset": iEval_Ar_Dataset,
+    "Full Combined Dataset": fullDataset
+}
 
-for word in w2v_model.wv.index_to_key:
-    w2v_embeddings_index[word] = w2v_model.wv[word]
+data = pd.DataFrame(columns=["Dataset Name", "# non-Sarcasm", "# Sarcasm", "SMOTE state",  "sarcasm:nonsarcasm", "Precision-Score", "Recall-Score", "F1-Score", "Accuracy"])
 
-print("\nLoaded %s word vectors."% len(w2v_embeddings_index))
 
 
+for datasetName, dataset in datasets.items():
+    start = time.time()
 
-# create a weight matrix for words in training docs
-embedding_matrix = np.zeros((vocab_size, TOTAL_EMBEDDING_DIM))
+    dataset, max_length, vocab_size, TOTAL_EMBEDDING_DIM, embedding_matrix, padded_docs = prepareData(dataset)
 
-for word, i in T.word_index.items():
-    embedding_vector = w2v_embeddings_index.get(word)
-    if embedding_vector is not None:
-        embedding_matrix[i] = embedding_vector
+    model = configModel(max_length, vocab_size, TOTAL_EMBEDDING_DIM, embedding_matrix)
 
-print("\nEmbedding Matrix shape:", embedding_matrix.shape)
+    summarize(model, datasetName)
 
+    train_tweet, test_tweet, train_labels, test_labels, val_tweet, val_labels = TrainTestSplit(padded_docs, dataset)
 
+    ratio = dataset["sarcasm"].value_counts()[1] / len(dataset)
+    train_tweet, train_labels = smote(train_tweet, train_labels) if ratio < 0.40 else (train_tweet, train_labels)
 
-model = tf.keras.Sequential([
+    result = fit(model, train_labels, train_tweet, val_tweet, val_labels)
 
-    tf.keras.layers.InputLayer(input_shape = (max_length,)),
+    predicted, precision, accuracy, recall, f1, classificationReport = modelEvaluation(model, test_tweet, test_labels)
 
-    # Embedding layer for creating word embeddings
-    tf.keras.layers.Embedding(vocab_size, TOTAL_EMBEDDING_DIM, weights = [embedding_matrix] ,input_length = max_length, trainable = True),
+    end = time.time()
 
-    # Conv1D layer for pattern recognition model and extract the feature from the vectors
-    tf.keras.layers.Conv1D(filters = 64, kernel_size = 3, activation = "relu"),
+    display(datasetName, classificationReport, ratio, end-start)
 
-    tf.keras.layers.BatchNormalization(),
+    recordResult(datasetName, classificationReport, ratio, end-start)
 
-    tf.keras.layers.LSTM(256, dropout = 0.5, return_sequences = True),
-    
-    # GlobalMaxPooling layer to extract relevant features
-    tf.keras.layers.GlobalMaxPool1D(),
+    plotPerformance(result, datasetName)
 
-    # First Dense layer with 128 neurons and ReLU activation
-    tf.keras.layers.Dense(128, activation = 'relu'),
+    saveFig(test_labels, predicted, accuracy, datasetName)
 
-    # Dropout layer to prevent overfitting
-    tf.keras.layers.Dropout(0.5),
+    nonSarcasmCount = dataset["sarcasm"].value_counts()[0]
+    sarcasmCount = dataset["sarcasm"].value_counts()[1]
+    smoteState = "False" if ratio > 0.4 else "True"
+    recordXLSX(data, datasetName, nonSarcasmCount, sarcasmCount, ratio, precision, recall, f1, accuracy, smoteState)
 
-    # Final Dense layer with 1 neuron and sigmoid activation for binary classification
-    tf.keras.layers.Dense(1, activation = 'sigmoid')
-])
 
-
-
-model.compile(optimizer = tf.keras.optimizers.Adam(0.00002), metrics = ["accuracy"], loss = "binary_crossentropy")
-
-
-
-# summarize the model
-print(f"\n{model.summary()}")
-print("\n # Wait just Fitting model on training data")
-plot_model(model, to_file = 'summary.png', show_shapes = True, show_layer_names = True, dpi = 1000)
-
-
-
-# splits into traint, validation, and test
-train_tweet, test_tweet, train_labels, test_labels = train_test_split(padded_docs, dataset["sarcasm"].to_numpy(), test_size = 0.1, random_state = 42)
-train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size = 0.05, random_state = 42)
-
-
-
-# sm = SMOTE()
-# tweet_train, labeled_train = sm.fit_resample(tweet_train, labeled_train) # type: ignore
-
-
-
-# fit the model
-class_weights = class_weight.compute_class_weight(class_weight = "balanced", classes = np.unique(train_labels), y = train_labels)
-class_weights = dict(enumerate(class_weights))
-result = model.fit(train_tweet, train_labels, epochs = 15, verbose = 1, validation_data = (val_tweet, val_labels), class_weight = class_weights) # type: ignore
-
-
-
-# get Classification report
-print()
-predicted = np.round(model.predict(test_tweet))
-accuracy = accuracy_score(test_labels, predicted)
-report = classification_report(test_labels, predicted, target_names = ["non-Sarcasm", "Sarcasm"])
-
-print(f"\n{report}\n")
-
-
-
-confusionMatrix = confusion_matrix(test_labels, predicted)
-
-ax = plt.subplot()
-sns.heatmap(confusionMatrix, annot = True, fmt = 'g', ax = ax, cmap = "viridis") # annot = True to annotate cells, ftm = 'g' to disable scientific notation
-
-# labels, title and ticks
-ax.set_xlabel('Predicted labels')
-ax.set_ylabel('True labels')
-ax.set_title(f"Accuracy: {accuracy*100:.2f}%")
-ax.xaxis.set_ticklabels(["non-Sarcasm", "Sarcasm"])
-ax.yaxis.set_ticklabels(["non-Sarcasm", "Sarcasm"])
-
-plt.savefig(f"keras - Full dataset.png", dpi = 1000)
-plt.close()
-
-
-
-# Plot results
-acc = result.history['accuracy']
-val_acc = result.history['val_accuracy']
-loss = result.history['loss']
-val_loss = result.history['val_loss']
-
-epochs = range(1, len(acc)+1)
-
-plt.plot(epochs, acc, 'g', label = 'Training accuracy')
-plt.plot(epochs, val_acc, 'r', label = 'Validation accuracy')
-plt.title('Training and validation accuracy')
-plt.legend()
-plt.savefig(f"Training vs validation accuracy", dpi = 1000)
-
-plt.close()
-
-plt.plot(epochs, loss, 'g', label = 'Training loss')
-plt.plot(epochs, val_loss, 'r', label = 'Validation loss')
-plt.title('Training and validation loss')
-plt.legend()
-plt.savefig(f"Training vs validation loss", dpi = 1000)
-
-plt.close()
+barPlot(data, "CNN")
+data.to_excel("model performance - SMOTE ON.xlsx", index = False)
