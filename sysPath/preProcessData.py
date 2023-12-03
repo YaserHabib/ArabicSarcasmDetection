@@ -113,6 +113,7 @@ def removeEmpty(dataset):
 
 def cleanData(dataset):
     dataset = dataset.drop_duplicates(subset=["tweet"])
+    dataset = dataset.dropna()
     dataset = dataset.reset_index(drop=True)
 
     cleaned_tweets = []
@@ -124,14 +125,13 @@ def cleanData(dataset):
 
         # Remove punctuation, numbers, Arabic numbers, underscores
         clean = re.sub(r"\p{Mn}", "", clean) # Remove non-spacing marks
-        # Replace punctuation, non-(whitespace/word) characters, and Arabic-Indic digits with spaces
-        clean = re.sub(r"\p{P}|[^\s\w\u0660-\u0669]|ﷻ|ﷺ|ۥۦ", " ", clean)
+        clean = re.sub(r"\p{P}|[^\s\w\u0660-\u0669]|ﷻ|ﷺ|ۥۦ", " ", clean) # Replace punctuation, non-(whitespace/word) characters, and Arabic-Indic digits with spaces
 
         # Remove extra whitespaces
         clean = re.sub(r"\s+", " ", clean.strip())
         
         #Test to see if they're useful or not
-        # clean = remove_emojis(tweet)
+        clean = remove_emojis(tweet)
         clean = removeConsecutiveDuplicates(clean)
 
         # mandatory arabic preprocessing

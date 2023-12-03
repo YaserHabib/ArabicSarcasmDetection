@@ -1,7 +1,6 @@
 import numpy as np
 import seaborn as sns
 import preProcessData #type: ignore
-import tensorflow as tf
 import matplotlib.pyplot as plt
 
 
@@ -86,12 +85,15 @@ def summarize(model, datasetName):
 
 
 
-def TrainTestSplit(padded_docs, dataset):
+def TrainTestSplit(padded_docs, dataset, validation = True):
     # splits into traint, validation, and test
     train_tweet, test_tweet, train_labels, test_labels = train_test_split(padded_docs, dataset["sarcasm"].to_numpy(), test_size = 0.1, random_state = 42)
-    train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size = 0.05, random_state = 42)
-
-    return train_tweet, test_tweet, train_labels, test_labels, val_tweet, val_labels
+    
+    if validation:
+        train_tweet, val_tweet, train_labels, val_labels = train_test_split(train_tweet, train_labels, test_size = 0.05, random_state = 42)
+        return train_tweet, test_tweet, train_labels, test_labels, val_tweet, val_labels
+    else:
+        return train_tweet, test_tweet, train_labels, test_labels
 
 
 
@@ -102,11 +104,11 @@ def smote(tweet_train, labeled_train):
 
 
 
-def fit(model, train_labels, train_tweet, val_tweet, val_labels):
+def fit(model, train_labels, train_tweet, val_tweet, val_labels, epochs = 20):
     # fit the model
     class_weights = class_weight.compute_class_weight(class_weight = "balanced", classes = np.unique(train_labels), y = train_labels)
     class_weights = dict(enumerate(class_weights))
-    result = model.fit(train_tweet, train_labels, epochs = 20, verbose = 1, validation_data = (val_tweet, val_labels), class_weight = class_weights) # type: ignore
+    result = model.fit(train_tweet, train_labels, epochs = epochs, verbose = 1, validation_data = (val_tweet, val_labels), class_weight = class_weights) # type: ignore
 
     return result
 
@@ -130,7 +132,7 @@ def display(datasetName, classificationReport, ratio, smoteStatus, time):
     print(f"\n\nDataset used: {datasetName}")
     print(f"sarcasm to nonsarcasm: {ratio:.2f}")
     print(f"SMOTE: {smoteStatus}")
-    print(f"Execution Time: {int(time)}s")
+    print(f"Execution Time: {int(time)}s\n")
     print(classificationReport) # type: ignore
     print("\n\n" + "▒"*100 + "\n")
 
@@ -177,7 +179,7 @@ def plotPerformance(result, datasetName):
 
 
 
-def saveFig(test_labels, predicted, accuracy, datasetName):
+def saveFig(test_labels, predicted, accuracy, modelName, datasetName):
     confusionMatrix = confusion_matrix(test_labels, predicted)
 
     ax = plt.subplot()
@@ -190,7 +192,7 @@ def saveFig(test_labels, predicted, accuracy, datasetName):
     ax.xaxis.set_ticklabels(["non-Sarcasm", "Sarcasm"])
     ax.yaxis.set_ticklabels(["non-Sarcasm", "Sarcasm"])
 
-    plt.savefig(f"CNN - {datasetName}.png", dpi = 1000)
+    plt.savefig(f"{modelName} - {datasetName}.png", dpi = 1000)
     plt.close()
 
 
