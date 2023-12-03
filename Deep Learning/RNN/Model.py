@@ -79,11 +79,14 @@ datasets = {
 }
 
 data = pd.DataFrame(columns=["Dataset Name", "# non-Sarcasm", "# Sarcasm", "SMOTE state",  "sarcasm:nonsarcasm", "Precision-Score", "Recall-Score", "F1-Score", "Accuracy"])
+smoteControl = False
 
 
 
 for datasetName, dataset in datasets.items():
     start = time.time()
+    ratio = dataset["sarcasm"].value_counts()[1] / len(dataset)
+    smoteStatus = True if ratio > 0.40 and smoteControl else False
 
     dataset, max_length, vocab_size, TOTAL_EMBEDDING_DIM, embedding_matrix, padded_docs = prepareData(dataset)
 
@@ -93,8 +96,7 @@ for datasetName, dataset in datasets.items():
 
     train_tweet, test_tweet, train_labels, test_labels, val_tweet, val_labels = TrainTestSplit(padded_docs, dataset)
 
-    ratio = dataset["sarcasm"].value_counts()[1] / len(dataset)
-    train_tweet, train_labels = smote(train_tweet, train_labels) if ratio < 0.40 else (train_tweet, train_labels)
+    train_tweet, train_labels = smote(train_tweet, train_labels) if smoteStatus else (train_tweet, train_labels)
 
     result = fit(model, train_labels, train_tweet, val_tweet, val_labels)
 
@@ -102,9 +104,9 @@ for datasetName, dataset in datasets.items():
 
     end = time.time()
 
-    display(datasetName, classificationReport, ratio, end-start)
+    display(datasetName, classificationReport, ratio, smoteStatus, end-start)
 
-    recordResult(datasetName, classificationReport, ratio, end-start)
+    recordResult(datasetName, classificationReport, ratio, smoteStatus, end-start)
 
     plotPerformance(result, datasetName)
 
@@ -112,9 +114,8 @@ for datasetName, dataset in datasets.items():
 
     nonSarcasmCount = dataset["sarcasm"].value_counts()[0]
     sarcasmCount = dataset["sarcasm"].value_counts()[1]
-    smoteState = "False" if ratio > 0.4 else "True"
-    recordXLSX(data, datasetName, nonSarcasmCount, sarcasmCount, ratio, precision, recall, f1, accuracy, smoteState)
+    recordXLSX(data, datasetName, nonSarcasmCount, sarcasmCount, ratio, precision, recall, f1, accuracy, smoteStatus)
 
 
 barPlot(data, "RNN")
-data.to_excel("model performance - SMOTE ON.xlsx", index = False)
+data.to_excel("model performance - SMOTE OFF.xlsx", index = False)

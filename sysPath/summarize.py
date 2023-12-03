@@ -126,25 +126,22 @@ def modelEvaluation(model, test, true):
 
 
 
-def display(datasetName, classificationReport, ratio, time):
+def display(datasetName, classificationReport, ratio, smoteStatus, time):
     print(f"\n\nDataset used: {datasetName}")
-    print(f"Ratio of sarcastic to straightforward content: {ratio:.2f}")
-    if ratio < 0.40: print("SMOTE: True")
-    else: print(f"SMOTE: False")
+    print(f"sarcasm to nonsarcasm: {ratio:.2f}")
+    print(f"SMOTE: {smoteStatus}")
     print(f"Execution Time: {int(time)}s")
     print(classificationReport) # type: ignore
     print("\n\n" + "▒"*100 + "\n")
 
 
 
-def recordResult(datasetName, classificationReport, ratio, time):
-    with open(r"Description - SMOTE ON.txt", "a") as descriptionFile:
+def recordResult(datasetName, classificationReport, ratio, smoteStatus, time):
+    with open(r"Description - SMOTE OFF.txt", "a") as descriptionFile:
         descriptionFile.write("="*100)
         descriptionFile.write(f"\nDataset used: {datasetName}\n")
-
-        if ratio < 0.40: descriptionFile.write("SMOTE: True")
-        else: descriptionFile.write(f"SMOTE: False")
-
+        descriptionFile.write(f"sarcasm to nonsarcasm: {ratio:.2f}")
+        descriptionFile.write(f"SMOTE: {smoteStatus}")
         descriptionFile.write(f"\nExecution Time: {int(time)}s\n\n")
         descriptionFile.write(classificationReport) # type: ignore
         descriptionFile.write("\n\n" + "="*100 + "\n")
@@ -198,7 +195,7 @@ def saveFig(test_labels, predicted, accuracy, datasetName):
 
 
 
-def recordXLSX(data, datasetName, nonSarcasmCount, SarcasmCount, ratio, precision, recall, f1, accuracy, smote_state = "False"):
+def recordXLSX(data, datasetName, nonSarcasmCount, SarcasmCount, ratio, precision, recall, f1, accuracy, smote_state = False):
     data.loc[len(data.index)] = [datasetName, nonSarcasmCount, SarcasmCount, smote_state, ratio, precision, recall, f1, accuracy] # type: ignore
 
 
