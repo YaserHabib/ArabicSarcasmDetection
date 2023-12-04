@@ -3,3 +3,5 @@ virtual_env/
 venv/
 Deep\ Learning/araBert/SarcasmAraBERT
 Embeddings/
+Deep\ Learning/CNN/Full\ Combined\ Dataset.keras
+Deep\ Learning/RNN/Full\ Combined\ Dataset.keras
