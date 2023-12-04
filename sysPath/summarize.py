@@ -1,12 +1,12 @@
 import numpy as np
 import seaborn as sns
-import preProcessData #type: ignore
 import matplotlib.pyplot as plt
 
 
 from keras.utils import plot_model
 from keras.utils import pad_sequences
 from gensim.models import KeyedVectors
+from preProcessData import preProcessData
 from keras.preprocessing.text import Tokenizer
 
 from imblearn.over_sampling import SMOTE
@@ -22,7 +22,7 @@ def prepareData(dataset):
     dataset.info()
     print(f"\n{dataset.head()}")
 
-    dataset = preProcessData.preProcessData(dataset.copy(deep = True))
+    dataset = preProcessData(dataset.copy(deep = True))
 
     dataset.info()
     print(f"\n{dataset.head()}")
@@ -108,7 +108,7 @@ def fit(model, train_labels, train_tweet, val_tweet, val_labels, epochs = 20):
     # fit the model
     class_weights = class_weight.compute_class_weight(class_weight = "balanced", classes = np.unique(train_labels), y = train_labels)
     class_weights = dict(enumerate(class_weights))
-    result = model.fit(train_tweet, train_labels, epochs = epochs, verbose = 1, validation_data = (val_tweet, val_labels), class_weight = class_weights) # type: ignore
+    result = model.fit(train_tweet, train_labels, batch_size = 16, epochs = epochs, verbose = 1, validation_data = (val_tweet, val_labels), class_weight = class_weights) # type: ignore
 
     return result
 
@@ -139,12 +139,13 @@ def display(datasetName, classificationReport, ratio, smoteStatus, time):
 
 
 def recordResult(datasetName, classificationReport, ratio, smoteStatus, time):
-    with open(r"Description - SMOTE OFF.txt", "a") as descriptionFile:
+    recordName = "Description - SMOTE OFF.txt" if smoteStatus else "Description.txt"
+    with open(recordName, "a") as descriptionFile:
         descriptionFile.write("="*100)
         descriptionFile.write(f"\nDataset used: {datasetName}\n")
-        descriptionFile.write(f"sarcasm to nonsarcasm: {ratio:.2f}")
-        descriptionFile.write(f"SMOTE: {smoteStatus}")
-        descriptionFile.write(f"\nExecution Time: {int(time)}s\n\n")
+        descriptionFile.write(f"sarcasm to nonsarcasm: {ratio:.2f}\n")
+        descriptionFile.write(f"SMOTE: {smoteStatus}\n")
+        descriptionFile.write(f"Execution Time: {int(time)}s\n\n")
         descriptionFile.write(classificationReport) # type: ignore
         descriptionFile.write("\n\n" + "="*100 + "\n")
 

@@ -1,0 +1,68 @@
+====================================================================================================
+Dataset used: ArsarcasmV2 Dataset
+sarcasm to nonsarcasm: 0.17
+SMOTE: False
+Execution Time: 649s
+
+              precision    recall  f1-score   support
+
+ non-Sarcasm       0.96      0.71      0.81      1040
+     Sarcasm       0.36      0.84      0.51       207
+
+    accuracy                           0.73      1247
+   macro avg       0.66      0.77      0.66      1247
+weighted avg       0.86      0.73      0.76      1247
+
+
+====================================================================================================
+====================================================================================================
+Dataset used: iSarcasmEval Dataset
+sarcasm to nonsarcasm: 0.24
+SMOTE: False
+Execution Time: 148s
+
+              precision    recall  f1-score   support
+
+ non-Sarcasm       0.96      0.63      0.76       211
+     Sarcasm       0.54      0.95      0.69        99
+
+    accuracy                           0.73       310
+   macro avg       0.75      0.79      0.72       310
+weighted avg       0.83      0.73      0.74       310
+
+
+====================================================================================================
+====================================================================================================
+Dataset used: ARISarcasm
+sarcasm to nonsarcasm: 0.21
+SMOTE: False
+Execution Time: 1123s
+
+              precision    recall  f1-score   support
+
+ non-Sarcasm       0.91      0.73      0.81      1534
+     Sarcasm       0.50      0.79      0.61       511
+
+    accuracy                           0.75      2045
+   macro avg       0.71      0.76      0.71      2045
+weighted avg       0.81      0.75      0.76      2045
+
+
+====================================================================================================
+====================================================================================================
+Dataset used: Full Combined Dataset
+sarcasm to nonsarcasm: 0.54
+SMOTE: False
+Execution Time: 12455s
+
+              precision    recall  f1-score   support
+
+ non-Sarcasm       0.75      0.86      0.80      1605
+     Sarcasm       0.86      0.75      0.80      1803
+
+    accuracy                           0.80      3408
+   macro avg       0.81      0.81      0.80      3408
+weighted avg       0.81      0.80      0.80      3408
+
+
+====================================================================================================

@@ -13,7 +13,6 @@ if not os.path.exists(models_dir):
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Set TensorFlow logging level to 2 (ERROR)
 
-import pickle
 import shutil
 import warnings
 import pandas as pd
@@ -123,8 +122,7 @@ for datasetName, dataset in datasets.items():
 
     predicted, precision, accuracy, recall, f1, classificationReport = modelEvaluation(model, test_tweet, test_labels)
 
-    with open(model_path, "wb") as file:
-        pickle.dump(model, file)
+    model.save(rf"{models_dir}/{datasetName}.keras")
 
     end = time.time()
 
