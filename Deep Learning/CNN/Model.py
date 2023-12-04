@@ -118,7 +118,7 @@ for datasetName, dataset in datasets.items():
 
     train_tweet, train_labels = smote(train_tweet, train_labels) if smoteStatus else (train_tweet, train_labels)
 
-    result = fit(model, train_labels, train_tweet, val_tweet, val_labels, 15)
+    result = fit(model, train_labels, train_tweet, val_tweet, val_labels, 10)
 
     predicted, precision, accuracy, recall, f1, classificationReport = modelEvaluation(model, test_tweet, test_labels)
 
