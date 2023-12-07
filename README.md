@@ -147,7 +147,6 @@ Functionality:
 - **Inputs:**
 
         1. Path to the API key file ("../key.txt").
-        
         2. Initial dataset for augmentation ("dataset_GPT.csv").
 - **Outputs:**
 
