@@ -18,6 +18,7 @@ This project focuses on developing and training multiple machine and deep learni
 - **[CNN-based Sarcasm Detection Pipeline](#cnn-based-sarcasm-detection-pipeline)**
 - **[RNN-based Sarcasm Detection Pipeline](#rnn-based-sarcasm-detection-pipeline)**
 - **[Training AraBERT for Sarcasm Detection](#training-arabert-for-sarcasm-detection)**
+- **[Related Projects](#related)**
 - **[Roadmap](#roadmap)**
 - **[Acknowledgements](#acknowledgements)**
 
