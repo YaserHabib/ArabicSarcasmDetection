@@ -47,6 +47,38 @@ Install dependencies
 
  - [ArSarcasmV2 Dataset](https://github.com/iabufarha/ArSarcasm-v2)
  - [iSarcasmEval Dataset](https://github.com/iabufarha/iSarcasmEval)
+## Dataset Aggregation
+This script is designed to aggregate and preprocess several datasets for sarcasm detection in Arabic tweets. The datasets include Arsarcasm-v2, iSarcasmEval, and their variations.
+
+* **Functionality:**
+
+    * **Dataset Loading:** Reads multiple datasets from remote CSV files.
+    * **Data Transformation:** Renames columns for consistency and extracts specific columns ("tweet", "dialect", "sarcasm").
+    * **Dataset Concatenation:** Combines all datasets into a single DataFrame.
+    * **Data Cleaning:** Removes duplicate and missing entries from the combined dataset.
+    * **Randomization and Resetting:** Shuffles the dataset and resets indices for unbiased data processing.
+    * **Finalization and Saving:** Saves the cleaned, combined dataset to a CSV file.
+* **Key Components:**
+
+    * Loading data from various sources including Arsarcasm-v2 and iSarcasmEval.
+    * Data transformation and normalization for consistency across datasets.
+    * Aggregation of multiple datasets into a unified DataFrame.
+    * Data cleaning techniques to ensure quality and reliability.
+* **Inputs:**
+    * Remote URLs of CSV files containing individual datasets.
+* **Outputs:**
+
+    * A single, cleaned, and combined dataset (originalCombined.csv).
+* **Additional Details:**
+
+    * The script prints the count of sarcastic and non-sarcastic tweets, providing an overview of class distribution.
+    * It also displays the first few rows of the combined dataset for a quick preview.
+Run the script to download, preprocess, and combine the datasets.
+The resulting CSV file can be used for further analysis or machine learning tasks related to sarcasm detection.
+
+```python
+python datasetAggregation.py
+```
 ## Preprocessing
 
 Our preprocessing pipeline includes cleaning and normalizing the tweets, removing noise such as emojis and English text, lemmatizing Arabic words, and removing stopwords and punctuation. Additionally, we tokenize the tweets and encode categorical variables like dialect and sarcasm.
@@ -61,7 +93,6 @@ preProcessData.cleanData(dataset)
 - **Input:** DataFrame (dataset) containing tweet data.
 - **Function:** Cleans the dataset by removing duplicates and NA entries, and then processes each tweet. This processing includes removing URLs, non-spacing marks, punctuation, numbers, emojis, and extra whitespaces; normalizing Arabic text; removing English text and stopwords; and performing Arabic lemmatization. Finally, tweets with only whitespace are removed.
 - **Output:** DataFrame with cleaned tweets.
-
 
 ## Augmentation
 The data augmentation process enriches our dataset by introducing variations of the original sarcastic tweets. This is done by translating the tweets to English, performing synonym replacement, and translating them back to Arabic. We also ensure the uniqueness of the augmented data by removing duplicates.
