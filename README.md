@@ -47,15 +47,12 @@ Install dependencies
 
  - [ArSarcasmV2 Dataset](https://github.com/iabufarha/ArSarcasm-v2)
  - [iSarcasmEval Dataset](https://github.com/iabufarha/iSarcasmEval)
-
-## Usage/Examples
-
-### Preprocessing
+## Preprocessing
 
 Our preprocessing pipeline includes cleaning and normalizing the tweets, removing noise such as emojis and English text, lemmatizing Arabic words, and removing stopwords and punctuation. Additionally, we tokenize the tweets and encode categorical variables like dialect and sarcasm.
 
 ![App Screenshot](https://github.com/YaserHabib/ArabicSarcasmDetection/blob/69d622e0901087621948a5faa4cc47c954e57d2e/Imgs/Cleaning%20Process2.PNG)
-#### Usage:
+### Usage:
 Import the preProcessData.py file and call the function:
 ```python
 preProcessData.cleanData(dataset)
@@ -66,15 +63,15 @@ preProcessData.cleanData(dataset)
 - **Output:** DataFrame with cleaned tweets.
 
 
-### Augmentation
+## Augmentation
 The data augmentation process enriches our dataset by introducing variations of the original sarcastic tweets. This is done by translating the tweets to English, performing synonym replacement, and translating them back to Arabic. We also ensure the uniqueness of the augmented data by removing duplicates.
 
-#### Key Features of Data Augmentation:
+### Key Features of Data Augmentation:
 - **Back-translation:** Arabic tweets are translated to English and then back to Arabic to introduce syntactic diversity.
 - **Synonym Replacement:** Synonyms are used to replace certain words in the English-translated tweets to generate different versions, which are then translated back to Arabic.
 - **Dataset Diversification:** The augmented dataset is combined with the original dataset to create a more diverse and robust dataset for training.
 
-#### Usage:
+### Usage:
 
 ```python
 def format_batch_texts(language_code, batch_texts):
@@ -160,14 +157,12 @@ To further enhance our dataset, we employ OpenAI's GPT-4 to generate additional 
 
 The script is designed to handle responses in a specific format and may need adjustments based on the actual output of the GPT model and the structure of the initial dataset.
 
-#### ***Note***
+### ***Note***
 Please ensure you comply with OpenAI's usage policies when using the model for data augmentation. The code provided is for demonstration purposes and should be used within the limits of the API and with proper error handling.
 
-### Machine Learning Model Training
+## Machine Learning Model Training
 
-#### Feature Extraction: 
-
-* **Overview:** This script establishes a complete machine learning pipeline for sarcasm detection in Arabic tweets, utilizing AraBERT for feature extraction and various classifiers for prediction.
+This script establishes a complete machine learning pipeline for sarcasm detection in Arabic tweets, utilizing AraBERT for feature extraction and various classifiers for prediction.
 
 * **Functionality:**
 
@@ -204,6 +199,113 @@ The script will automatically process the data, train the models, evaluate their
 ```python
 python Ml_pipelines.py
 ```
+
+## CNN/RNN Sarcasm Detection Pipeline
+This script sets up and trains a Convolutional Neural Network (CNN) with LSTM layers for detecting sarcasm in Arabic tweets. It utilizes multiple datasets and incorporates techniques like SMOTE for dealing with class imbalances.
+
+* **Functionality:**
+
+    * **Environment and Directory Setup:** Adjusts file paths, working directories, and TensorFlow logging levels.
+    * **Data Preparation and Loading:** Loads multiple datasets for sarcasm detection, including ArSarcasm-v2 and iSarcasmEval.
+    * **Model Configuration:** Defines a CNN model with LSTM layers and embedding, optimized for sarcasm detection.
+    * **Data Processing and Model Training:** Preprocesses data, splits it into training, validation, and testing sets, optionally applies SMOTE, and trains the model.
+    * **Evaluation and Result Recording:** Evaluates the model's performance and records results in various formats, including plots and Excel files.
+* **Key Components:**
+
+    * *configModel:* Configures the CNN model architecture.
+    * Model training with performance evaluation.
+    * Result visualization and recording, including precision, recall, F1-score, and accuracy.
+
+* **Inputs:**
+
+    * Multiple datasets with tweets, dialects, and sarcasm labels.
+* **Outputs:**
+
+    * Trained CNN models for each dataset.
+    * Performance plots and Excel sheets documenting model metrics.
+* **Additional Details:**
+
+    * The script includes tensorboard callbacks for logging.
+    * Uses SMOTE (Synthetic Minority Over-sampling Technique) to balance the dataset when needed.
+    * Generates confusion matrices and accuracy/loss plots for each trained model.
+Ensure that the necessary environment is set up, the data is available, and that you are in the correct folder before running the script. The script will automatically process the data, train the CNN models for each dataset, and save the results.
+```python
+python Model.py
+```
+
+## RNN-based Sarcasm Detection Pipeline
+This script involves setting up a Recurrent Neural Network (RNN) model, specifically using LSTM and GRU layers, for the purpose of detecting sarcasm in Arabic tweets.
+
+* **Functionality:**
+
+    * **Environment Setup:** Configures file paths and TensorFlow logging level.
+    * **Data Loading:** Loads multiple sarcasm datasets, including ArSarcasm-v2 and iSarcasmEval.
+    * **Model Configuration:** Sets up an RNN model incorporating LSTM and GRU layers with an embedding layer, tailored for text classification.
+    * **Data Preprocessing and Model Training:** Processes data for model compatibility, performs train-test splitting, applies SMOTE if needed, and trains the RNN model.
+    * **Evaluation and Visualization:** Evaluates the model's performance on test data, plots performance metrics, and records results.
+* **Key Components:**
+
+    * *configModel:* Function to configure the RNN model architecture.
+    * Data preprocessing steps including tokenization and embedding matrix creation.
+    * Model training with performance evaluations like precision, recall, F1-score, and accuracy.
+    * Result visualization and recording, including performance plots and Excel sheet generation.
+* **Inputs:**
+    * Datasets containing tweets, dialects, and sarcasm labels.
+* **Outputs:**
+
+    * Trained RNN models for each dataset.
+    * Plots and Excel sheets documenting model performance.
+* **Additional Details:**
+
+    * The script utilizes TensorBoard for logging model training metrics.
+    * SMOTE is optionally used to balance the datasets based on sarcasm class distribution.
+    * Outputs include training and validation loss and accuracy plots, confusion matrices, and an Excel record of model performance across different datasets.
+
+Ensure that the necessary environment is set up, the data is available, and that you are in the correct folder before running the script.
+The script will preprocess the data, train the RNN model for each dataset, evaluate, and save the results.
+
+```python
+python Model.py
+```
+## Training AraBERT for Sarcasm Detection
+This script is for training an AraBERT model, a BERT variant pre-trained on Arabic, for sarcasm detection in Arabic text. The model is fine-tuned on a labeled dataset of tweets.
+
+* **Functionality:**
+
+    * **Environment Setup:** Adjusts file paths and working directories.
+    * **Data Preprocessing:** Tokenizes and preprocesses the dataset using AraBERT's tokenizer and custom preprocessing functions.
+    * **Model Setup:** Loads the AraBERT model with a sequence classification head and configures training parameters.
+    * **Training Process:** The model is trained on the preprocessed data, with early stopping to prevent overfitting.
+    * **Evaluation and Visualization:** Evaluates the model on a test dataset and generates plots for accuracy, loss, and a confusion matrix.
+
+* **Key Components:**
+
+    * *tokenize_and_preprocess:* Tokenizes and preprocesses text data.
+    * AraBERT model loading and configuration.
+    * Training with callback for early stopping.
+    * Evaluation using classification report and confusion matrix.
+    * Plotting accuracy, loss, and confusion matrix.
+
+* **Inputs:**
+
+    * Preprocessed dataset with labeled sarcasm tweets.
+* **Outputs:**
+
+    * Trained AraBERT model.
+    * Plots for model accuracy, loss, and confusion matrix.
+    * Classification report for model evaluation.
+* **Models Used:**
+    * [AraBERTv02](https://github.com/aub-mind/arabert)
+
+* **Additional Details:**
+
+    * The script includes optional code for layer freezing and learning rate scheduling, which can be uncommented for advanced training configurations.
+    * The model is compiled with specific hyperparameters and a binary cross-entropy loss function suitable for a two-class classification task.
+Run the script after ensuring all dependencies are installed and the dataset is prepared. The script will preprocess the data, train the model, evaluate its performance, and save the results in specified directories.
+
+```python
+python Arabert.py
+```
 ## Related
 
 Here is the Streamlit web app Repository that deploys these models (Under Construction)
@@ -221,5 +323,3 @@ https://github.com/AbdulhadiAlaraj/SarcasmViz
 ## Acknowledgements
 
 We would like to thank Dr. Zaher, our academic supervisor at the University of Sharjah, for his invaluable guidance, mentorship, and support. His expertise, insightful feedback, and unwavering encouragement have been instrumental in helping us navigate the complexities of this project. We would also like to extend our heartfelt thanks to our dear friends and family who have stood by us and provided us with much-needed support and motivation.
-
- - [AraBERT](https://github.com/aub-mind/arabert)
