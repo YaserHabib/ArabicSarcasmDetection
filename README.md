@@ -231,7 +231,7 @@ The script will automatically process the data, train the models, evaluate their
 python Ml_pipelines.py
 ```
 
-## CNN/RNN Sarcasm Detection Pipeline
+## CNN-based Sarcasm Detection Pipeline
 This script sets up and trains a Convolutional Neural Network (CNN) with LSTM layers for detecting sarcasm in Arabic tweets. It utilizes multiple datasets and incorporates techniques like SMOTE for dealing with class imbalances.
 
 * **Functionality:**
