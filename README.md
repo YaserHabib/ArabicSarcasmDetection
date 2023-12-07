@@ -1,6 +1,8 @@
 
 # Sarcasm Detection from Arabic Tweets
 
+## Project Description
+
 This project focuses on developing and training multiple machine and deep learning models to identify sarcasm in Arabic tweets. Our goal is to enhance natural language processing capabilities for the Arabic language, dealing with diverse dialects and linguistic nuances.
 
 ## Authors
@@ -60,13 +62,6 @@ Install dependencies
 
 ## Usage/Examples
 
-```javascript
-import Component from 'my-project'
-
-function App() {
-  return <Component />
-}
-```
 
 
 ## Acknowledgements
