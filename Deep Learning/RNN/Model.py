@@ -39,14 +39,6 @@ def configModel(max_length, vocab_size, TOTAL_EMBEDDING_DIM, embedding_matrix):
 
         tf.keras.layers.Bidirectional(tf.keras.layers.GRU(128, dropout = 0.5, return_sequences = True)),
 
-        # Conv1D layer for pattern recognition model and extract the feature from the vectors
-        tf.keras.layers.Conv1D(filters = 64, kernel_size = 3, activation = "relu"),
-
-        tf.keras.layers.BatchNormalization(),
-
-        # GlobalMaxPooling layer to extract relevant features
-        tf.keras.layers.GlobalMaxPool1D(),
-
         # First Dense layer with 64 neurons and ReLU activation
         tf.keras.layers.Dense(64, activation = 'relu'),
 

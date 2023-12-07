@@ -33,7 +33,7 @@ batch_size = 64
 def extract_arabert_features(texts, model, tokenizer):
     inputs = tokenizer(texts, padding=True, truncation=True, return_tensors="tf")
     outputs = model(inputs)
-    return outputs.last_hidden_state[:, 0, :].numpy()  # Using the embeddings of the [CLS] token
+    return outputs.last_hidden_state[:, 0, :].numpy() 
 
 
 def process_in_batches(texts, batch_size):
@@ -49,7 +49,7 @@ def plotCM(test_labels, predicted, modelName, accuracy):
     confusionMatrix = confusion_matrix(test_labels, predicted)
 
     ax = plt.subplot()
-    sns.heatmap(confusionMatrix, annot = True, fmt = 'g', ax = ax, cmap = "viridis") # annot = True to annotate cells, ftm = 'g' to disable scientific notation
+    sns.heatmap(confusionMatrix, annot = True, fmt = 'g', ax = ax, cmap = "viridis")
 
     # labels, title and ticks
     ax.set_xlabel('Predicted labels')
@@ -83,8 +83,8 @@ for algo, pipeline in pipelines.items():
     fit_models[algo] = model
     model_path = os.path.join(models_dir, f'{algo}.pkl')
 
-    '''with open(model_path, 'wb') as f:
-        pickle.dump(model, f)'''
+    with open(model_path, 'wb') as f:
+        pickle.dump(model, f)
 
 for algo, model in fit_models.items():
     yhat = model.predict(X_test)
