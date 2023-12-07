@@ -136,34 +136,74 @@ def dataProcessing(dataset):
 
 To further enhance our dataset, we employ OpenAI's GPT-4 to generate additional sarcastic tweets. This step is crucial to balance our dataset, especially considering the scarcity of sarcastic tweets compared to non-sarcastic ones. We automate the generation and processing of tweets, ensuring they meet our criteria for sarcasm, sentiment, and dialect.
 
-Overview: This script uses OpenAI's GPT models to generate sarcastic tweets in Arabic for dataset augmentation. It iterates through a loop to generate batches of tweets, ensuring diversity in the dataset.
+**Overview:** This script uses OpenAI's GPT models to generate sarcastic tweets in Arabic for dataset augmentation. It iterates through a loop to generate batches of tweets, ensuring diversity in the dataset.
 
-Functionality:
+**Functionality:**
 
 - **API Setup:** Initializes OpenAI API with a key read from a file.
 - **Data Generation Loop:** Repeatedly sends requests to the GPT model to generate tweets, using a predefined prompt designed to elicit sarcastic responses.
 - **Response Parsing and Dataset Augmentation:** Extracts the generated tweets from the model's response, adds additional attributes (dialect, sentiment, sarcasm), and appends them to the existing dataset.
 - **Saving and Tracking:** Saves the augmented tweets to a CSV file and keeps track of the total number of tokens used in the requests.
-- **Inputs:**
+* **Inputs:**
 
-        1. Path to the API key file ("../key.txt").
-        2. Initial dataset for augmentation ("dataset_GPT.csv").
-- **Outputs:**
+    * Path to the API key file ("../key.txt").
+    * Initial dataset for augmentation ("dataset_GPT.csv").
+* **Outputs:**
 
-        1. Augmented dataset with new tweets ("dataset_GPT.csv").
-        2. Total count of tokens used in the GPT interactions.
-- **Key Components:**
+    * Augmented dataset with new tweets ("dataset_GPT.csv").
+    * Total count of tokens used in the GPT interactions.
+* **Key Components:**
 
-        1. Use of OpenAI's ChatCompletion.create to generate tweet-like responses.
-        2. Regular expression parsing to extract tweets from the GPT response.
-        3. Time delay (sleep) to manage request rate.
+    * Use of OpenAI's ChatCompletion.create to generate tweet-like responses.
+    * Regular expression parsing to extract tweets from the GPT response.
+    * Time delay (sleep) to manage request rate.
 
 The script is designed to handle responses in a specific format and may need adjustments based on the actual output of the GPT model and the structure of the initial dataset.
 
 #### ***Note***
 Please ensure you comply with OpenAI's usage policies when using the model for data augmentation. The code provided is for demonstration purposes and should be used within the limits of the API and with proper error handling.
 
+### Machine Learning Model Training
 
+#### Feature Extraction: 
+
+* **Overview:** This script establishes a complete machine learning pipeline for sarcasm detection in Arabic tweets, utilizing AraBERT for feature extraction and various classifiers for prediction.
+
+* **Functionality:**
+
+    * **Environment Setup:** Configures the file paths and adds necessary directories to the system path.
+    * **Feature Extraction:** Uses the AraBERT model for transforming tweets into feature vectors.
+    * **Model Training:** Trains multiple classification models on the extracted features.
+    * **Model Evaluation:** Evaluates the performance of each model and plots confusion matrices.
+    * **Model Serialization:** Saves the trained models for future use.
+
+
+* **Key Functions:**
+
+    * **extract_arabert_features:** Extracts features from texts using AraBERT.
+    * **process_in_batches:** Processes texts in batches to extract features.
+    * **plotCM:** Plots a confusion matrix for model evaluation.
+    * **Training loop:** Fits various machine learning models to the training data.
+* **Inputs:**
+
+   * Preprocessed dataset with 'tweets'(string) and 'sarcasm'(0 or 1) labels.
+* **Outputs:**
+
+    * Trained machine learning models.
+    * Confusion matrix plots for each model.
+* **Additional Details:**
+
+The script splits the dataset into training and testing sets.
+It employs a variety of classifiers, including logistic regression, ridge classifier, linear SVC, K-nearest neighbors, and naive Bayes.
+The performance of each classifier is evaluated based on accuracy and other metrics.
+Usage:
+
+Run the script after ensuring all dependencies are installed and the dataset is in the specified path.
+The script will automatically process the data, train the models, evaluate their performance, and save them.
+
+```python
+python Ml_pipelines.py
+```
 ## Related
 
 Here is the Streamlit web app Repository that deploys these models (Under Construction)
