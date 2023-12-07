@@ -18,6 +18,7 @@ This project focuses on developing and training multiple machine and deep learni
 - **[CNN-based Sarcasm Detection Pipeline](#cnn-based-sarcasm-detection-pipeline)**
 - **[RNN-based Sarcasm Detection Pipeline](#rnn-based-sarcasm-detection-pipeline)**
 - **[Training AraBERT for Sarcasm Detection](#training-arabert-for-sarcasm-detection)**
+- **[Development Flowchart](#development-flowchart)**
 - **[Related Projects](#related)**
 - **[Roadmap](#roadmap)**
 - **[Acknowledgements](#acknowledgements)**
@@ -356,19 +357,23 @@ Run the script after ensuring all dependencies are installed and the dataset is 
 ```python
 python Arabert.py
 ```
+## Development Flowchart
+![App Screenshot](https://github.com/YaserHabib/ArabicSarcasmDetection/blob/01a8988a987b8b648a51ae7ba298e8c2c92a9b4f/Imgs/model%20Flowchart.png)
+
 ## Related
 
 Here is the Streamlit web app Repository that deploys these models (Under Construction)
 
 https://github.com/AbdulhadiAlaraj/SarcasmViz
 
+### App View
+<p align="center">
+<img src="https://github.com/YaserHabib/ArabicSarcasmDetection/blob/01a8988a987b8b648a51ae7ba298e8c2c92a9b4f/Imgs/webapp.png" />
+</p>
 
 ## Roadmap
 
-- Additional browser support
-
-- Add more integrations
-
+- Improve data augmentation to reduce bias
 
 ## Acknowledgements
 
