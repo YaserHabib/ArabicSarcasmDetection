@@ -163,7 +163,6 @@ def tokenization(dataset):
         tokenizedTweet = tokenizeArabic(*tweet)
         dataset.at[index, "tweet"] = tokenizedTweet
 
-    # dataset["sentiment"] = le.fit_transform(dataset["sentiment"])
     dataset["dialect"] = le.fit_transform(dataset["dialect"])
     dataset["sarcasm"] = le.fit_transform(dataset["sarcasm"])
 
@@ -175,12 +174,7 @@ def preProcessData(dataset):
     dataset = cleanData(dataset.copy(deep=True))
     print("\n\t----------        cleanData Done!        ----------\n")
 
-    # dataAugmentation()
-    print("\n---------- dataAugmentation done in a separate file ----------\n")
-
     dataset = tokenization(dataset.copy(deep=True))
     print("\n\t---------     dataTokenization Done!     ----------\n")
-
-    # dataset = dataset.drop(["level_0", "index"], axis=1)
 
     return dataset
