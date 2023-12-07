@@ -15,9 +15,9 @@ This project focuses on developing and training multiple machine and deep learni
 - **[Preprocessing](#preprocessing)**
 - **[Augmentation](#augmentation)**
 - **[Machine Learning Model Training](#machine-learning-model-training)**
-  - *CNN/RNN Sarcasm Detection Pipeline*
-  - *Training AraBERT for Sarcasm Detection*
-- **[Related](#related)**
+- **[CNN-based Sarcasm Detection Pipeline](#cnn-based-sarcasm-detection-pipeline)**
+- **[RNN-based Sarcasm Detection Pipeline](#rnn-based-sarcasm-detection-pipeline)**
+- **[Training AraBERT for Sarcasm Detection](#training-arabert-for-sarcasm-detection)**
 - **[Roadmap](#roadmap)**
 - **[Acknowledgements](#acknowledgements)**
 
@@ -249,7 +249,7 @@ The script will automatically process the data, train the models, evaluate their
 python Ml_pipelines.py
 ```
 
-## CNN/RNN Sarcasm Detection Pipeline
+## CNN-based Sarcasm Detection Pipeline
 This script sets up and trains a Convolutional Neural Network (CNN) with LSTM layers for detecting sarcasm in Arabic tweets. It utilizes multiple datasets and incorporates techniques like SMOTE for dealing with class imbalances.
 
 * **Functionality:**
