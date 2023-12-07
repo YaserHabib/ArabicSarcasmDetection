@@ -1,8 +1,6 @@
 
 # Sarcasm Detection from Arabic Tweets
 
-## Project Description
-
 This project focuses on developing and training multiple machine and deep learning models to identify sarcasm in Arabic tweets. Our goal is to enhance natural language processing capabilities for the Arabic language, dealing with diverse dialects and linguistic nuances.
 
 ## Authors
@@ -45,6 +43,25 @@ Install dependencies
 ```bash
   pip install -r requirements.txt
 ```
+## Datasets
+
+ - [ArSarcasmV2 Dataset](https://github.com/iabufarha/ArSarcasm-v2)
+ - [iSarcasmEval Dataset](https://github.com/iabufarha/iSarcasmEval)
+
+## Usage/Examples
+
+### Preprocessing
+
+Our preprocessing pipeline includes cleaning and normalizing the tweets, removing noise such as emojis and English text, lemmatizing Arabic words, and removing stopwords and punctuation. Additionally, we tokenize the tweets and encode categorical variables like dialect and sarcasm.
+
+![App Screenshot](Cleaning Process.PNG)
+## Related
+
+Here is the Streamlit web app Repository that deploys these models (Under Construction)
+
+https://github.com/AbdulhadiAlaraj/SarcasmViz
+
+
 ## Roadmap
 
 - Additional browser support
@@ -52,21 +69,8 @@ Install dependencies
 - Add more integrations
 
 
-## Features
-
-- Light/dark mode toggle
-- Live previews
-- Fullscreen mode
-- Cross platform
-
-
-## Usage/Examples
-
-
-
 ## Acknowledgements
 
- - [ArSarcasmV2 Dataset](https://github.com/iabufarha/ArSarcasm-v2)
- - [iSarcasmEval Dataset](https://github.com/iabufarha/iSarcasmEval)
- - [AraBERT](https://github.com/aub-mind/arabert)
+We would like to thank Dr. Zaher, our academic supervisor at the University of Sharjah, for his invaluable guidance, mentorship, and support. His expertise, insightful feedback, and unwavering encouragement have been instrumental in helping us navigate the complexities of this project. We would also like to extend our heartfelt thanks to our dear friends and family who have stood by us and provided us with much-needed support and motivation.
 
+ - [AraBERT](https://github.com/aub-mind/arabert)
