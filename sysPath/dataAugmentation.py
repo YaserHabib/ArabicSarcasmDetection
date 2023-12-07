@@ -25,7 +25,6 @@ def format_batch_texts(language_code, batch_texts):
     return formated_bach
 
 
-
 englishModelName = "Helsinki-NLP/opus-mt-ar-en"
 arabicModelName = "Helsinki-NLP/opus-mt-en-ar"
 
