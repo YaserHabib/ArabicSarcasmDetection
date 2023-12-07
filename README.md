@@ -54,7 +54,7 @@ Install dependencies
 
 Our preprocessing pipeline includes cleaning and normalizing the tweets, removing noise such as emojis and English text, lemmatizing Arabic words, and removing stopwords and punctuation. Additionally, we tokenize the tweets and encode categorical variables like dialect and sarcasm.
 
-![App Screenshot](https://github.com/YaserHabib/ArabicSarcasmDetection/blob/29a899298e991978fbe540d093f3ce504ce2c94d/Imgs/Cleaning%20Process.png)
+![App Screenshot](https://github.com/YaserHabib/ArabicSarcasmDetection/blob/69d622e0901087621948a5faa4cc47c954e57d2e/Imgs/Cleaning%20Process2.PNG)
 ## Related
 
 Here is the Streamlit web app Repository that deploys these models (Under Construction)
