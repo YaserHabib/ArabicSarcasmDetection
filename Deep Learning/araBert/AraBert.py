@@ -75,25 +75,11 @@ test_dataset = tf.data.Dataset.from_tensor_slices((
 
 # Load the AraBERT model with a classification head
 model = TFAutoModelForSequenceClassification.from_pretrained("aubmindlab/bert-base-arabertv02", num_labels=2)
-'''config = AutoConfig.from_pretrained(MODEL_NAME, num_labels=2, hidden_dropout_prob=0.5, attention_probs_dropout_prob=0.5)
-model = TFAutoModelForSequenceClassification.from_config(config)'''
 
 model.summary()
 num_layers = len(model.layers)
 print(f"Total number of layers in the BERT Layers:",len(model.layers[0].encoder.layer))
-'''
-#Freeze AraBERT Layerst to prevent overfitting(Keep Top Layers)
-nonFrozenLayers = 5
-totalLayers = len(model.layers[0].encoder.layer)  # Total number of layers in the encoder
 
-for layer in model.layers[0].encoder.layer[:totalLayers-nonFrozenLayers]:
-    layer.trainable = False
-'''
-#Keep Bottom Layers
-nonFrozenLayers = 4
-
-for layer in model.layers[0].encoder.layer[:-nonFrozenLayers]:
-    layer.trainable = False
 model.summary()
 
 #Hyperparameters
@@ -102,9 +88,6 @@ LEARNING_RATE = 5e-7
 WEIGHT_DECAY = 0.000
 
 # Compile the model
-#optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE, beta_1=0.9, beta_2=0.999, epsilon=1e-07, amsgrad=False, name='Adam', decay=WEIGHT_DECAY)
-#optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE, name='Adam', decay=WEIGHT_DECAY)
-
 optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE, name='Adam')
 loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
@@ -117,15 +100,7 @@ early_stopping = EarlyStopping(
     restore_best_weights=True
 )
 
-def step_decay(epoch):
-    initial_lrate = 5e-5
-    drop = 0.5
-    epochs_drop = 10.0
-    lrate = initial_lrate * math.pow(drop, math.floor((1+epoch)/epochs_drop))
-    return lrate
-
 # Train the model with validation data
-#history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH, callbacks = [early_stopping])
 history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCH, callbacks = [early_stopping])
 
 #model.save('./Sarcasm_araBERT_NEW/arabert_sarc.keras')

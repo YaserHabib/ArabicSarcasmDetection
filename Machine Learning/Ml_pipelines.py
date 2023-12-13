@@ -26,8 +26,8 @@ from sklearn.naive_bayes import GaussianNB
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-tokenizer = AutoTokenizer.from_pretrained("aubmindlab/bert-base-arabertv02")
-model = TFAutoModel.from_pretrained("aubmindlab/bert-base-arabertv02")
+tokenizer = AutoTokenizer.from_pretrained("aubmindlab/bert-base-arabert")
+model = TFAutoModel.from_pretrained("aubmindlab/bert-base-arabert")
 batch_size = 64
 
 def extract_arabert_features(texts, model, tokenizer):
