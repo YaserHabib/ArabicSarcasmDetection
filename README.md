@@ -182,35 +182,6 @@ def dataProcessing(dataset):
 - **Function:** Cleans the dataset, applies data augmentation, and then cleans the augmented datasets before saving them.
 - **Output:** None (augmented data is saved to files).
 
-To further enhance our dataset, we employ OpenAI's GPT-4 to generate additional sarcastic tweets. This step is crucial to balance our dataset, especially considering the scarcity of sarcastic tweets compared to non-sarcastic ones. We automate the generation and processing of tweets, ensuring they meet our criteria for sarcasm, sentiment, and dialect.
-
-**Overview:** This script uses OpenAI's GPT models to generate sarcastic tweets in Arabic for dataset augmentation. It iterates through a loop to generate batches of tweets, ensuring diversity in the dataset.
-
-**Functionality:**
-
-- **API Setup:** Initializes OpenAI API with a key read from a file.
-- **Data Generation Loop:** Repeatedly sends requests to the GPT model to generate tweets, using a predefined prompt designed to elicit sarcastic responses.
-- **Response Parsing and Dataset Augmentation:** Extracts the generated tweets from the model's response, adds additional attributes (dialect, sentiment, sarcasm), and appends them to the existing dataset.
-- **Saving and Tracking:** Saves the augmented tweets to a CSV file and keeps track of the total number of tokens used in the requests.
-* **Inputs:**
-
-    * Path to the API key file ("../key.txt").
-    * Initial dataset for augmentation ("dataset_GPT.csv").
-* **Outputs:**
-
-    * Augmented dataset with new tweets ("dataset_GPT.csv").
-    * Total count of tokens used in the GPT interactions.
-* **Key Components:**
-
-    * Use of OpenAI's ChatCompletion.create to generate tweet-like responses.
-    * Regular expression parsing to extract tweets from the GPT response.
-    * Time delay (sleep) to manage request rate.
-
-The script is designed to handle responses in a specific format and may need adjustments based on the actual output of the GPT model and the structure of the initial dataset.
-
-### ***Note***
-Please ensure you comply with OpenAI's usage policies when using the model for data augmentation. The code provided is for demonstration purposes and should be used within the limits of the API and with proper error handling.
-
 ## Machine Learning Model Training
 
 This script establishes a complete machine learning pipeline for sarcasm detection in Arabic tweets, utilizing AraBERT for feature extraction and various classifiers for prediction.
