@@ -18,9 +18,10 @@ import warnings
 import pandas as pd
 import tensorflow as tf
 
-from summarize import prepareData, summarize, TrainTestSplit, smote, fit, modelEvaluation, display # type: ignore
-from summarize import recordResult, plotPerformance, saveFig, recordXLSX, barPlot # type: ignore
+from keras import backend
 from keras.callbacks import TensorBoard
+from summarize import prepareData, summarize, TrainTestSplit, fit, modelEvaluation, display # type: ignore
+from summarize import recordResult, plotPerformance, saveFig, recordXLSX, barPlot # type: ignore
 
 warnings.filterwarnings(action = 'ignore')
 callback = TensorBoard(log_dir = 'logs/', histogram_freq = 1)
@@ -38,6 +39,14 @@ def configModel(max_length, vocab_size, TOTAL_EMBEDDING_DIM, embedding_matrix):
         tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(128, dropout = 0.5, return_sequences = True)),
 
         tf.keras.layers.Bidirectional(tf.keras.layers.GRU(128, dropout = 0.5, return_sequences = True)),
+
+        # Conv1D layer for pattern recognition model and extract the feature from the vectors
+        tf.keras.layers.Conv1D(filters = 64, kernel_size = 3, activation = "relu"),
+
+        tf.keras.layers.BatchNormalization(),
+
+        # GlobalMaxPooling layer to extract relevant features
+        tf.keras.layers.GlobalMaxPool1D(),
 
         # First Dense layer with 64 neurons and ReLU activation
         tf.keras.layers.Dense(64, activation = 'relu'),
@@ -86,17 +95,13 @@ datasets = {
     "Full Combined Dataset": fullDataset
 }
 
-data = pd.DataFrame(columns=["Dataset Name", "# non-Sarcasm", "# Sarcasm", "SMOTE state",  "sarcasm:nonsarcasm", "Precision-Score", "Recall-Score", "F1-Score", "Accuracy"])
-smoteControl = False
+data = pd.DataFrame(columns=["Dataset Name", "# non-Sarcasm", "# Sarcasm",  "sarcasm:nonsarcasm", "Precision-Score", "Recall-Score", "F1-Score", "Accuracy"])
 
 
 
 for datasetName, dataset in datasets.items():
     start = time.time()
     ratio = dataset["sarcasm"].value_counts()[1] / len(dataset)
-    model_path = os.path.join(models_dir, f"{datasetName}.pkl")
-
-    smoteStatus = True if ( 0.40 > ratio or ratio > 0.60) and smoteControl else False
 
     dataset, max_length, vocab_size, TOTAL_EMBEDDING_DIM, embedding_matrix, padded_docs = prepareData(dataset)
 
@@ -106,8 +111,6 @@ for datasetName, dataset in datasets.items():
 
     train_tweet, test_tweet, train_labels, test_labels, val_tweet, val_labels = TrainTestSplit(padded_docs, dataset)
 
-    train_tweet, train_labels = smote(train_tweet, train_labels) if smoteStatus else (train_tweet, train_labels)
-
     result = fit(model, train_labels, train_tweet, val_tweet, val_labels, 10)
 
     predicted, precision, accuracy, recall, f1, classificationReport = modelEvaluation(model, test_tweet, test_labels)
@@ -116,9 +119,9 @@ for datasetName, dataset in datasets.items():
 
     end = time.time()
 
-    display(datasetName, classificationReport, ratio, smoteStatus, end-start)
+    display(datasetName, classificationReport, ratio, end-start)
 
-    recordResult(datasetName, classificationReport, ratio, smoteStatus, end-start)
+    recordResult(datasetName, classificationReport, ratio, end-start)
 
     plotPerformance(result, datasetName)
 
@@ -126,9 +129,9 @@ for datasetName, dataset in datasets.items():
 
     nonSarcasmCount = dataset["sarcasm"].value_counts()[0]
     sarcasmCount = dataset["sarcasm"].value_counts()[1]
-    recordXLSX(data, datasetName, nonSarcasmCount, sarcasmCount, ratio, precision, recall, f1, accuracy, smoteStatus)
+    recordXLSX(data, datasetName, nonSarcasmCount, sarcasmCount, ratio, precision, recall, f1, accuracy)
 
+    backend.clear_session()
 
 barPlot(data, "RNN")
-recordName = "model performance - SMOTE ON.xlsx" if smoteControl else "model performance.xlsx"
-data.to_excel(recordName, index = False)
+data.to_excel(r"model performance.xlsx", index = False)
